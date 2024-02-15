@@ -1,7 +1,7 @@
 <template>
   <el-row style="box-shadow: 0px 4px 9px 0px rgba(0, 0, 0, 0.1)">
     <el-col :span="8">
-      <div class="logo"><img src="../../assets/img/logo.png" alt="" /></div>
+      <div class="logo"><img src="@/assets/logo.png" alt="" /></div>
     </el-col>
 
     <el-col :span="16" style="padding-left: 240px">

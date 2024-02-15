@@ -5,7 +5,7 @@
         ><div class="login-main">
           <el-row class="login-title">
             <el-col align="center">
-              <img src="~@/assets/img/logo.png" style="height: 80px" />
+              <img src="@/assets/logo.png" style="height: 80px" />
             </el-col>
           </el-row>
           <el-row class="login-swicth" type="flex">
@@ -225,7 +225,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: url("../../assets/img/login_cover.png");
+  background-image: url("assets/login_cover.png");
   .login-card {
     height: 500px;
     width: 500px;

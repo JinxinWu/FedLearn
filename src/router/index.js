@@ -1,17 +1,32 @@
 import VueRouter from 'vue-router';
 
-import Train from "../pages/Train";
-import Login from "../pages/Login";
-import ModelLog from "../pages/ModelLog";
-import ApplyLog from "../pages/ApplyLog";
-import Chat from "../pages/Chat";
-import Predict from "../pages/Predict";
-import Test from "../pages/Test";
-import Administrator from "../pages/Administrator";
-import AdLog from "../pages/AdLog";
-import AdMolLog from "../pages/AdMolLog";
+// 登陆界面
+import Login from "@/pages/Login";
+
+// 客户端界面
+import Connect from "@/pages/client/Connect";
+import Train from "@/pages/client/Train";
+import ModelLog from "@/pages/client/ModelLog";
+import ApplyLog from "@/pages/client/ApplyLog";
+import Chat from "@/pages/client/Chat";
+import Predict from "@/pages/client/Predict";
+import Test from "@/pages/client/Test";
+
+// 服务端界面
+import Administrator from "@/pages/server/Administrator";
+import AdLog from "@/pages/server/AdLog";
+import AdMolLog from "@/pages/server/AdMolLog";
+
 const router = new VueRouter({
   routes: [
+    {
+      path: '/Connect',
+      name: 'Connect',
+      component: Connect,
+      meta: {
+				requireAuth: true
+			},
+    },
     {
       path: '/Train',
       name: 'Train',

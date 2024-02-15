@@ -4,7 +4,8 @@ import VueRouter from 'vue-router';
 import Login from "@/pages/Login";
 
 // 客户端界面
-import Connect from "@/pages/client/Connect";
+import Connect from "@/pages/client/Connect"; // 连接中央服务器
+import Apply from "@/pages/client/Apply"; // 模型应用
 import Train from "@/pages/client/Train";
 import ModelLog from "@/pages/client/ModelLog";
 import ApplyLog from "@/pages/client/ApplyLog";
@@ -23,6 +24,14 @@ const router = new VueRouter({
       path: '/Connect',
       name: 'Connect',
       component: Connect,
+      meta: {
+				requireAuth: true
+			},
+    },
+    {
+      path: '/Apply',
+      name: 'Apply',
+      component: Apply,
       meta: {
 				requireAuth: true
 			},

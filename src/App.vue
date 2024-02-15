@@ -34,4 +34,10 @@ export default {
 .el-main::-webkit-scrollbar {
   width: 0;
 }
+
+// 多级菜单的长度设置
+.el-menu--collapse .el-menu .el-submenu, .el-menu--popup{
+  min-width: 100px!important;
+  text-align: center;
+}
 </style>

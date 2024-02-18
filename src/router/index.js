@@ -6,6 +6,7 @@ import Login from "@/pages/Login";
 // 客户端界面
 import Connect from "@/pages/client/Connect"; // 连接中央服务器
 import Apply from "@/pages/client/Apply"; // 模型应用
+import Privacy from "@/pages/client/Privacy"; // 隐私保护
 import Train from "@/pages/client/Train";
 import ModelLog from "@/pages/client/ModelLog";
 import ApplyLog from "@/pages/client/ApplyLog";
@@ -32,6 +33,14 @@ const router = new VueRouter({
       path: '/Apply',
       name: 'Apply',
       component: Apply,
+      meta: {
+				requireAuth: true
+			},
+    },
+    {
+      path: '/Privacy',
+      name: 'Privacy',
+      component: Privacy,
       meta: {
 				requireAuth: true
 			},

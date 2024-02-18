@@ -70,6 +70,9 @@
 import Header from "@/components/Header";
 
 export default {
+  components: {
+    Header,
+  },
   data() {
     return {
       ruleForm: {
@@ -145,9 +148,6 @@ export default {
         offset: 50,
       });
     },
-  },
-  components: {
-    Header,
   },
 };
 </script>

@@ -15,6 +15,8 @@ import Predict from "@/pages/client/Predict";
 import Test from "@/pages/client/Test";
 
 // 服务端界面
+import Message from "@/pages/server/Message";
+import Manage from "@/pages/server/Manage";
 import Administrator from "@/pages/server/Administrator";
 import AdLog from "@/pages/server/AdLog";
 import AdMolLog from "@/pages/server/AdMolLog";
@@ -100,6 +102,22 @@ const router = new VueRouter({
       path: '/Test',
       name: 'Test',
       component: Test,
+    },
+    {
+      path: '/Message',
+      name: 'Message',
+      component: Message,
+      meta: {
+        requireAuth: true
+      },
+    },
+    {
+      path: '/Manage',
+      name: 'Manage',
+      component: Manage,
+      meta: {
+				requireAuth: true
+			},
     },
     {
       path: '/Administrator',

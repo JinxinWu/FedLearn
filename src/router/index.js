@@ -7,6 +7,7 @@ import Login from "@/pages/Login";
 import Connect from "@/pages/client/Connect"; // 连接中央服务器
 import Apply from "@/pages/client/Apply"; // 模型应用
 import Privacy from "@/pages/client/Privacy"; // 隐私保护
+import Preprocess from "@/pages/client/Preprocess"; // 数据预处理
 import Train from "@/pages/client/Train";
 import ModelLog from "@/pages/client/ModelLog";
 import ApplyLog from "@/pages/client/ApplyLog";
@@ -15,8 +16,9 @@ import Predict from "@/pages/client/Predict";
 import Test from "@/pages/client/Test";
 
 // 服务端界面
-import Message from "@/pages/server/Message";
-import Manage from "@/pages/server/Manage";
+import Message from "@/pages/server/Message"; // 消息管理
+import Manage from "@/pages/server/Manage"; // 管理客户端
+import Syn from "@/pages/server/Syn"; // 同步算法
 import Administrator from "@/pages/server/Administrator";
 import AdLog from "@/pages/server/AdLog";
 import AdMolLog from "@/pages/server/AdMolLog";
@@ -24,7 +26,7 @@ import AdMolLog from "@/pages/server/AdMolLog";
 const router = new VueRouter({
   routes: [
     {
-      path: '/Connect',
+      path: '/client/Connect',
       name: 'Connect',
       component: Connect,
       meta: {
@@ -32,7 +34,7 @@ const router = new VueRouter({
 			},
     },
     {
-      path: '/Apply',
+      path: '/client/Apply',
       name: 'Apply',
       component: Apply,
       meta: {
@@ -40,7 +42,7 @@ const router = new VueRouter({
 			},
     },
     {
-      path: '/Privacy',
+      path: '/client/Privacy',
       name: 'Privacy',
       component: Privacy,
       meta: {
@@ -48,7 +50,15 @@ const router = new VueRouter({
 			},
     },
     {
-      path: '/Train',
+      path: '/client/Preprocess',
+      name: 'Preprocess',
+      component: Preprocess,
+      meta: {
+        requireAuth: true
+      },
+    },
+    {
+      path: '/client/Train',
       name: 'Train',
       component: Train,
       meta: {
@@ -67,7 +77,7 @@ const router = new VueRouter({
 			redirect: '/login',
     },
     {
-      path: '/ModelLog',
+      path: '/client/ModelLog',
       name: 'ModelLog',
       component: ModelLog,
       meta: {
@@ -75,7 +85,7 @@ const router = new VueRouter({
 			},
     },
     {
-      path: '/ApplyLog',
+      path: '/client/ApplyLog',
       name: 'ApplyLog',
       component: ApplyLog,
       meta: {
@@ -83,7 +93,7 @@ const router = new VueRouter({
 			},
     },
     {
-      path: '/Chat',
+      path: '/client/Chat',
       name: 'Chat',
       component: Chat,
       meta: {
@@ -91,7 +101,7 @@ const router = new VueRouter({
 			},
     },
     {
-      path: '/Predict',
+      path: '/client/Predict',
       name: 'Predict',
       component: Predict,
       meta: {
@@ -104,7 +114,7 @@ const router = new VueRouter({
       component: Test,
     },
     {
-      path: '/Message',
+      path: '/server/Message',
       name: 'Message',
       component: Message,
       meta: {
@@ -112,7 +122,7 @@ const router = new VueRouter({
       },
     },
     {
-      path: '/Manage',
+      path: '/server/Manage',
       name: 'Manage',
       component: Manage,
       meta: {
@@ -120,7 +130,15 @@ const router = new VueRouter({
 			},
     },
     {
-      path: '/Administrator',
+      path: '/server/Syn',
+      name: 'Syn',
+      component: Syn,
+      meta: {
+        requireAuth: true
+      },
+    },
+    {
+      path: '/server/Administrator',
       name: 'Administrator',
       component: Administrator,
       meta: {
@@ -128,7 +146,7 @@ const router = new VueRouter({
 			},
     },
     {
-      path: '/AdLog',
+      path: '/server/AdLog',
       name: 'AdLog',
       component: AdLog,
       meta: {
@@ -136,7 +154,7 @@ const router = new VueRouter({
 			},
     },
     {
-      path: '/AdMolLog',
+      path: '/server/AdMolLog',
       name: 'AdMolLog',
       component: AdMolLog,
       meta: {

@@ -13,7 +13,6 @@
       slot="reference"
       style="width: 120px"
       ref="myButton"
-      @click="isChange = !isChange"
     >
       {{ this.name }}
     </div>
@@ -25,7 +24,7 @@ export default {
   name: "NoInputCom",
   data() {
     return {
-      isChange: false,
+      isChange: this.comData.isChange,
       step: this.comData.step,
       id: this.comData.id,
       name: this.comData.name,

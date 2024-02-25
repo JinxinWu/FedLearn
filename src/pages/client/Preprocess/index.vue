@@ -5,50 +5,75 @@
         <Header></Header>
       </el-header>
       <el-main>
-        <el-row>
-          <el-col :span="6" :offset="2"> </el-col>
-          <el-col :span="6" :offset="1">
+        <p class="title">数据预处理</p>
+        <el-divider></el-divider>
+        <!-- 预处理之前数据状态 -->
+        <el-row class="menu" style="border-top: 1px solid #4874cb">
+          <el-col :span="8" :offset="1">
+            <div class="title">预处理之前数据状态</div>
+          </el-col>
+          <el-col :span="2" :offset="11">
+            <el-button
+              style="margin-top: 20px"
+              type="primary"
+              @click="moreInfoVisible = true"
+              >更多详情</el-button
+            >
+          </el-col>
+        </el-row>
+        <el-row class="menu">
+          <el-col :span="8" :offset="0">
+            <div class="Echarts">
+              <div style="width: 382px; height: 250px">
+                <p style="font-size: 20px; padding-top: 80px">总样本数量：</p>
+                <p style="font-size: 20px">样本类别种类：</p>
+                <p style="font-size: 20px">特征数量：</p>
+              </div>
+            </div>
+          </el-col>
+          <el-col :span="8" :offset="0">
             <div class="Echarts">
               <div id="bar" style="width: 382px; height: 250px"></div>
             </div>
           </el-col>
-          <el-col :span="6" :offset="1">
+          <el-col :span="8" :offset="0">
             <div class="Echarts">
               <div id="pie" style="width: 382px; height: 250px"></div>
             </div>
           </el-col>
         </el-row>
-        <el-row>
-          <el-col :span="6" :offset="2">
+        <el-row class="menu">
+          <el-col :span="8" :offset="0">
             <div class="Echarts">
               <div id="Nightingale" style="width: 382px; height: 250px"></div>
             </div>
           </el-col>
-          <el-col :span="6" :offset="1">
+          <el-col :span="8" :offset="0">
             <div class="Echarts">
               <div id="classPie" style="width: 382px; height: 250px"></div>
             </div>
           </el-col>
-          <el-col :span="6" :offset="1">
+          <el-col :span="8" :offset="0">
             <div class="Echarts">
               <div id="heatmap" style="width: 382px; height: 250px"></div>
             </div>
           </el-col>
         </el-row>
+        <!-- 预处理指引建议 -->
         <el-row
+          class="menu"
           style="
-            margin: 10px auto;
             color: black;
             font-size: 14px;
             min-height: 100px;
-            width: 83%;
-            border: 1px solid #dcdcdc;
+            border-top: 1px solid #4874cb;
           "
         >
-          <div style="font-size: 16px; margin-top: 5px">预处理指引建议</div>
+          <div style="font-size: 16px; margin: 5px auto">预处理指引建议</div>
+          <div id="reply" ref="reply" style="text-align: left"></div>
         </el-row>
         <!-- 组件+步骤 -->
-        <el-row class="menu" style="border-top: 1px dashed #4874cb">
+        <el-row class="menu" style="border-top: 1px solid #4874cb">
           <el-col :span="4" style="line-height: 25px"
             ><div class="rowDiv">数据预处理</div></el-col
           >
@@ -146,7 +171,7 @@
             </div>
           </el-col>
         </el-row>
-        <el-row class="menu">
+        <el-row class="menu" style="border-top: 1px dashed #4874cb">
           <el-col :span="4" style="line-height: 25px"
             ><div class="rowDiv">不平衡工程</div></el-col
           >
@@ -164,7 +189,7 @@
             <InputCom :comData="item" @start-drag="drag"></InputCom>
           </el-col>
         </el-row>
-        <el-row class="menu">
+        <el-row class="menu" style="border-top: 1px dashed #4874cb">
           <el-col :span="4" style="line-height: 25px"
             ><div class="rowDiv">特征工程</div></el-col
           >
@@ -186,7 +211,7 @@
         <div
           id="flowWrap"
           ref="flowWrap"
-          class="flow-wrap"
+          class="flow-wrap menu"
           @drop="drop($event)"
           @dragover="allowDrop($event)"
         >
@@ -268,7 +293,7 @@
                   color: white;
                   background-color: #004088;
                   top: 200px;
-                  left: 810px;
+                  left: 780px;
                 "
                 >加载数据</el-button
               >
@@ -280,7 +305,7 @@
                   z-index: 999;
                   position: absolute;
                   top: 175px;
-                  left: 810px;
+                  left: 780px;
                 "
               >
                 只能上传{{ fileType }}文件
@@ -296,7 +321,7 @@
                 color: white;
                 background-color: #004088;
                 top: 200px;
-                left: 910px;
+                left: 890px;
               "
               >模型训练</el-button
             >
@@ -310,7 +335,7 @@
                 color: white;
                 background-color: #004088;
                 top: 200px;
-                left: 1000px;
+                left: 980px;
               "
               >模型下载</el-button
             >
@@ -325,29 +350,87 @@
                 color: white;
                 background-color: #004088;
                 top: 200px;
-                left: 1100px;
+                left: 1080px;
               "
               >清空画布</el-button
             >
           </div>
         </div>
-        <!-- 后端显示模块 -->
-        <el-row
-          style="
-            margin: 10px auto;
-            color: black;
-            font-size: 14px;
-            min-height: 100px;
-            width: 83%;
-            border: 1px solid #dcdcdc;
-          "
-        >
-          <div style="font-size: 16px; margin-top: 5px">预处理之后数据状态</div>
-          <div id="reply" ref="reply" style="text-align: left"></div>
+        <!-- 预处理之后数据状态 -->
+        <el-row class="menu">
+          <el-col :span="8" :offset="1">
+            <div class="title">预处理之后数据状态</div>
+          </el-col>
+          <el-col :span="2" :offset="11">
+            <el-button
+              style="margin-top: 20px"
+              type="primary"
+              @click="moreInfoVisible = true"
+              >更多详情</el-button
+            >
+          </el-col>
+        </el-row>
+        <el-row class="menu">
+          <el-col :span="8" :offset="0">
+            <div class="Echarts">
+              <div style="width: 382px; height: 250px">
+                <p style="font-size: 20px; padding-top: 80px">总样本数量：</p>
+                <p style="font-size: 20px">样本类别种类：</p>
+                <p style="font-size: 20px">特征数量：</p>
+              </div>
+            </div>
+          </el-col>
+          <el-col :span="8" :offset="0">
+            <div class="Echarts">
+              <div id="bar" style="width: 382px; height: 250px"></div>
+            </div>
+          </el-col>
+          <el-col :span="8" :offset="0">
+            <div class="Echarts">
+              <div id="pie" style="width: 382px; height: 250px"></div>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row class="menu" style="border-bottom: 1px solid #4874cb">
+          <el-col :span="8" :offset="0">
+            <div class="Echarts">
+              <div id="Nightingale" style="width: 382px; height: 250px"></div>
+            </div>
+          </el-col>
+          <el-col :span="8" :offset="0">
+            <div class="Echarts">
+              <div id="classPie" style="width: 382px; height: 250px"></div>
+            </div>
+          </el-col>
+          <el-col :span="8" :offset="0">
+            <div class="Echarts">
+              <div id="heatmap" style="width: 382px; height: 250px"></div>
+            </div>
+          </el-col>
         </el-row>
         <Loading :visible.sync="visible"></Loading>
       </el-main>
     </el-container>
+    <el-dialog title="更多详情" :visible.sync="moreInfoVisible">
+      <el-descriptions
+        title="垂直带边框列表"
+        direction="vertical"
+        :column="4"
+        border
+      >
+        <el-descriptions-item label="用户名">kooriookami</el-descriptions-item>
+        <el-descriptions-item label="手机号">18100000000</el-descriptions-item>
+        <el-descriptions-item label="居住地" :span="2"
+          >苏州市</el-descriptions-item
+        >
+        <el-descriptions-item label="备注">
+          <el-tag size="small">学校</el-tag>
+        </el-descriptions-item>
+        <el-descriptions-item label="联系地址"
+          >江苏省苏州市吴中区吴中大道 1188 号</el-descriptions-item
+        >
+      </el-descriptions>
+    </el-dialog>
   </div>
 </template>
   
@@ -381,7 +464,11 @@ export default {
   },
   data() {
     return {
-      dialogLoadVisible: false,
+      // 更多详情的弹出设置
+      moreInfoVisible: false,
+      // 更多详情的数据
+
+      // 小组件的相关数据
       myComponents: this.$store.state.myComponents,
       visible: false,
       fileType: "",
@@ -459,89 +546,132 @@ export default {
     bar() {
       var chartDom = document.getElementById("bar");
       var myChart = echarts.init(chartDom);
-      var option;
 
-      option = {
+      // 2.指定配置项和数据
+      var option = {
         title: {
-          top: 20,
-          left: "center",
           text: "样本数据类别",
+          left: "center",
         },
-        xAxis: {
-          type: "category",
-          data: ["S", "C", "Q"],
+        color: ["#2f89cf"],
+        // 提示框组件
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            // 坐标轴指示器，坐标轴触发有效
+            type: "shadow", // 默认为直线，可选为：'line' | 'shadow'
+          },
         },
-        yAxis: {
-          type: "value",
+        // 修改图表位置大小
+        grid: {
+          left: "0%",
+          top: "30px",
+          right: "0%",
+          bottom: "10%",
+          containLabel: true,
         },
+        // x轴相关配置
+        xAxis: [
+          {
+            type: "category",
+            data: ["S", "C", "Q"],
+            axisTick: {
+              alignWithLabel: true,
+            },
+            // x轴样式不显示
+            axisLine: {
+              show: false,
+            },
+          },
+        ],
+        // y轴相关配置
+        yAxis: [
+          {
+            type: "value",
+          },
+        ],
+        // 系列列表配置
         series: [
           {
-            data: [644, 169, 78],
+            name: "样本数据量",
             type: "bar",
-            showBackground: true,
-            backgroundStyle: {
-              color: "rgba(180, 180, 180, 0.2)",
+            barWidth: "35%",
+            // ajax传动态数据
+            data: [644, 169, 78],
+            itemStyle: {
+              // 修改柱子圆角
+              barBorderRadius: 5,
             },
           },
         ],
       };
 
       option && myChart.setOption(option);
+      window.addEventListener("resize", function () {
+        myChart.resize();
+      });
     },
     pie() {
       var chartDom = document.getElementById("pie");
       var myChart = echarts.init(chartDom);
-      var option;
 
-      option = {
+      var option = {
         title: {
-          top: 20,
-          text: "样本总体缺失值、异常值比例",
+          text: "缺失值与异常值",
           left: "center",
         },
+        color: ["#1089E7", "#F57474", "#56D0E3", "#F8B448", "#8B78F6"],
         tooltip: {
           trigger: "item",
+          formatter: "{a} <br/>{b}: {c} ({d}%)",
         },
         legend: {
-          top: "23%",
-          orient: "vertical",
-          left: "left",
+          // 垂直居中,默认水平居中
+          // orient: 'vertical',
+
+          bottom: 20,
+          left: "center",
+          // 小图标的宽度和高度
+          itemWidth: 10,
+          itemHeight: 10,
+          // 修改图例组件的文字为 12px
+          textStyle: {
+            color: "rgba(0,0,0,.5)",
+            fontSize: "10",
+          },
         },
         series: [
           {
-            name: "Access From",
+            name: "数量与比例",
             type: "pie",
-            radius: "50%",
+            // 设置饼形图在容器中的位置
+            center: ["50%", "50%"],
+            // 修改饼形图大小，第一个为内圆半径，第二个为外圆半径
+            radius: ["40%", "60%"],
+            avoidLabelOverlap: false,
+            // 图形上的文字
+            label: {
+              show: false,
+              position: "center",
+            },
+            // 链接文字和图形的线
+            labelLine: {
+              show: false,
+            },
             data: [
               {
                 value: 864,
                 name: "缺失值",
-                itemStyle: {
-                  color: "ac2026",
-                },
               },
               {
                 value: 67,
                 name: "异常值",
-                itemStyle: {
-                  color: "fa8080",
-                },
               },
               {
                 value: 8870,
                 name: "既不是缺失值也不是异常值",
-                itemStyle: {
-                  color: "f8cb7f",
-                },
               },
             ],
-            emphasis: {
-              itemStyle: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: "rgba(0, 0, 0, 0.5)",
-              },
-            },
           },
         ],
       };
@@ -563,7 +693,7 @@ export default {
           trigger: "item",
         },
         legend: {
-          top: "15%",
+          top: "20%",
           left: "center",
           // doesn't perfectly work with our tricks, disable it
           selectedMode: false,
@@ -573,44 +703,18 @@ export default {
             name: "Access From",
             type: "pie",
             radius: ["40%", "70%"],
-            center: ["50%", "70%"],
-            // adjust the start angle
+            center: ["50%", "80%"],
+            // adjust the start and end angle
             startAngle: 180,
-            label: {
-              show: true,
-              formatter(param) {
-                // correct the percentage
-                return param.name + " (" + param.percent * 2 + "%)";
-              },
-            },
+            endAngle: 360,
             data: [
               {
                 value: 7,
                 name: "连续特征",
-                itemStyle: {
-                  color: "95a2ff",
-                },
               },
               {
                 value: 4,
                 name: "离散特征",
-                itemStyle: {
-                  color: "#efa666",
-                },
-              },
-              {
-                // make an record to fill the bottom 50%
-                value: 7 + 4,
-                itemStyle: {
-                  // stop the chart from rendering this piece
-                  color: "none",
-                  decal: {
-                    symbol: "none",
-                  },
-                },
-                label: {
-                  show: false,
-                },
               },
             ],
           },
@@ -699,8 +803,8 @@ export default {
           position: "top",
         },
         grid: {
-          height: "50%",
-          top: "10%",
+          height: "60%",
+          top: "15%",
         },
         xAxis: {
           type: "category",
@@ -722,7 +826,7 @@ export default {
           calculable: true,
           orient: "horizontal",
           left: "center",
-          bottom: "30%",
+          bottom: "0%",
         },
         series: [
           {
@@ -747,42 +851,85 @@ export default {
     Nightingale() {
       var chartDom = document.getElementById("Nightingale");
       var myChart = echarts.init(chartDom);
-      var option;
-
-      option = {
+      var option = {
         title: {
-          top: 0,
-          left: "center",
           text: "特征值中的字符总体比例",
+          left: "center",
+        },
+        tooltip: {
+          trigger: "item",
+          formatter: "{a} <br/>{b} : {c} ({d}%)",
         },
         legend: {
-          top: "bottom",
-        },
-        toolbox: {
-          show: true,
+          bottom: 0,
+          itemWidth: 10,
+          itemHeight: 10,
+          textStyle: {
+            color: "rgba(0,0,0,.5)",
+            fontSize: 10,
+          },
         },
         series: [
           {
-            name: "Nightingale Chart",
+            name: "地区分布",
             type: "pie",
-            radius: [50, 100],
+            radius: ["10%", "60%"],
+            // 饼图的中心（圆心）坐标，数组的第一项是横坐标，第二项是纵坐标
             center: ["50%", "50%"],
-            roseType: "area",
             itemStyle: {
-              borderRadius: 8,
+              borderRadius: 5,
+            },
+            // 半径模式  area面积模式
+            roseType: "radius",
+            // 图形的文字标签
+            label: {
+              fontsize: 10,
+            },
+            // 引导线调整
+            labelLine: {
+              // 连接扇形图线长(斜线)
+              length: 6,
+              // 连接文字线长(横线)
+              length2: 8,
             },
             data: [
-              { value: 40, name: "rose 1" },
-              { value: 38, name: "rose 2" },
-              { value: 32, name: "rose 3" },
-              { value: 30, name: "rose 4" },
-              { value: 28, name: "rose 5" },
+              {
+                value: 26,
+                name: "北京",
+              },
+              {
+                value: 24,
+                name: "山东",
+              },
+              {
+                value: 25,
+                name: "河北",
+              },
+              {
+                value: 20,
+                name: "江苏",
+              },
+              {
+                value: 25,
+                name: "浙江",
+              },
+              {
+                value: 30,
+                name: "四川",
+              },
+              {
+                value: 42,
+                name: "湖北",
+              },
             ],
           },
         ],
       };
 
-      option && myChart.setOption(option);
+      myChart.setOption(option);
+      window.addEventListener("resize", function () {
+        myChart.resize();
+      });
     },
     // 点击文件列表中已上传的文件时的钩子
     handlePreview(file) {
@@ -1012,6 +1159,14 @@ export default {
 </script>
   
 <style lang="less" scoped>
+.title {
+  margin-top: 20px;
+  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
+    "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  font-size: 2em;
+  text-align: center;
+}
+
 .jtk-connector.active {
   z-index: 9999;
   path {
@@ -1102,9 +1257,8 @@ export default {
   outline: none !important;
   flex-grow: 1;
   margin: 10px auto auto auto;
-  border: 1px solid #dcdcdc;
-
-  border-radius: 20px;
+  border-top: 1px solid #4874cb;
+  border-bottom: 1px solid #4874cb;
   #flow {
     position: relative;
     width: 100%;
@@ -1177,9 +1331,8 @@ body > .el-container {
 .el-main .menu {
   width: 80%;
   margin: 0px auto;
-  border-right: 1px dashed #4874cb;
-  border-left: 1px dashed #4874cb;
-  border-bottom: 1px dashed #4874cb;
+  border-right: 1px solid #4874cb;
+  border-left: 1px solid #4874cb;
   display: flex;
   align-items: center; /* 垂直居中 */
   font-size: 13px;

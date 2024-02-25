@@ -47,16 +47,26 @@
               <div>差分隐私</div>
               <div style="margin-top: 5px">
                 <MyButton
-                  v-for="item in [csvImport, csvImport]"
+                  v-for="item in [
+                    securityCom.csvImport,
+                    securityCom.ExcelImport,
+                  ]"
                   :comData="item"
                   :key="item.id"
+                  ref="myButton"
+                  @click.native="changeColor(item.id, item.step)"
                 ></MyButton>
               </div>
               <div style="margin-bottom: 5px">
                 <MyButton
-                  v-for="item in [csvImport, csvImport]"
+                  v-for="item in [
+                    securityCom.DBImport,
+                    securityCom.unstructuredImport,
+                  ]"
                   :comData="item"
                   :key="item.id"
+                  ref="myButton"
+                  @click.native="changeColor(item.id, item.step)"
                 ></MyButton>
               </div>
             </div>
@@ -72,16 +82,20 @@
               <div>同态加密</div>
               <div style="margin-top: 5px">
                 <MyButton
-                  v-for="item in [csvImport, csvImport]"
+                  v-for="item in [securityCom.delMisCol, securityCom.zeroCom]"
                   :comData="item"
                   :key="item.id"
+                  ref="myButton"
+                  @click.native="changeColor(item.id, item.step)"
                 ></MyButton>
               </div>
               <div style="margin-bottom: 5px">
                 <MyButton
-                  v-for="item in [csvImport]"
+                  v-for="item in [securityCom.meanCom]"
                   :comData="item"
                   :key="item.id"
+                  ref="myButton"
+                  @click.native="changeColor(item.id, item.step)"
                 ></MyButton>
               </div>
             </div>
@@ -97,9 +111,11 @@
               <div>压缩方法</div>
               <div style="margin-top: 5px; margin-bottom: 5px">
                 <MyButton
-                  v-for="item in [csvImport, csvImport]"
+                  v-for="item in [securityCom.delError, securityCom.bcTrans]"
                   :comData="item"
                   :key="item.id"
+                  ref="myButton"
+                  @click.native="changeColor(item.id, item.step)"
                 ></MyButton>
               </div>
             </div>
@@ -107,7 +123,9 @@
         </el-row>
         <el-row style="margin-top: 20px">
           <el-col
-            ><el-button type="primary" round>发送同步信息</el-button></el-col
+            ><el-button type="primary" round @click="sendMessage()"
+              >发送同步信息</el-button
+            ></el-col
           >
         </el-row>
       </div>
@@ -128,6 +146,7 @@ export default {
     MyButton,
   },
   data() {
+    // 这里的待选数据要通过axios请求获取，应该是一个数组里面包含json
     const generateData = (_) => {
       const data = [];
       for (let i = 1; i <= 15; i++) {
@@ -140,20 +159,47 @@ export default {
     };
     return {
       data: generateData(),
-      value: [1],
-      csvImport: {
-        step: 1,
-        id: 1,
-        name: "xxx方法",
-        type: "null",
-        content: "拖入即可导入csv文件",
-      },
+      value: [],
+      securityCom: this.$store.state.securityCom,
     };
   },
   activated() {},
   methods: {
     handleChange(value, direction, movedKeys) {
-      console.log(value, direction, movedKeys);
+      // console.log(value, direction, movedKeys);
+    },
+    changeColor(id, step) {
+      this.$refs.myButton.forEach((item) => {
+        if (item.step === step && item.id === id) {
+          item.isChange = !item.isChange;
+        } else if (item.step === step) {
+          item.isChange = false;
+        }
+      });
+    },
+    sendMessage() {
+      // 获取所有isChange为true的按钮
+      const arr = this.$refs.myButton.filter((item) => item.isChange);
+      console.log(arr, this.value);
+      if (this.value.length === 0) {
+        this.$message({
+          message: "请选择客户端",
+          type: "warning",
+        });
+        return;
+      } else if (arr.length === 0) {
+        this.$message({
+          message: "请选择相关技术",
+          type: "warning",
+        });
+        return;
+      } else {
+        // 这里发送axios请求
+        this.$message({
+          message: "发送成功",
+          type: "success",
+        });
+      }
     },
   },
   mounted() {},
@@ -224,6 +270,7 @@ export default {
 }
 
 .el-main {
+  // 这里暂且直接放background，其实可以放到App.vue中动态变换背景
   background: url("https://res-static.hc-cdn.cn/cloudbu-site/china/zh-cn/pangu-gallery/assets/personal_center_bg.png")
     rgb(247, 247, 247);
   color: #333;

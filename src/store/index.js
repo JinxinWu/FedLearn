@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import myComponents from '../store/myComponents.json'
+import securityCom from '../store/securityCom.json'
 
 Vue.use(Vuex)
 
@@ -23,6 +24,7 @@ const mutations = {
 const state = {
     // sum: 0,
     myComponents,
+    securityCom,
 }
 
 const store = new Vuex.Store({

@@ -1,0 +1,72 @@
+{
+  "csvImport": {
+    "isChange": false,
+    "step": 1,
+    "id": 1,
+    "name": "csv文件",
+    "type": "csvImport",
+    "content": "拖入即可导入csv文件"
+  },
+  "ExcelImport": {
+    "isChange": false,
+    "step": 1,
+    "id": 2,
+    "name": "Excel文件",
+    "type": "ExcelImport",
+    "content": "拖入即可导入Excel文件"
+  },
+  "DBImport": {
+    "isChange": false,
+    "step": 1,
+    "id": 3,
+    "name": "DB文件",
+    "type": "DBImport",
+    "content": "拖入即可导入db文件"
+  },
+  "unstructuredImport": {
+    "isChange": false,
+    "step": 1,
+    "id": 4,
+    "name": "非结构化数据",
+    "type": "unstructuredImport",
+    "content": "拖入即可导入非结构化数据"
+  },
+  "delMisCol": {
+    "isChange": false,
+    "step": 2,
+    "id": 5,
+    "name": "删除缺失列",
+    "type": "DeleteMissingColumns",
+    "content": "删除数据集中某一部分或全部的数据缺失的列，以减少噪音和不完整信息"
+  },
+  "zeroCom": {
+    "isChange": false,
+    "step": 2,
+    "id": 6,
+    "name": "0补全",
+    "type": "ZeroCompletion",
+    "content": "对于数据中的缺失值，使用0来填充"
+  },
+  "meanCom": {
+    "isChange": false,
+    "step": 2,
+    "id": 7,
+    "name": "均值补全",
+    "type": "MeanCompletion",
+    "content": "对于数据中的缺失值，使用该列的平均值来填充"
+  },
+  "delError": {
+    "step": 3,
+    "id": 10,
+    "name": "删除异常样本",
+    "type": "DeleteAbnormalSample",
+    "content": "删除数据集中存在的可能对模型产生不良影响的异常值，异常样本是指与数据集中的大多数样本明显不同或者偏离正常模式的样本"
+  },
+  "bcTrans": {
+    "step": 3,
+    "id": 11,
+    "name": "Box-Cox变换",
+    "type": "BCTransformation",
+    "content": "调整数据分布以满足正态性假设"
+  }
+}

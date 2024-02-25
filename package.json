@@ -12,7 +12,7 @@
     "axois": "^0.0.1-security",
     "core-js": "^3.8.3",
     "dayjs": "^1.11.10",
-    "echarts": "^5.2.0",
+    "echarts": "^5.5.0",
     "echarts-gl": "^2.0.8",
     "element-ui": "^2.15.14",
     "iview": "^3.5.4",

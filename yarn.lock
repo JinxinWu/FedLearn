@@ -3119,13 +3119,13 @@ echarts-gl@^2.0.8:
     claygl "^1.2.1"
     zrender "^5.1.1"
 
-echarts@^5.1.2, echarts@^5.2.0:
-  version "5.2.0"
-  resolved "https://registry.npmmirror.com/echarts/-/echarts-5.2.0.tgz"
-  integrity sha512-7CrCKGRjFdpLIJ/Yt1gpHeqs5PiCem2GHPdWZPwKl7WSYeZu0Qzm1bcCFe9/b4dfVaL1zlY4JmdzaVwKksVeqg==
+echarts@^5.1.2, echarts@^5.5.0:
+  version "5.5.0"
+  resolved "https://registry.npmmirror.com/echarts/-/echarts-5.5.0.tgz"
+  integrity sha512-rNYnNCzqDAPCr4m/fqyUFv7fD9qIsd50S6GDFgO1DxZhncCsNsG7IfUlAlvZe5oSEQxtsjnHiUuppzccry93Xw==
   dependencies:
     tslib "2.3.0"
-    zrender "5.2.0"
+    zrender "5.5.0"
 
 ee-first@1.1.1:
   version "1.1.1"
@@ -7430,16 +7430,9 @@ yorkie@^2.0.0:
     normalize-path "^1.0.0"
     strip-indent "^2.0.0"
 
-zrender@^5.1.1:
-  version "5.4.4"
-  resolved "https://registry.npmmirror.com/zrender/-/zrender-5.4.4.tgz"
-  integrity sha512-0VxCNJ7AGOMCWeHVyTrGzUgrK4asT4ml9PEkeGirAkKNYXYzoPJCLvmyfdoOXcjTHPs10OZVMfD1Rwg16AZyYw==
-  dependencies:
-    tslib "2.3.0"
-
-zrender@5.2.0:
-  version "5.2.0"
-  resolved "https://registry.npmmirror.com/zrender/-/zrender-5.2.0.tgz"
-  integrity sha512-87v3gvB0lcWy48ObA/DwrhQ95ADMMRhECVrXmHDFCBNvbxHFfEDZtrZh4VmVjLAeFAjimY4PyZ65rbLCivdszA==
+zrender@^5.1.1, zrender@5.5.0:
+  version "5.5.0"
+  resolved "https://registry.npmmirror.com/zrender/-/zrender-5.5.0.tgz"
+  integrity sha512-O3MilSi/9mwoovx77m6ROZM7sXShR/O/JIanvzTwjN3FORfLSr81PsUGd7jlaYOeds9d8tw82oP44+3YucVo+w==
   dependencies:
     tslib "2.3.0"

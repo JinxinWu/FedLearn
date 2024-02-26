@@ -7,276 +7,25 @@
       <el-main>
         <p class="title">数据预处理</p>
         <el-divider></el-divider>
-        <!-- 预处理之前数据状态 -->
-        <el-row class="menu" style="border-top: 1px solid #4874cb">
-          <el-col :span="8" :offset="1">
-            <div class="title">预处理之前数据状态</div>
-          </el-col>
-          <el-col :span="2" :offset="11">
-            <el-button
-              style="margin-top: 20px"
-              type="primary"
-              @click="moreInfoVisible = true"
-              >更多详情</el-button
-            >
-          </el-col>
-        </el-row>
-        <el-row class="menu">
-          <el-col :span="8" :offset="0">
-            <div class="Echarts">
-              <div style="width: 382px; height: 250px">
-                <p style="font-size: 20px; padding-top: 80px">总样本数量：</p>
-                <p style="font-size: 20px">样本类别种类：</p>
-                <p style="font-size: 20px">特征数量：</p>
-              </div>
-            </div>
-          </el-col>
-          <el-col :span="8" :offset="0">
-            <div class="Echarts">
-              <div id="bar" style="width: 382px; height: 250px"></div>
-            </div>
-          </el-col>
-          <el-col :span="8" :offset="0">
-            <div class="Echarts">
-              <div id="pie" style="width: 382px; height: 250px"></div>
-            </div>
-          </el-col>
-        </el-row>
-        <el-row class="menu">
-          <el-col :span="8" :offset="0">
-            <div class="Echarts">
-              <div id="Nightingale" style="width: 382px; height: 250px"></div>
-            </div>
-          </el-col>
-          <el-col :span="8" :offset="0">
-            <div class="Echarts">
-              <div id="classPie" style="width: 382px; height: 250px"></div>
-            </div>
-          </el-col>
-          <el-col :span="8" :offset="0">
-            <div class="Echarts">
-              <div id="heatmap" style="width: 382px; height: 250px"></div>
-            </div>
-          </el-col>
-        </el-row>
-        <!-- 预处理指引建议 -->
-        <el-row
-          class="menu"
+        <!-- 数据集上传 -->
+        <div
           style="
-            color: black;
-            font-size: 14px;
-            min-height: 100px;
-            border-top: 1px solid #4874cb;
+            width: 80%;
+            margin: 0px auto;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
           "
         >
-          <div style="font-size: 16px; margin: 5px auto">预处理指引建议</div>
-          <div id="reply" ref="reply" style="text-align: left"></div>
-        </el-row>
-        <!-- 组件+步骤 -->
-        <el-row class="menu" style="border-top: 1px solid #4874cb">
-          <el-col :span="4" style="line-height: 25px"
-            ><div class="rowDiv">数据预处理</div></el-col
-          >
-          <el-col :span="8">
-            <div
-              style="
-                margin: 5px auto 5px auto;
-                border: 1px dashed #4874cb;
-                width: 80%;
-              "
-            >
-              <div>缺失值处理</div>
-              <div style="margin-top: 5px">
-                <NoInputCom
-                  v-for="item in [myComponents.delMisCol, myComponents.zeroCom]"
-                  :comData="item"
-                  :key="item.id"
-                  @start-drag="drag"
-                ></NoInputCom>
-              </div>
-              <div style="margin-bottom: 5px">
-                <NoInputCom
-                  v-for="item in [myComponents.meanCom, myComponents.interCom]"
-                  :comData="item"
-                  :key="item.id"
-                  @start-drag="drag"
-                ></NoInputCom>
-              </div>
-            </div>
-            <div style="margin-top: 5px; margin-bottom: 5px">
-              <InputCom
-                :comData="myComponents.datasetPart"
-                @start-drag="drag"
-              ></InputCom>
-            </div>
-          </el-col>
-
-          <el-col :span="4">
-            <div
-              style="
-                margin: 5px auto 5px auto;
-                border: 1px dashed #4874cb;
-                width: 80%;
-              "
-            >
-              <div>异常值处理</div>
-              <div style="margin-top: 5px; margin-bottom: 5px">
-                <NoInputCom
-                  v-for="item in [
-                    myComponents.delError,
-                    myComponents.bcTrans,
-                    myComponents.ltTrun,
-                  ]"
-                  :comData="item"
-                  :key="item.id"
-                  @start-drag="drag"
-                ></NoInputCom>
-              </div>
-            </div>
-          </el-col>
-
-          <el-col :span="8">
-            <div
-              style="
-                margin: 5px auto 5px auto;
-                border: 1px dashed #4874cb;
-                width: 80%;
-              "
-            >
-              <div>数据转换</div>
-              <div style="margin-top: 5px">
-                <NoInputCom
-                  v-for="item in [myComponents.normal, myComponents.standard]"
-                  :comData="item"
-                  :key="item.id"
-                  @start-drag="drag"
-                ></NoInputCom>
-              </div>
-              <div>
-                <NoInputCom
-                  v-for="item in [myComponents.onehot, myComponents.label]"
-                  :comData="item"
-                  :key="item.id"
-                  @start-drag="drag"
-                ></NoInputCom>
-              </div>
-              <div style="margin-bottom: 5px">
-                <NoInputCom
-                  v-for="item in [myComponents.equi, myComponents.ordi]"
-                  :comData="item"
-                  :key="item.id"
-                  @start-drag="drag"
-                ></NoInputCom>
-              </div>
-            </div>
-          </el-col>
-        </el-row>
-        <el-row class="menu" style="border-top: 1px dashed #4874cb">
-          <el-col :span="4" style="line-height: 25px"
-            ><div class="rowDiv">不平衡工程</div></el-col
-          >
-          <el-col
-            :span="4"
-            v-for="item in [
-              myComponents.randomUnder,
-              myComponents.ennUnder,
-              myComponents.repeatedOver,
-              myComponents.smoteOver,
-              myComponents.ganOver,
-            ]"
-            :key="item.id"
-          >
-            <InputCom :comData="item" @start-drag="drag"></InputCom>
-          </el-col>
-        </el-row>
-        <el-row class="menu" style="border-top: 1px dashed #4874cb">
-          <el-col :span="4" style="line-height: 25px"
-            ><div class="rowDiv">特征工程</div></el-col
-          >
-          <el-col
-            :span="4"
-            v-for="item in [
-              myComponents.pca,
-              myComponents.lda,
-              myComponents.correlation,
-              myComponents.cif,
-            ]"
-            :key="item.id"
-          >
-            <InputCom :comData="item" @start-drag="drag"></InputCom>
-          </el-col>
-        </el-row>
-
-        <!-- 画布模块模块 -->
-        <div
-          id="flowWrap"
-          ref="flowWrap"
-          class="flow-wrap menu"
-          @drop="drop($event)"
-          @dragover="allowDrop($event)"
-        >
-          <div id="flow">
-            <div
-              v-show="auxiliaryLine.isShowXLine"
-              class="auxiliary-line-x"
-              :style="{
-                width: auxiliaryLinePos.width,
-                top: auxiliaryLinePos.y + 'px',
-                left: auxiliaryLinePos.offsetX + 'px',
-              }"
-            ></div>
-            <div
-              v-show="auxiliaryLine.isShowYLine"
-              class="auxiliary-line-y"
-              :style="{
-                height: auxiliaryLinePos.height,
-                left: auxiliaryLinePos.x + 'px',
-                top: auxiliaryLinePos.offsetY + 'px',
-              }"
-            ></div>
-            <div
-              v-for="item in data.nodeList"
-              :id="item.uid"
-              :key="item.uid"
-              :node="item"
-              class="node-anchor item"
-              @changeLineState="changeLineState"
-              @contextmenu.prevent="handleContextMenu(item, $event)"
-              :style="{
-                width: item.width + 'px',
-                height: item.height + 'px',
-                left: item.left,
-                top: item.top,
-                background: item.color,
-              }"
-            >
-              <!-- 四锚点 -->
-              <div class="node-anchor anchor-top"></div>
-              <div class="node-anchor anchor-bottom"></div>
-              <div class="node-anchor anchor-right"></div>
-              <div class="node-anchor anchor-left"></div>
-              {{ item.name }}
-            </div>
-            <!-- 画布中的按钮 -->
-            <p
-              v-show="!data.nodeList.length"
-              style="
-                font-size: 16px;
-                text-align: left;
-                z-index: 999;
-                position: absolute;
-                color: black;
-                top: 50px;
-                left: 115px;
-              "
-            >
-              建模提示：<br />
-              先加载数据，再选择算法建立模型。建模时，请按照数据预处理->不平衡工程->特征工程-深度学习->机器学习->评估指标得顺序选择合适的算法。
-            </p>
-
+          <el-row class="menu" style="margin-bottom: 20px">
+            <el-col :span="8" :offset="8">
+              <div class="title" style="font-size: 20px">数据集上传</div>
+            </el-col>
+          </el-row>
+          <el-row>
             <el-upload
               class="upload-demo"
-              action
+              style="padding-bottom: 20px"
+              drag
               :http-request="uploadFile"
               :on-preview="handlePreview"
               :on-remove="handleRemove"
@@ -284,130 +33,469 @@
               :on-exceed="handleExceed"
               :accept="fileType"
             >
+              <i class="el-icon-upload"></i>
+              <div class="el-upload__text">
+                将文件拖到此处，或<em>点击上传</em>
+              </div>
+              <div class="el-upload__tip" slot="tip">
+                只能上传excel文件，且不超过500Mb
+              </div>
+            </el-upload>
+          </el-row>
+        </div>
+        <!-- 预处理之前数据状态 -->
+        <div
+          style="
+            width: 80%;
+            margin: 50px auto;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          "
+        >
+          <el-row class="menu" style="margin-bottom: 20px">
+            <el-col :span="8" :offset="8">
+              <div class="title" style="font-size: 20px">
+                预处理之前数据状态
+              </div>
+            </el-col>
+            <el-col :span="1" :offset="0">
+              <el-button
+                style="margin-top: 20px"
+                type="mini"
+                @click="moreInfoVisible = true"
+                >更多详情</el-button
+              >
+            </el-col>
+          </el-row>
+          <el-row class="menu">
+            <el-col :span="8" :offset="0">
+              <div class="Echarts">
+                <div style="width: 382px; height: 250px">
+                  <p style="font-size: 20px; padding-top: 80px">总样本数量：</p>
+                  <p style="font-size: 20px">样本类别种类：</p>
+                  <p style="font-size: 20px">特征数量：</p>
+                </div>
+              </div>
+            </el-col>
+            <el-col :span="8" :offset="0">
+              <div class="Echarts">
+                <div id="bar" style="width: 382px; height: 250px"></div>
+              </div>
+            </el-col>
+            <el-col :span="8" :offset="0">
+              <div class="Echarts">
+                <div id="pie" style="width: 382px; height: 250px"></div>
+              </div>
+            </el-col>
+          </el-row>
+          <el-row class="menu">
+            <el-col :span="8" :offset="0">
+              <div class="Echarts">
+                <div id="Nightingale" style="width: 382px; height: 250px"></div>
+              </div>
+            </el-col>
+            <el-col :span="8" :offset="0">
+              <div class="Echarts">
+                <div id="classPie" style="width: 382px; height: 250px"></div>
+              </div>
+            </el-col>
+            <el-col :span="8" :offset="0">
+              <div class="Echarts">
+                <div id="heatmap" style="width: 382px; height: 250px"></div>
+              </div>
+            </el-col>
+          </el-row>
+        </div>
+        <!-- 预处理指引建议 -->
+        <div
+          style="
+            width: 80%;
+            margin: 50px auto;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            min-height: 200px;
+          "
+        >
+          <el-row class="menu" style="margin-bottom: 20px">
+            <el-col :span="8" :offset="8">
+              <div class="title" style="font-size: 20px">预处理指引建议</div>
+            </el-col>
+          </el-row>
+          <el-row class="menu">
+            <div id="reply" ref="reply" style="text-align: left"></div>
+          </el-row>
+        </div>
+        <!-- 组件+步骤 -->
+        <div
+          style="
+            width: 80%;
+            margin: 50px auto;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          "
+        >
+          <el-row class="menu" style="margin-bottom: 20px">
+            <el-col :span="8" :offset="8">
+              <div class="title" style="font-size: 20px">
+                预处理拖拉选择方法
+              </div>
+            </el-col>
+          </el-row>
+          <el-row class="menu">
+            <el-col :span="4" style="line-height: 25px"
+              ><div class="rowDiv">数据预处理</div></el-col
+            >
+            <el-col :span="8">
+              <div
+                style="
+                  margin: 5px auto 5px auto;
+                  border: 1px dashed #4874cb;
+                  width: 80%;
+                "
+              >
+                <div>缺失值处理</div>
+                <div style="margin-top: 5px">
+                  <NoInputCom
+                    v-for="item in [
+                      myComponents.delMisCol,
+                      myComponents.zeroCom,
+                    ]"
+                    :comData="item"
+                    :key="item.id"
+                    @start-drag="drag"
+                  ></NoInputCom>
+                </div>
+                <div style="margin-bottom: 5px">
+                  <NoInputCom
+                    v-for="item in [
+                      myComponents.meanCom,
+                      myComponents.interCom,
+                    ]"
+                    :comData="item"
+                    :key="item.id"
+                    @start-drag="drag"
+                  ></NoInputCom>
+                </div>
+              </div>
+              <div style="margin-top: 5px; margin-bottom: 5px">
+                <InputCom
+                  :comData="myComponents.datasetPart"
+                  @start-drag="drag"
+                ></InputCom>
+              </div>
+            </el-col>
+
+            <el-col :span="4">
+              <div
+                style="
+                  margin: 5px auto 5px auto;
+                  border: 1px dashed #4874cb;
+                  width: 80%;
+                "
+              >
+                <div>异常值处理</div>
+                <div style="margin-top: 5px; margin-bottom: 5px">
+                  <NoInputCom
+                    v-for="item in [
+                      myComponents.delError,
+                      myComponents.bcTrans,
+                      myComponents.ltTrun,
+                    ]"
+                    :comData="item"
+                    :key="item.id"
+                    @start-drag="drag"
+                  ></NoInputCom>
+                </div>
+              </div>
+            </el-col>
+
+            <el-col :span="8">
+              <div
+                style="
+                  margin: 5px auto 5px auto;
+                  border: 1px dashed #4874cb;
+                  width: 80%;
+                "
+              >
+                <div>数据转换</div>
+                <div style="margin-top: 5px">
+                  <NoInputCom
+                    v-for="item in [myComponents.normal, myComponents.standard]"
+                    :comData="item"
+                    :key="item.id"
+                    @start-drag="drag"
+                  ></NoInputCom>
+                </div>
+                <div>
+                  <NoInputCom
+                    v-for="item in [myComponents.onehot, myComponents.label]"
+                    :comData="item"
+                    :key="item.id"
+                    @start-drag="drag"
+                  ></NoInputCom>
+                </div>
+                <div style="margin-bottom: 5px">
+                  <NoInputCom
+                    v-for="item in [myComponents.equi, myComponents.ordi]"
+                    :comData="item"
+                    :key="item.id"
+                    @start-drag="drag"
+                  ></NoInputCom>
+                </div>
+              </div>
+            </el-col>
+          </el-row>
+          <el-row class="menu">
+            <el-col :span="4" style="line-height: 25px"
+              ><div class="rowDiv">不平衡工程</div></el-col
+            >
+            <el-col
+              :span="4"
+              v-for="item in [
+                myComponents.randomUnder,
+                myComponents.ennUnder,
+                myComponents.repeatedOver,
+                myComponents.smoteOver,
+                myComponents.ganOver,
+              ]"
+              :key="item.id"
+            >
+              <InputCom :comData="item" @start-drag="drag"></InputCom>
+            </el-col>
+          </el-row>
+          <el-row class="menu" style="padding-bottom: 20px">
+            <el-col :span="4" style="line-height: 25px"
+              ><div class="rowDiv">特征工程</div></el-col
+            >
+            <el-col
+              :span="4"
+              v-for="item in [
+                myComponents.pca,
+                myComponents.lda,
+                myComponents.correlation,
+                myComponents.cif,
+              ]"
+              :key="item.id"
+            >
+              <InputCom :comData="item" @start-drag="drag"></InputCom>
+            </el-col>
+          </el-row>
+
+          <!-- 画布模块模块 -->
+          <div
+            id="flowWrap"
+            ref="flowWrap"
+            class="flow-wrap menu"
+            style="background: rgba(221, 221, 221, 0.3); margin: 0px auto"
+            @drop="drop($event)"
+            @dragover="allowDrop($event)"
+          >
+            <div id="flow">
+              <div
+                v-show="auxiliaryLine.isShowXLine"
+                class="auxiliary-line-x"
+                :style="{
+                  width: auxiliaryLinePos.width,
+                  top: auxiliaryLinePos.y + 'px',
+                  left: auxiliaryLinePos.offsetX + 'px',
+                }"
+              ></div>
+              <div
+                v-show="auxiliaryLine.isShowYLine"
+                class="auxiliary-line-y"
+                :style="{
+                  height: auxiliaryLinePos.height,
+                  left: auxiliaryLinePos.x + 'px',
+                  top: auxiliaryLinePos.offsetY + 'px',
+                }"
+              ></div>
+              <div
+                v-for="item in data.nodeList"
+                :id="item.uid"
+                :key="item.uid"
+                :node="item"
+                class="node-anchor item"
+                @changeLineState="changeLineState"
+                @contextmenu.prevent="handleContextMenu(item, $event)"
+                :style="{
+                  width: item.width + 'px',
+                  height: item.height + 'px',
+                  left: item.left,
+                  top: item.top,
+                  background: item.color,
+                }"
+              >
+                <!-- 四锚点 -->
+                <div class="node-anchor anchor-top"></div>
+                <div class="node-anchor anchor-bottom"></div>
+                <div class="node-anchor anchor-right"></div>
+                <div class="node-anchor anchor-left"></div>
+                {{ item.name }}
+              </div>
+              <!-- 画布中的按钮 -->
+              <p
+                v-show="!data.nodeList.length"
+                style="
+                  font-size: 16px;
+                  text-align: left;
+                  z-index: 999;
+                  position: absolute;
+                  color: black;
+                  top: 50px;
+                  left: 115px;
+                "
+              >
+                预处理提示：<br />
+                选择上方拖拉拽小组件建立预处理流程，请按照数据预处理->不平衡工程->特征工程的顺序选择合适的组件。
+              </p>
+
+              <el-upload
+                class="upload-demo"
+                action
+                :http-request="uploadFile"
+                :on-preview="handlePreview"
+                :on-remove="handleRemove"
+                :limit="1"
+                :on-exceed="handleExceed"
+                :accept="fileType"
+              >
+                <el-button
+                  size="medium"
+                  round
+                  style="
+                    z-index: 999;
+                    position: absolute;
+                    color: white;
+                    background-color: #004088;
+                    top: 200px;
+                    left: 780px;
+                  "
+                  >加载数据</el-button
+                >
+                <div
+                  v-show="fileType !== ''"
+                  slot="tip"
+                  class="el-upload__tip"
+                  style="
+                    z-index: 999;
+                    position: absolute;
+                    top: 175px;
+                    left: 780px;
+                  "
+                >
+                  只能上传{{ fileType }}文件
+                </div>
+              </el-upload>
               <el-button
                 size="medium"
                 round
+                @click="modelTrain"
                 style="
                   z-index: 999;
                   position: absolute;
                   color: white;
                   background-color: #004088;
                   top: 200px;
-                  left: 780px;
+                  left: 890px;
                 "
-                >加载数据</el-button
+                >预处理</el-button
               >
-              <div
-                v-show="fileType !== ''"
-                slot="tip"
-                class="el-upload__tip"
+              <!-- 添加一个数据下载按钮 -->
+              <el-button
+                size="medium"
+                round
+                @click="modelDownload"
                 style="
                   z-index: 999;
                   position: absolute;
-                  top: 175px;
-                  left: 780px;
+                  color: white;
+                  background-color: #004088;
+                  top: 200px;
+                  left: 980px;
                 "
+                >数据下载</el-button
               >
-                只能上传{{ fileType }}文件
-              </div>
-            </el-upload>
-            <el-button
-              size="medium"
-              round
-              @click="modelTrain"
-              style="
-                z-index: 999;
-                position: absolute;
-                color: white;
-                background-color: #004088;
-                top: 200px;
-                left: 890px;
-              "
-              >模型训练</el-button
-            >
-            <el-button
-              size="medium"
-              round
-              @click="modelDownload"
-              style="
-                z-index: 999;
-                position: absolute;
-                color: white;
-                background-color: #004088;
-                top: 200px;
-                left: 980px;
-              "
-              >模型下载</el-button
-            >
-            <!-- 添加一个模型下载按钮 -->
-            <el-button
-              size="medium"
-              round
-              @click="deleALL"
-              style="
-                z-index: 999;
-                position: absolute;
-                color: white;
-                background-color: #004088;
-                top: 200px;
-                left: 1080px;
-              "
-              >清空画布</el-button
-            >
+              <!-- 添加一个清空画布按钮 -->
+              <el-button
+                size="medium"
+                round
+                @click="deleALL"
+                style="
+                  z-index: 999;
+                  position: absolute;
+                  color: white;
+                  background-color: #004088;
+                  top: 200px;
+                  left: 1080px;
+                "
+                >清空画布</el-button
+              >
+            </div>
           </div>
         </div>
         <!-- 预处理之后数据状态 -->
-        <el-row class="menu">
-          <el-col :span="8" :offset="1">
-            <div class="title">预处理之后数据状态</div>
-          </el-col>
-          <el-col :span="2" :offset="11">
-            <el-button
-              style="margin-top: 20px"
-              type="primary"
-              @click="moreInfoVisible = true"
-              >更多详情</el-button
-            >
-          </el-col>
-        </el-row>
-        <el-row class="menu">
-          <el-col :span="8" :offset="0">
-            <div class="Echarts">
-              <div style="width: 382px; height: 250px">
-                <p style="font-size: 20px; padding-top: 80px">总样本数量：</p>
-                <p style="font-size: 20px">样本类别种类：</p>
-                <p style="font-size: 20px">特征数量：</p>
+        <div
+          style="
+            width: 80%;
+            margin: 0px auto;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          "
+        >
+          <el-row class="menu" style="margin-bottom: 20px">
+            <el-col :span="8" :offset="8">
+              <div class="title" style="font-size: 20px">
+                预处理之后数据状态
               </div>
-            </div>
-          </el-col>
-          <el-col :span="8" :offset="0">
-            <div class="Echarts">
-              <div id="bar" style="width: 382px; height: 250px"></div>
-            </div>
-          </el-col>
-          <el-col :span="8" :offset="0">
-            <div class="Echarts">
-              <div id="pie" style="width: 382px; height: 250px"></div>
-            </div>
-          </el-col>
-        </el-row>
-        <el-row class="menu" style="border-bottom: 1px solid #4874cb">
-          <el-col :span="8" :offset="0">
-            <div class="Echarts">
-              <div id="Nightingale" style="width: 382px; height: 250px"></div>
-            </div>
-          </el-col>
-          <el-col :span="8" :offset="0">
-            <div class="Echarts">
-              <div id="classPie" style="width: 382px; height: 250px"></div>
-            </div>
-          </el-col>
-          <el-col :span="8" :offset="0">
-            <div class="Echarts">
-              <div id="heatmap" style="width: 382px; height: 250px"></div>
-            </div>
-          </el-col>
-        </el-row>
+            </el-col>
+            <el-col :span="1" :offset="0">
+              <el-button
+                style="margin-top: 20px"
+                type="mini"
+                @click="moreInfoVisible = true"
+                >更多详情</el-button
+              >
+            </el-col>
+          </el-row>
+          <el-row class="menu">
+            <el-col :span="8" :offset="0">
+              <div class="Echarts">
+                <div style="width: 382px; height: 250px">
+                  <p style="font-size: 20px; padding-top: 80px">总样本数量：</p>
+                  <p style="font-size: 20px">样本类别种类：</p>
+                  <p style="font-size: 20px">特征数量：</p>
+                </div>
+              </div>
+            </el-col>
+            <el-col :span="8" :offset="0">
+              <div class="Echarts">
+                <div id="bar" style="width: 382px; height: 250px"></div>
+              </div>
+            </el-col>
+            <el-col :span="8" :offset="0">
+              <div class="Echarts">
+                <div id="pie" style="width: 382px; height: 250px"></div>
+              </div>
+            </el-col>
+          </el-row>
+          <el-row class="menu">
+            <el-col :span="8" :offset="0">
+              <div class="Echarts">
+                <div id="Nightingale" style="width: 382px; height: 250px"></div>
+              </div>
+            </el-col>
+            <el-col :span="8" :offset="0">
+              <div class="Echarts">
+                <div id="classPie" style="width: 382px; height: 250px"></div>
+              </div>
+            </el-col>
+            <el-col :span="8" :offset="0">
+              <div class="Echarts">
+                <div id="heatmap" style="width: 382px; height: 250px"></div>
+              </div>
+            </el-col>
+          </el-row>
+        </div>
         <Loading :visible.sync="visible"></Loading>
       </el-main>
     </el-container>
@@ -1251,14 +1339,11 @@ export default {
 //画布
 .flow-wrap {
   height: 250px;
-  width: 1230px;
   position: relative;
   overflow: hidden;
   outline: none !important;
   flex-grow: 1;
   margin: 10px auto auto auto;
-  border-top: 1px solid #4874cb;
-  border-bottom: 1px solid #4874cb;
   #flow {
     position: relative;
     width: 100%;
@@ -1329,10 +1414,7 @@ body > .el-container {
 
 // Layout
 .el-main .menu {
-  width: 80%;
   margin: 0px auto;
-  border-right: 1px solid #4874cb;
-  border-left: 1px solid #4874cb;
   display: flex;
   align-items: center; /* 垂直居中 */
   font-size: 13px;

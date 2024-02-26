@@ -1,7 +1,36 @@
 <template>
   <el-row style="box-shadow: 0px 4px 9px 0px rgba(0, 0, 0, 0.1)">
-    <el-col :span="8">
-      <div class="logo"><img src="@/assets/logo.png" alt="" /></div>
+    <el-col :span="5">
+      <img
+        style="width: 50%; margin-left: 140px"
+        src="@/assets/logo.png"
+        alt=""
+      />
+    </el-col>
+    <el-col :span="2">
+      <svg
+        t="1708930500470"
+        class="icon"
+        viewBox="0 0 1024 1024"
+        version="1.1"
+        xmlns="http://www.w3.org/2000/svg"
+        p-id="5159"
+        width="30"
+        height="30"
+        style="margin-bottom: 6px"
+      >
+        <path
+          d="M750 97H278c-99 0-180 81-180 180v502c0 99 81 180 180 180h472c99 0 180-81 180-180V277c0-99-81-180-180-180zM158 414h712v196.2H158V414z m120-257h472c66.2 0.3 119.7 53.8 120 120v77H158v-77c0.3-66.2 53.8-119.7 120-120z m472 742H278c-66.2-0.3-119.7-53.8-120-120V670.2h712V779c-0.3 66.2-53.8 119.7-120 120z"
+          fill=""
+          p-id="5160"
+        ></path>
+        <path
+          d="M676 255.5a46.5 46.5 0 1 0 93 0 46.5 46.5 0 1 0-93 0zM676 512a46.5 46.5 0 1 0 93 0 46.5 46.5 0 1 0-93 0zM676 768.5a46.5 46.5 0 1 0 93 0 46.5 46.5 0 1 0-93 0z"
+          fill=""
+          p-id="5161"
+        ></path>
+      </svg>
+      <span style="font-size: 20px">服务端</span>
     </el-col>
 
     <el-col :span="16">
@@ -15,9 +44,9 @@
           router
         >
           <el-menu-item index="/login">登录</el-menu-item>
-          <el-menu-item index="/AdLog">用户操作日志</el-menu-item>
-          <el-menu-item index="/Administrator">用户建模日志</el-menu-item>
-          <el-menu-item index="/AdMolLog">模型操作日志</el-menu-item>
+          <el-menu-item index="/server/AdLog">用户操作日志</el-menu-item>
+          <el-menu-item index="/server/Administrator">用户建模日志</el-menu-item>
+          <el-menu-item index="/server/AdMolLog">模型操作日志</el-menu-item>
         </el-menu>
       </div>
     </el-col>
@@ -49,11 +78,6 @@ export default {
   }
 }
 
-img {
-  width: 33%;
-  margin-left: 200px;
-}
-
 // //第一个el-col的样式
 // .el-row .el-col:first-child {
 //   background-color: #004088;
@@ -81,7 +105,7 @@ img {
 }
 //去除默认下边线
 .el-menu.el-menu--horizontal {
-    border-bottom: none;
+  border-bottom: none;
 }
 //菜单内容样式
 .el-menu-demo .el-menu-item {
@@ -89,8 +113,8 @@ img {
   margin-right: 10px;
   color: black;
   font-size: 16px !important;
-  height:30px;
-  margin-top:15px;
+  height: 30px;
+  margin-top: 15px;
   line-height: 30px;
   border-radius: 10px;
 }

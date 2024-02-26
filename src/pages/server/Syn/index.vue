@@ -269,15 +269,7 @@ export default {
   line-height: 200px;
 }
 
-.el-main {
-  // 这里暂且直接放background，其实可以放到App.vue中动态变换背景
-  background: url("https://res-static.hc-cdn.cn/cloudbu-site/china/zh-cn/pangu-gallery/assets/personal_center_bg.png")
-    rgb(247, 247, 247);
-  color: #333;
-  text-align: center;
-  line-height: auto;
-  padding-top: 10px;
-}
+
 
 .el-container:nth-child(5) .el-aside,
 .el-container:nth-child(6) .el-aside {

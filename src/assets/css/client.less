@@ -1,0 +1,25 @@
+.el-main {
+    content: "";
+    display: inline-block;
+    // position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 60px);
+    z-index: 1;
+    background: url(//aistudio-fe-online.cdn.bcebos.com/aistudio/dist/1700195597809/images/application/center/page-bg-right.png) no-repeat,
+        url(//aistudio-fe-online.cdn.bcebos.com/aistudio/dist/1700195597809/images/common/page-bg-left.png) no-repeat;
+    background-size: 1080px 420px, 800px 1050px;
+    background-position: top -60px right -372px, top -60px left;
+}
+
+.el-main::-webkit-scrollbar {
+    width: 0;
+}
+
+// 多级菜单的长度设置
+.el-menu--collapse .el-menu .el-submenu,
+.el-menu--popup {
+    min-width: 100px !important;
+    text-align: center;
+}

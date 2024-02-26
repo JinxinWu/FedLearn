@@ -68,6 +68,8 @@
 
 <script>
 import Header from "@/components/Header";
+import axios from "axios";
+import VueCookies from "vue-cookies";
 
 export default {
   components: {
@@ -75,6 +77,7 @@ export default {
   },
   data() {
     return {
+      userId:"",
       ruleForm: {
         ip: "",
         name: "",
@@ -110,27 +113,88 @@ export default {
       formDisabled: false,
       loading: true,
       messageShow: false,
+      token: null,
+      connection:false,
+      socket:null
     };
   },
-  methods: {
-    submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          // 这里发送axios请求
-          this.$notify({
-            title: "来自中央服务器的消息",
-            message: "连接成功",
-            duration: 0,
-            offset: 50,
-          });
+  mounted() {
+    this.getUserId()
+  },
+  watch: {
+    connection(newValue, oldValue) {
+      if (newValue === true && oldValue === false) {
+        // 当 connection 从 false 变为 true 时执行逻辑
+        // 这里执行与服务器进行websocket连接
+        this.openSocket()
+        this.$notify({
+                  title: "来自中央服务器的消息",
+                  message: "连接成功",
+                  duration: 0,
+                  offset: 50,
+                });
           // 可以禁用表单，可以优化成刷新仍然禁用
           this.formDisabled = true;
           // 进入loading状态
           this.messageShow = true;
-          // 这里对收到的算法进行loading等待
-          setTimeout(() => {
+      }
+    }
+  },
+  methods: {
+    openSocket(url) {
+        // 实现化WebSocket对象，指定要连接的服务器地址与端口  建立连接
+        // 等同于socket = new WebSocket("ws://localhost:8000/server");
+        // var socketUrl="http://localhost:8000/server/"+$("#userId").val();
+        let socketUrl=url.replace("https","ws").replace("http","ws");
+        console.log(socketUrl);
+        if(this.socket!=null){
+            this.socket.close();
+            this.socket=null;
+        }
+        this.socket = new WebSocket(socketUrl);
+        //打开事件
+        this.socket.onopen = function() {
+            this.connection = true
+            // socket.send("这是来自客户端的消息"+ new Date());
+        };
+        //获得消息事件
+        this.socket.onmessage = function(msg) {
+            console.log(msg.data);
             this.loading = false;
-          }, 3000);
+            
+            //发现消息进入,开始处理前端触发逻辑
+        };
+        //关闭事件
+        this.socket.onclose = function() {
+            console.log("websocket已关闭");
+        };
+        //发生了错误事件
+        this.socket.onerror = function() {
+            console.log("websocket发生了错误");
+        }
+    },
+    getUserId() {
+      // 从cookie中获取id
+      this.token = VueCookies.get("token");
+      if (this.token) {
+        axios({
+          method: "get",
+          url: `http://localhost:7000/User/user/getUserId`,
+          headers: {
+            token: this.token,
+          },
+          timeout: 30000,
+        }).then((res) => {
+          this.userId = res.data.userId;
+        });
+      }
+    },
+    submitForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          // TODO:这里向服务器发送ajax请求，请求服务器建立连接,服务器出现消息请求，点击同意后才能继续向下
+          let url = "http://localhost:8000/server/" + this.userId
+          this.openSocket(url)
         } else {
           console.log("error submit!!");
           return false;

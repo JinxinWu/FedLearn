@@ -76,14 +76,15 @@
 <script>
 import { getUUID } from "@/utils";
 import axios from "axios";
+import VueCookies from "vue-cookies";
 
 export default {
   data() {
     return {
-      BaseUrl: "http://localhost:8000/",
+      BaseUrl: "http://localhost:7000/",
       loginApi: {
-        login: "account/user/login",
-        captcha: "account/captcha.jpg",
+        login: "User/user/login",
+        captcha: "User/captcha.jpg",
       },
       userType: "user",
       dataForm: {
@@ -107,7 +108,7 @@ export default {
     };
   },
   created() {
-    this.getUserCaptcha();
+    this.getCaptcha();
   },
   watch: {
     userType: {
@@ -134,15 +135,18 @@ export default {
               .post(this.BaseUrl + this.loginApi["login"], param)
               .then((res) => {
                 if (res.status === 200) {
-                  if (res.data.msg === "登录成功") {
-                    if (res.data.userType === "0") {
-                      // 用户端
-                      //登录记录
-                      sessionStorage.setItem("isLogin", 1);
-                      VueCookies.set("token", res.data.token);
-                      this.$router.replace({ name: "Train" });
-                    }
+                  if (res.data.msg === "登录成功" && res.data.type == "0") {
+                    // this.$message.success("登录成功")
+                    // 用户端
+                    //登录记录
+                    sessionStorage.setItem("isLogin", 1);
+                    // console.log(res.data.token)
+                    VueCookies.set("token", res.data.token);
+                    // console.log(VueCookies.get("token")) // 实测可以拿到token
+                    this.$router.replace({ name: "Connect" });
+                    
                   } else {
+                    this.$message.error("用户名或者密码错误")
                     _this.getCaptcha();
                     _this.$message.error(data.msg);
                   }
@@ -156,40 +160,38 @@ export default {
       } else if (this.userType === "admin") {
         this.$refs["dataForm"].validate((valid) => {
           if (valid) {
-            this.$http({
-              url: this.$http.adornUrl("/sys/login"),
-              method: "post",
-              data: this.$http.adornData({
-                username: this.dataForm.userName,
-                password: this.dataForm.password,
-                uuid: this.dataForm.uuid,
-                captcha: this.dataForm.captcha,
-              }),
-            }).then(({ data }) => {
-              if (data && data.code === 0) {
-                sessionStorage.setItem("isLogin", 1);
-                VueCookies.set("token", res.data.token);
-                this.$router.replace({ name: "Administrator" });
-              } else {
-                this.getCaptcha();
-                this.$message.error(data.msg);
-              }
-            });
+            let param = {
+              username: this.dataForm.userName,
+              password: this.dataForm.password,
+              uuid: this.dataForm.uuid,
+              captcha: this.dataForm.captcha,
+            };
+            axios
+              .post(this.BaseUrl + this.loginApi["login"], param)
+              .then((res) => {
+                if (res.status === 200) {
+                  if (res.data.msg === "登录成功" && res.data.type == "1") {
+                    // 用户端
+                    //登录记录
+                    sessionStorage.setItem("isLogin", 1);
+                    VueCookies.set("token", res.data.token);
+                    this.$router.replace({ name: "Message" });
+                  } else {
+                    _this.getCaptcha();
+                    _this.$message.error(data.msg);
+                  }
+                }
+              })
+              .catch((err) => {
+                console.log(err);
+              });
           }
         });
       }
     },
     // 获取验证码
     getCaptcha() {
-      if (this.userType === "user") {
-        this.getUserCaptcha();
-      } else if (this.userType === "admin") {
-        this.getAdminCaptcha();
-      }
-    },
-    getUserCaptcha() {
       this.dataForm.uuid = getUUID();
-
       axios
         .get(
           this.BaseUrl +
@@ -207,12 +209,6 @@ export default {
         .catch((err) => {
           console.log(err);
         });
-    },
-    getAdminCaptcha() {
-      this.dataForm.uuid = getUUID();
-      this.captchaPath = this.$http.adornUrl(
-        `/captcha.jpg?uuid=${this.dataForm.uuid}`
-      );
     },
   },
 };

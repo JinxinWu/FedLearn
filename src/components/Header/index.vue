@@ -64,11 +64,13 @@
             v-if="hasToken()"
           >
             <div style="margin-top: -10px">
-              <el-avatar
+              <!-- <el-avatar
                 src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+              ></el-avatar> -->
+              <el-avatar
+                :src="userAvatar"
               ></el-avatar>
             </div>
-            <!-- <img :src="userAvatar" alt="User Avatar" /> -->
           </el-menu-item>
         </el-menu>
       </div>
@@ -96,7 +98,7 @@ export default {
       if (token) {
         axios({
           method: "get",
-          url: `/guo/account/user/getAvatar`,
+          url: `http://localhost:7000/User/user/getAvatar`,
           headers: {
             token: token,
           },

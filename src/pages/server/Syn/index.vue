@@ -207,6 +207,8 @@ export default {
 </script>
 
 <style lang='less' scoped>
+@import "@/assets/css/server.less";
+
 .title {
   margin-top: 0px;
   font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",

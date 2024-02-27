@@ -19,6 +19,7 @@ import Test from "@/pages/client/Test";
 import Message from "@/pages/server/Message"; // 消息管理
 import Manage from "@/pages/server/Manage"; // 管理客户端
 import Syn from "@/pages/server/Syn"; // 同步算法
+import Poly from "@/pages/server/Poly"; // 模型聚合
 import Administrator from "@/pages/server/Administrator";
 import AdLog from "@/pages/server/AdLog";
 import AdMolLog from "@/pages/server/AdMolLog";
@@ -133,6 +134,14 @@ const router = new VueRouter({
       path: '/server/Syn',
       name: 'Syn',
       component: Syn,
+      meta: {
+        requireAuth: true
+      },
+    },
+    {
+      path: '/server/Poly',
+      name: 'Poly',
+      component: Poly,
       meta: {
         requireAuth: true
       },

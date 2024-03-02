@@ -17,7 +17,7 @@
                     >({{ messages.length }})</span
                   >
                 </div>
-                <Messages :getMessage="messages"></Messages>
+                <Messages which="all" :getMessage="messages"></Messages>
               </el-tab-pane>
               <el-tab-pane label="未读消息" name="second">
                 <div slot="label">
@@ -26,7 +26,7 @@
                     >({{ messages.length }})</span
                   >
                 </div>
-                <Messages :getMessage="messages"></Messages>
+                <Messages which="unread" :getMessage="messages"></Messages>
               </el-tab-pane>
               <el-tab-pane label="已读消息" name="third">
                 <div slot="label">
@@ -35,7 +35,7 @@
                     >({{ messages.length }})</span
                   >
                 </div>
-                <Messages :getMessage="messages"></Messages>
+                <Messages which="read" :getMessage="messages"></Messages>
               </el-tab-pane>
             </el-tabs>
           </div>
@@ -65,36 +65,43 @@ export default {
           date: "1",
           name: "王小虎",
           content: "上海市普陀区金沙江路 1518 弄",
+          type: 1,
         },
         {
           date: "2",
           name: "王小虎",
           content: "上海市普陀区金沙江路 1518 弄",
+          type: 0,
         },
         {
           date: "2016-05-04",
           name: "王小虎",
           content: "上海市普陀区金沙江路 1518 弄",
+          type: 1,
         },
         {
           date: "2016-05-01",
           name: "王小虎",
           content: "上海市普陀区金沙江路 1518 弄",
+          type: 0,
         },
         {
           date: "2016-05-08",
           name: "王小虎",
           content: "上海市普陀区金沙江路 1518 弄",
+          type: 1,
         },
         {
           date: "2016-05-06",
           name: "王小虎",
           content: "上海市普陀区金沙江路 1518 弄",
+          type: 0,
         },
         {
           date: "2016-05-07",
           name: "王小虎",
           content: "上海市普陀区金沙江路 1518 弄",
+          type: 1,
         },
       ],
       // 未读消息的数据

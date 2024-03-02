@@ -4,11 +4,7 @@
       <span style="margin-right: 10px; margin-left: 10px"
         >已选中{{ checkedNum }}项</span
       >
-      <el-button
-        size="small"
-        @click="manyHadRead()"
-        >批量标为已读</el-button
-      >
+      <el-button size="small" @click="manyHadRead()">批量标为已读</el-button>
       <el-button size="small" @click="toggleSelection()">取消选择</el-button>
     </div>
     <el-table
@@ -35,10 +31,22 @@
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <a style="color: #409eff" @click="handleMark(scope.$index, scope.row)"
+          <a
+            v-if="scope.row.type == 1 && which == 'unread'"
+            style="color: #409eff"
+            @click="isAccept(scope.$index, scope.row)"
+            >是否同意加入联邦</a
+          >
+          <a
+            v-else-if="which == 'unread'"
+            style="color: #409eff"
+            @click="handleMark(scope.$index, scope.row)"
             >标为已读</a
           >
-          <el-divider direction="vertical"></el-divider>
+          <el-divider
+            v-if="which == 'unread'"
+            direction="vertical"
+          ></el-divider>
           <a
             style="color: #409eff"
             @click="handleDelete(scope.$index, scope.row)"
@@ -79,11 +87,11 @@ export default {
       pagesize: 10,
     };
   },
-  props: ["getMessage"],
+  props: ["which", "getMessage"],
   activated() {},
   methods: {
     // 批量标为已读
-    manyHadRead(){
+    manyHadRead() {
       console.log(this.multipleSelection);
     },
     // 全部消息的方法
@@ -101,6 +109,29 @@ export default {
       this.multipleSelection = val;
     },
     // 操作的方法
+    // 是否同意加入联邦
+    isAccept(index, row) {
+      this.$confirm("是否同意加入联邦？", "加入联邦请求", {
+        distinguishCancelAndClose: true,
+        confirmButtonText: "同意",
+        cancelButtonText: "拒绝",
+      })
+        .then(() => {
+          // 这里发送axios请求，将数据标为已读，然后重新获取数据
+          this.$message({
+            type: "success",
+            message: "成功同意加入联邦",
+          });
+        })
+        .catch((action) => {
+          this.$message({
+            type: "warning",
+            message: action === "cancel" ? "放弃同意加入联邦" : "放弃同意加入联邦",
+          });
+        });
+      console.log(index, row);
+    },
+    // 标为已读
     handleMark(index, row) {
       this.$confirm("是否将此项标为已读？", "标为已读", {
         distinguishCancelAndClose: true,
@@ -110,7 +141,7 @@ export default {
         .then(() => {
           // 这里发送axios请求，将数据标为已读，然后重新获取数据
           this.$message({
-            type: "info",
+            type: "success",
             message: "成功标为已读",
           });
         })
@@ -131,7 +162,7 @@ export default {
         .then(() => {
           // 这里发送axios请求，将数据删除，然后重新获取数据
           this.$message({
-            type: "info",
+            type: "success",
             message: "删除成功",
           });
         })

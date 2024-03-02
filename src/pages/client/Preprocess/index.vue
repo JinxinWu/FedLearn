@@ -1420,19 +1420,6 @@ body > .el-container {
   font-size: 13px;
 }
 
-.bg-purple {
-  background: #d3dce6;
-}
-
-.bg-purple-light {
-  background: #e5e9f2;
-}
-
-.row-bg {
-  padding: 10px 0;
-  background-color: #f9fafc;
-}
-
 // el-card
 .text {
   font-size: 12px;

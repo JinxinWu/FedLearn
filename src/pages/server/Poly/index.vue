@@ -13,16 +13,9 @@
           </el-col>
         </el-row>
         <el-row>
-          <i class="el-icon-s-platform"></i>
-          <el-tag
-            :key="tag"
-            v-for="tag in dynamicTags"
-            closable
-            :disable-transitions="false"
-            @close="handleClose(tag)"
-          >
-            {{ tag }}
-          </el-tag>
+          <el-col :span="18" :offset="2">
+            <Computer @deleteTag="deleteTag" v-for="tag in dynamicTags" :key="tag" :dynamicTag="tag"></Computer>
+          </el-col>
           <el-input
             class="input-new-tag"
             v-if="inputVisible"
@@ -149,6 +142,7 @@
 <script>
 import Header2 from "@/components/Header2";
 import MethCard from "@/components/MethCard";
+import Computer from "@/components/Computer";
 import * as echarts from "echarts";
 import axios from "axios";
 
@@ -156,11 +150,12 @@ export default {
   components: {
     Header2,
     MethCard,
+    Computer,
   },
   data() {
     return {
       // Tag
-      dynamicTags: ["标签一", "标签二", "标签三"],
+      dynamicTags: ["192.168.1.1", "192.168.1.2", "192.168.1.3"],
       inputVisible: false,
       inputValue: "",
       // Card
@@ -194,7 +189,7 @@ export default {
     this.getData();
   },
   methods: {
-    handleClose(tag) {
+    deleteTag(tag) {
       this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
     },
     showInput() {
@@ -358,7 +353,7 @@ export default {
 }
 
 // Tag
-.el-tag + .el-tag {
+::v-deep .el-tag + .el-tag {
   margin-left: 10px;
 }
 .button-new-tag {

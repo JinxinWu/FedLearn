@@ -14,25 +14,21 @@
         </el-row>
         <el-row>
           <el-col :span="18" :offset="2">
-            <Computer @deleteTag="deleteTag" v-for="tag in dynamicTags" :key="tag" :dynamicTag="tag"></Computer>
+            <Computer
+              @deleteTag="deleteTag"
+              v-for="tag in dynamicTags"
+              :key="tag"
+              :dynamicTag="tag"
+            ></Computer>
           </el-col>
-          <el-input
-            class="input-new-tag"
-            v-if="inputVisible"
-            v-model="inputValue"
-            ref="saveTagInput"
-            size="small"
-            @keyup.enter.native="handleInputConfirm"
-            @blur="handleInputConfirm"
-          >
-          </el-input>
-          <el-button
-            v-else
-            class="button-new-tag"
-            size="small"
-            @click="showInput"
-            >+ New Tag</el-button
-          >
+          <el-col :span="2">
+            <el-button
+              class="button-new-tag"
+              size="medium"
+              @click="dialogTableVisible = true"
+              >添加</el-button
+            >
+          </el-col>
         </el-row>
       </div>
       <!-- 聚合方法 -->
@@ -136,6 +132,26 @@
         </el-row>
       </div>
     </el-main>
+    <el-dialog title="添加客户端" :visible.sync="dialogTableVisible">
+      <el-table
+        ref="multipleTable"
+        :data="allClient"
+        tooltip-effect="dark"
+        style="width: 100%"
+        @selection-change="handleSelectionChange"
+      >
+        <el-table-column type="selection" width="55"> </el-table-column>
+        <el-table-column prop="client" label="用户名" show-overflow-tooltip>
+        </el-table-column
+        ><el-table-column prop="ip" label="IP" show-overflow-tooltip>
+        </el-table-column
+        ><el-table-column prop="area" label="部门" show-overflow-tooltip>
+        </el-table-column>
+      </el-table>
+      <div style="margin-top: 20px">
+        <el-button @click="addComputer()">确认添加</el-button>
+      </div>
+    </el-dialog>
   </el-container>
 </template>
     
@@ -156,8 +172,7 @@ export default {
     return {
       // Tag
       dynamicTags: ["192.168.1.1", "192.168.1.2", "192.168.1.3"],
-      inputVisible: false,
-      inputValue: "",
+      dialogTableVisible: false,
       // Card
       methCard: [
         {
@@ -182,6 +197,70 @@ export default {
       nowRound: 1,
       // 正确率
       rightRate: [99, 99, 99, 99, 99, 99, 99],
+      // 选择客户端的数据
+      allClient: [
+        {
+          client: "王五",
+          manager: "王小虎",
+          area: "计算机学院",
+          ip: "192.168.1.1",
+          gpu: "NVIDIA GeForce GTX 1080",
+          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
+          memory: "16GB",
+          alive: "是",
+        },
+        {
+          client: "王五",
+          manager: "王小虎",
+          area: "计算机学院",
+          ip: "192.168.1.1",
+          gpu: "NVIDIA GeForce GTX 1080",
+          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
+          memory: "16GB",
+          alive: "是",
+        },
+        {
+          client: "王五",
+          manager: "王小虎",
+          area: "计算机学院",
+          ip: "192.168.1.1",
+          gpu: "NVIDIA GeForce GTX 1080",
+          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
+          memory: "16GB",
+          alive: "是",
+        },
+        {
+          client: "王五",
+          manager: "王小虎",
+          area: "计算机学院",
+          ip: "192.168.1.1",
+          gpu: "NVIDIA GeForce GTX 1080",
+          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
+          memory: "16GB",
+          alive: "是",
+        },
+        {
+          client: "王五",
+          manager: "王小虎",
+          area: "计算机学院",
+          ip: "192.168.1.1",
+          gpu: "NVIDIA GeForce GTX 1080",
+          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
+          memory: "16GB",
+          alive: "是",
+        },
+        {
+          client: "王五",
+          manager: "王小虎",
+          area: "计算机学院",
+          ip: "192.168.1.1",
+          gpu: "NVIDIA GeForce GTX 1080",
+          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
+          memory: "16GB",
+          alive: "是",
+        },
+      ],
+      multipleSelection: [],
     };
   },
   activated() {},
@@ -189,22 +268,9 @@ export default {
     this.getData();
   },
   methods: {
+    // Tag
     deleteTag(tag) {
       this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
-    },
-    showInput() {
-      this.inputVisible = true;
-      this.$nextTick((_) => {
-        this.$refs.saveTagInput.$refs.input.focus();
-      });
-    },
-    handleInputConfirm() {
-      let inputValue = this.inputValue;
-      if (inputValue) {
-        this.dynamicTags.push(inputValue);
-      }
-      this.inputVisible = false;
-      this.inputValue = "";
     },
     // 这是获取当前轮次的函数
     getData() {
@@ -326,6 +392,16 @@ export default {
 
       option && myChart.setOption(option);
     },
+    // 选择客户端的方法
+    addComputer() {
+      this.multipleSelection.forEach((item, index) => {
+        this.dynamicTags.push(item.ip);
+      });
+      this.dialogTableVisible = false;
+    },
+    handleSelectionChange(val) {
+      this.multipleSelection = val;
+    },
   },
   watch: {
     nowRound() {
@@ -357,16 +433,12 @@ export default {
   margin-left: 10px;
 }
 .button-new-tag {
+  margin-top: 85px;
   margin-left: 10px;
   height: 32px;
   line-height: 30px;
   padding-top: 0;
   padding-bottom: 0;
-}
-.input-new-tag {
-  width: 90px;
-  margin-left: 10px;
-  vertical-align: bottom;
 }
 
 // 每个小环节的box

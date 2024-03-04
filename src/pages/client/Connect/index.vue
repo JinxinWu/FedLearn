@@ -21,13 +21,13 @@
             <el-form-item label="中央服务器IP" prop="ip">
               <el-input v-model="ruleForm.ip"></el-input>
             </el-form-item>
-            <el-form-item label="用户名" prop="name">
+            <el-form-item label="客户端名称" prop="name">
               <el-input v-model="ruleForm.name"></el-input>
             </el-form-item>
             <el-form-item label="部门" prop="region">
               <el-select v-model="ruleForm.region" placeholder="请选择部门">
-                <el-option label="计算机学院" value="computer"></el-option>
-                <el-option label="网络空间安全学院" value="websec"></el-option>
+                <el-option label="一号车间" value="computer"></el-option>
+                <el-option label="二号车间" value="websec"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item>

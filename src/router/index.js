@@ -8,11 +8,6 @@ import Connect from "@/pages/client/Connect"; // 连接中央服务器
 import Apply from "@/pages/client/Apply"; // 模型应用
 import Privacy from "@/pages/client/Privacy"; // 隐私保护
 import Preprocess from "@/pages/client/Preprocess"; // 数据预处理
-import Train from "@/pages/client/Train";
-import ModelLog from "@/pages/client/ModelLog";
-import ApplyLog from "@/pages/client/ApplyLog";
-import Chat from "@/pages/client/Chat";
-import Predict from "@/pages/client/Predict";
 import Test from "@/pages/client/Test";
 
 // 服务端界面
@@ -20,9 +15,6 @@ import Message from "@/pages/server/Message"; // 消息管理
 import Manage from "@/pages/server/Manage"; // 管理客户端
 import Syn from "@/pages/server/Syn"; // 同步算法
 import Poly from "@/pages/server/Poly"; // 模型聚合
-import Administrator from "@/pages/server/Administrator";
-import AdLog from "@/pages/server/AdLog";
-import AdMolLog from "@/pages/server/AdMolLog";
 
 const router = new VueRouter({
   routes: [
@@ -31,24 +23,24 @@ const router = new VueRouter({
       name: 'Connect',
       component: Connect,
       meta: {
-				requireAuth: true
-			},
+        requireAuth: true
+      },
     },
     {
       path: '/client/Apply',
       name: 'Apply',
       component: Apply,
       meta: {
-				requireAuth: true
-			},
+        requireAuth: true
+      },
     },
     {
       path: '/client/Privacy',
       name: 'Privacy',
       component: Privacy,
       meta: {
-				requireAuth: true
-			},
+        requireAuth: true
+      },
     },
     {
       path: '/client/Preprocess',
@@ -59,14 +51,6 @@ const router = new VueRouter({
       },
     },
     {
-      path: '/client/Train',
-      name: 'Train',
-      component: Train,
-      meta: {
-				requireAuth: true
-			},
-    },
-    {
       path: '/Login',
       name: 'Login',
       component: Login,
@@ -74,40 +58,8 @@ const router = new VueRouter({
     //默认为登录页面
     {
       path: '/',
-			name: '/',
-			redirect: '/login',
-    },
-    {
-      path: '/client/ModelLog',
-      name: 'ModelLog',
-      component: ModelLog,
-      meta: {
-				requireAuth: true
-			},
-    },
-    {
-      path: '/client/ApplyLog',
-      name: 'ApplyLog',
-      component: ApplyLog,
-      meta: {
-				requireAuth: true
-			},
-    },
-    {
-      path: '/client/Chat',
-      name: 'Chat',
-      component: Chat,
-      meta: {
-				requireAuth: true
-			},
-    },
-    {
-      path: '/client/Predict',
-      name: 'Predict',
-      component: Predict,
-      meta: {
-				requireAuth: true
-			},
+      name: '/',
+      redirect: '/login',
     },
     {
       path: '/Test',
@@ -127,8 +79,8 @@ const router = new VueRouter({
       name: 'Manage',
       component: Manage,
       meta: {
-				requireAuth: true
-			},
+        requireAuth: true
+      },
     },
     {
       path: '/server/Syn',
@@ -146,30 +98,6 @@ const router = new VueRouter({
         requireAuth: true
       },
     },
-    {
-      path: '/server/Administrator',
-      name: 'Administrator',
-      component: Administrator,
-      meta: {
-				requireAuth: true
-			},
-    },
-    {
-      path: '/server/AdLog',
-      name: 'AdLog',
-      component: AdLog,
-      meta: {
-				requireAuth: true
-			},
-    },
-    {
-      path: '/server/AdMolLog',
-      name: 'AdMolLog',
-      component: AdMolLog,
-      meta: {
-				requireAuth: true
-			},
-    }
   ],
 });
 
@@ -181,14 +109,14 @@ export default router;
 //   if (to.meta.requireAuth) {  // 判断该路由是否需要登录权限
 //       //如果需要就执行下面的代码
 //       var num=sessionStorage.getItem("isLogin");//登录页面设置
-//       if (num==1) {  
+//       if (num==1) {
 //           //如果登录了，就跳转到'/index'路径
 //           next();
 //       }
 //   else {
 //           next({
 //               path: '/login',//返回登录界面
-//               // query: {redirect: to.fullPath}  
+//               // query: {redirect: to.fullPath}
 //           })
 //       }
 //   }

@@ -1,27 +1,37 @@
 <template>
-
   <el-row style="height: 100%;">
-    <el-col :span="3" style="height: 100%">
-      <clientHeader style="height: 100%"></clientHeader> </el-col
-  >
+    <el-col :span="4" style="height: 100%">
+      <ServerHeader :style="{ height: windowHeight+ 'px' }"></ServerHeader> </el-col
+  ></el-row>
+<!-- <ClientHeader></ClientHeader> -->
 
 
-</el-row>
 
 </template>
 
 <script>
-import clientHeader from "@/components/headerDemo";
+import ServerHeader from "@/components/ServerHeader";
+import ClientHeader from "@/components/ClientHeader";
+
 
 export default {
   components: {
-    clientHeader,
+    ServerHeader,
+    ClientHeader,
   },
   data() {
-    return {};
+    return {
+      windowHeight: document.documentElement.clientHeight, 
+    };
   },
-  methods: {},
-  mounted() {},
+  methods: {
+    setHeight(){
+
+    }
+  },
+  mounted() {
+
+  },
 };
 </script>
 

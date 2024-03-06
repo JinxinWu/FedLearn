@@ -123,22 +123,7 @@ export default {
   }
 }
 
-//第一个el-col的样式
-// .el-row .el-col:first-child {
-//   background-color: #004088;
-//   border-radius: 20px 0 0 0;
-// }
 
-//logo盒子的样式
-// .logo {
-// width: auto;
-// height: auto;
-// color: white;
-// font-weight: 600;
-// font-size: 24px;
-// margin-left: 25%;
-// font-family: "Microsoft YaHei", sans-serif;
-// }
 
 //菜单样式
 //定位

@@ -1,9 +1,7 @@
 <template>
   <div>
     <el-container>
-      <el-header>
-        <Header></Header>
-      </el-header>
+
       <el-main>
         <p class="title">数据预处理</p>
         <el-divider></el-divider>
@@ -524,7 +522,6 @@
   
 <script>
 import * as echarts from "echarts/core";
-import Header from "@/components/Header/index.vue";
 import NoInputCom from "@/components/NoInputCom";
 import InputCom from "@/components/InputCom";
 //导入jsplumb
@@ -545,7 +542,6 @@ import Loading from "@/components/Loading";
 export default {
   name: "Train",
   components: {
-    Header,
     InputCom,
     NoInputCom,
     Loading,

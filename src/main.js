@@ -19,6 +19,7 @@ import * as echarts from 'echarts';
 Vue.prototype.$echarts = echarts;
 //右键菜单
 import Contextmenu from "vue-contextmenujs";
+
 import VueCookies from 'vue-cookies';
 
 import dayjs from "dayjs"

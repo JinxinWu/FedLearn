@@ -1,8 +1,5 @@
 <template>
   <el-container>
-    <el-header>
-      <Header></Header>
-    </el-header>
     <el-main>
       <p class="title">中央服务器连接</p>
       <el-divider></el-divider>
@@ -67,13 +64,12 @@
 </template>
 
 <script>
-import Header from "@/components/Header";
+
 import axios from "axios";
 import VueCookies from "vue-cookies";
 
 export default {
   components: {
-    Header,
   },
   data() {
     return {

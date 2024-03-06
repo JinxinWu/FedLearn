@@ -1,9 +1,6 @@
 <template>
   <el-container>
     <!-- 头部 -->
-    <el-header>
-      <Header2></Header2>
-    </el-header>
     <el-main>
       <el-row>
         <el-col :span="18" :offset="3">
@@ -85,13 +82,11 @@
 </template>
     
 <script>
-import Header2 from "@/components/Header2";
 import Messages from "@/components/Messages";
 import axios from "axios";
 
 export default {
   components: {
-    Header2,
     Messages,
   },
   data() {

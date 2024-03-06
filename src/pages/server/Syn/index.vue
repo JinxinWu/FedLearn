@@ -1,9 +1,6 @@
 <template>
   <el-container>
     <!-- 头部 -->
-    <el-header>
-      <Header2></Header2>
-    </el-header>
     <el-main
       ><div class="message-box" style="min-height: 653.28px; margin: auto">
         <el-row>
@@ -134,14 +131,12 @@
 </template>
     
 <script>
-import Header2 from "@/components/Header2";
 import Messages from "@/components/Messages";
 import MyButton from "@/components/MyButton";
 import axios from "axios";
 
 export default {
   components: {
-    Header2,
     Messages,
     MyButton,
   },

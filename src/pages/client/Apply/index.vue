@@ -1,8 +1,5 @@
 <template>
   <el-container>
-    <el-header>
-      <Header></Header>
-    </el-header>
     <el-main>
       <p class="title">模型应用</p>
       <el-divider></el-divider>
@@ -83,13 +80,10 @@
 </template>
 
 <script>
-import Header from "@/components/Header/index.vue";
 import axios from "axios";
 
 export default {
-  components: {
-    Header,
-  },
+
   data() {
     return {
       dialogVisible: false,
@@ -118,14 +112,14 @@ export default {
     };
   },
   mounted() {
-    axios({
-      method: "get",
-      url: "/guo/test/getModel",
-      headers: this.headers,
-      timeout: 30000,
-    }).then((res) => {
-      this.models = res.data.models;
-    });
+    // axios({
+    //   method: "get",
+    //   url: "/guo/test/getModel",
+    //   headers: this.headers,
+    //   timeout: 30000,
+    // }).then((res) => {
+    //   this.models = res.data.models;
+    // });
   },
   methods: {
     uploadFile(item) {

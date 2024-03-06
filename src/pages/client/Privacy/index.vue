@@ -1,9 +1,7 @@
 <template>
   <div>
     <el-container>
-      <el-header>
-        <Header></Header>
-      </el-header>
+
       <el-main>
         <p class="title">隐私保护</p>
         <el-divider></el-divider>
@@ -101,7 +99,7 @@
 </template>
   
 <script>
-import Header from "@/components/Header/index.vue";
+
 import NoInputCom from "@/components/NoInputCom";
 import InputCom from "@/components/InputCom";
 //引入axios
@@ -110,7 +108,6 @@ import axios from "axios";
 export default {
   name: "Train",
   components: {
-    Header,
     InputCom,
     NoInputCom,
   },

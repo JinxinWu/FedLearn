@@ -1,9 +1,6 @@
 <template>
   <el-container>
     <!-- 头部 -->
-    <el-header>
-      <Header2></Header2>
-    </el-header>
     <el-main>
       <!-- 默认聚合客户端 -->
       <div class="myBox">
@@ -156,7 +153,6 @@
 </template>
     
 <script>
-import Header2 from "@/components/Header2";
 import MethCard from "@/components/MethCard";
 import Computer from "@/components/Computer";
 import * as echarts from "echarts";
@@ -164,7 +160,6 @@ import axios from "axios";
 
 export default {
   components: {
-    Header2,
     MethCard,
     Computer,
   },

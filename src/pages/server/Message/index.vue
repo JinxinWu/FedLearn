@@ -9,30 +9,21 @@
             <el-tabs v-model="activeName" @tab-click="handleClick">
               <el-tab-pane name="first">
                 <div slot="label">
-                  全部消息
+                  请求消息
                   <span :style="{ color: messages.length > 10 ? 'red' : '' }"
                     >({{ messages.length }})</span
                   >
                 </div>
-                <Messages which="all" :getMessage="messages"></Messages>
+                <Messages which="ask" :getMessage="messages"></Messages>
               </el-tab-pane>
-              <el-tab-pane label="未读消息" name="second">
+              <el-tab-pane label="其他消息" name="second">
                 <div slot="label">
-                  未读消息
+                  其他消息
                   <span :style="{ color: messages.length > 10 ? 'red' : '' }"
                     >({{ messages.length }})</span
                   >
                 </div>
-                <Messages which="unread" :getMessage="messages"></Messages>
-              </el-tab-pane>
-              <el-tab-pane label="已读消息" name="third">
-                <div slot="label">
-                  已读消息
-                  <span :style="{ color: messages.length > 10 ? 'red' : '' }"
-                    >({{ messages.length }})</span
-                  >
-                </div>
-                <Messages which="read" :getMessage="messages"></Messages>
+                <Messages which="other" :getMessage="messages"></Messages>
               </el-tab-pane>
             </el-tabs>
           </div>
@@ -53,7 +44,7 @@ export default {
   data() {
     return {
       // 上面选择全部消息/未读消息/已读消息的数据
-      activeName: "second",
+      activeName: "first",
       // 从服务端接收到的全部数据
       messages: [
         {

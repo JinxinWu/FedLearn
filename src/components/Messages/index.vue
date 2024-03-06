@@ -4,7 +4,7 @@
       <span style="margin-right: 10px; margin-left: 10px"
         >已选中{{ checkedNum }}项</span
       >
-      <el-button size="small" @click="manyHadRead()">批量标为已读</el-button>
+      <el-button v-if="which == 'ask'" size="small" @click="manyHadRead()">批量标为已读</el-button>
       <el-button size="small" @click="toggleSelection()">取消选择</el-button>
     </div>
     <el-table
@@ -24,27 +24,21 @@
       <el-table-column type="selection" width="40"> </el-table-column>
       <el-table-column prop="content" label="内容" show-overflow-tooltip>
       </el-table-column>
-      <el-table-column prop="name" label="用户名" width="120">
+      <el-table-column prop="name" label="客户端名称" width="120">
       </el-table-column>
-      <el-table-column label="日期" width="120">
+      <el-table-column label="时间" width="120">
         <template slot-scope="scope">{{ scope.row.date }}</template>
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
           <a
-            v-if="scope.row.type == 1 && which == 'unread'"
+            v-if="which == 'ask'"
             style="color: #409eff"
             @click="isAccept(scope.$index, scope.row)"
             >是否同意加入联邦</a
           >
-          <a
-            v-else-if="which == 'unread'"
-            style="color: #409eff"
-            @click="handleMark(scope.$index, scope.row)"
-            >标为已读</a
-          >
           <el-divider
-            v-if="which == 'unread'"
+            v-if="which == 'ask'"
             direction="vertical"
           ></el-divider>
           <a

@@ -1,84 +1,77 @@
 <template>
-  <el-container>
-    <!-- 头部 -->
-    <el-main>
-      <el-row>
-        <el-col :span="18" :offset="3">
-          <div class="message-box" style="min-height: 653.28px">
-            <p class="title">客户端管理</p>
-            <div style="margin-bottom: 10px">
-              <span style="margin-right: 10px; margin-left: 10px"
-                >已选中{{ checkedNum }}项</span
-              >
-              <el-button size="small" @click="manyHadRead()"
-                >批量标为已读</el-button
-              >
-              <el-button size="small" @click="toggleSelection()"
-                >取消选择</el-button
-              >
-            </div>
-            <el-table
-              ref="multipleTable"
-              border
-              :header-cell-style="{
-                background: '#f5f7fa',
-                color: '#909399',
-                padding: '8px 0px',
-              }"
-              :cell-style="{ padding: '8px 0px' }"
-              :data="currentMessage"
-              tooltip-effect="dark"
-              style="width: 100%"
-              @selection-change="handleSelectionChange"
+  <div>
+    <el-row>
+      <el-col :span="18" :offset="3">
+        <div class="message-box" style="min-height: 653.28px">
+          <p class="title">客户端管理</p>
+          <div style="margin: 10px 0px">
+            <span style="margin-right: 10px; margin-left: 10px"
+              >已选中{{ checkedNum }}项</span
             >
-              <el-table-column type="selection" width="40"> </el-table-column>
-              <el-table-column
-                prop="client"
-                label="客户端名称"
-                show-overflow-tooltip
-              >
-              </el-table-column>
-              <el-table-column prop="manager" label="管理员名称">
-              </el-table-column>
-              <el-table-column prop="area" label="部门">
-              </el-table-column>
-              <el-table-column prop="ip" label="IP">
-              </el-table-column>
-              <el-table-column prop="gpu" label="GPU">
-              </el-table-column>
-              <el-table-column prop="cpu" label="CPU">
-              </el-table-column>
-              <el-table-column prop="memory" label="内存" width="60">
-              </el-table-column>
-              <el-table-column prop="alive" label="是否在线" width="80">
-              </el-table-column>
-              <el-table-column label="操作" width="80">
-                <template slot-scope="scope">
-                  <a
-                    style="color: #409eff"
-                    @click="handleDelete(scope.$index, scope.row)"
-                    >断开连接</a
-                  >
-                </template>
-              </el-table-column>
-            </el-table>
-            <div class="block" style="margin: 20px 0px 0px 0px">
-              <el-pagination
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
-                :current-page="currentPage"
-                :page-sizes="[10, 20, 30, 40]"
-                :page-size="pagesize"
-                layout="total, sizes, prev, pager, next, jumper"
-                :total="allMessage.length"
-              >
-              </el-pagination>
-            </div>
+            <el-button size="small" @click="manyHadRead()"
+              >批量标为已读</el-button
+            >
+            <el-button size="small" @click="toggleSelection()"
+              >取消选择</el-button
+            >
           </div>
-        </el-col>
-      </el-row>
-    </el-main>
-  </el-container>
+          <el-table
+            ref="multipleTable"
+            border
+            :header-cell-style="{
+              background: '#f5f7fa',
+              color: '#909399',
+              padding: '8px 0px',
+            }"
+            :cell-style="{ padding: '8px 0px' }"
+            :data="currentMessage"
+            tooltip-effect="dark"
+            style="width: 100%"
+            @selection-change="handleSelectionChange"
+          >
+            <el-table-column type="selection" width="40"> </el-table-column>
+            <el-table-column
+              prop="client"
+              label="客户端名称"
+              show-overflow-tooltip
+            >
+            </el-table-column>
+            <el-table-column prop="manager" label="管理员名称">
+            </el-table-column>
+            <el-table-column prop="area" label="部门"> </el-table-column>
+            <el-table-column prop="ip" label="IP"> </el-table-column>
+            <el-table-column prop="gpu" label="GPU"> </el-table-column>
+            <el-table-column prop="cpu" label="CPU"> </el-table-column>
+            <el-table-column prop="memory" label="内存" width="60">
+            </el-table-column>
+            <el-table-column prop="alive" label="是否在线" width="80">
+            </el-table-column>
+            <el-table-column label="操作" width="80">
+              <template slot-scope="scope">
+                <a
+                  style="color: #409eff"
+                  @click="handleDelete(scope.$index, scope.row)"
+                  >断开连接</a
+                >
+              </template>
+            </el-table-column>
+          </el-table>
+          <div class="block" style="margin: 20px 0px 0px 0px">
+            <el-pagination
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page="currentPage"
+              :page-sizes="[10, 20, 30, 40]"
+              :page-size="pagesize"
+              layout="total, sizes, prev, pager, next, jumper"
+              :total="allMessage.length"
+            >
+            </el-pagination>
+          </div>
+        </div>
+      </el-col>
+    </el-row>
+  </div>
 </template>
     
 <script>
@@ -675,11 +668,6 @@ label {
   margin-bottom: 0px !important;
 }
 
-.el-header {
-  background-color: #fff;
-  line-height: 60px;
-  padding: 0;
-}
 .el-autocomplete {
   padding: 0;
   height: 30px;

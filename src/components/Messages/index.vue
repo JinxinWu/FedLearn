@@ -49,14 +49,13 @@
         </template>
       </el-table-column>
     </el-table>
-    <div class="block" style="margin: 20px 0px 0px 0px">
+    <div class="block" style="padding-top: 10px;">
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="currentPage"
-        :page-sizes="[10, 20, 30, 40]"
         :page-size="pagesize"
-        layout="total, sizes, prev, pager, next, jumper"
+        layout="total, prev, pager, next, jumper"
         :total="getMessage.length"
       >
       </el-pagination>

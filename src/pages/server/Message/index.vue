@@ -1,36 +1,32 @@
 <template>
-  <el-container>
-    <!-- 头部 -->
-    <el-main>
-      <el-row>
-        <el-col :span="18" :offset="3">
-          <div class="message-box" style="min-height: 653.28px">
-            <p class="title">消息</p>
-            <el-tabs v-model="activeName" @tab-click="handleClick">
-              <el-tab-pane name="first">
-                <div slot="label">
-                  请求消息
-                  <span :style="{ color: messages.length > 10 ? 'red' : '' }"
-                    >({{ messages.length }})</span
-                  >
-                </div>
-                <Messages which="ask" :getMessage="messages"></Messages>
-              </el-tab-pane>
-              <el-tab-pane label="其他消息" name="second">
-                <div slot="label">
-                  其他消息
-                  <span :style="{ color: messages.length > 10 ? 'red' : '' }"
-                    >({{ messages.length }})</span
-                  >
-                </div>
-                <Messages which="other" :getMessage="messages"></Messages>
-              </el-tab-pane>
-            </el-tabs>
-          </div>
-        </el-col>
-      </el-row>
-    </el-main>
-  </el-container>
+  <div>
+    <el-row>
+      <el-col :span="18" :offset="3">
+        <div class="message-box" style="margin-top: 5%">
+          <el-tabs v-model="activeName" @tab-click="handleClick">
+            <el-tab-pane name="first">
+              <div slot="label">
+                请求消息
+                <span :style="{ color: messages.length > 10 ? 'red' : '' }"
+                  >({{ messages.length }})</span
+                >
+              </div>
+              <Messages which="ask" :getMessage="messages"></Messages>
+            </el-tab-pane>
+            <el-tab-pane label="其他消息" name="second">
+              <div slot="label">
+                其他消息
+                <span :style="{ color: messages.length > 10 ? 'red' : '' }"
+                  >({{ messages.length }})</span
+                >
+              </div>
+              <Messages which="other" :getMessage="messages"></Messages>
+            </el-tab-pane>
+          </el-tabs>
+        </div>
+      </el-col>
+    </el-row>
+  </div>
 </template>
     
 <script>
@@ -138,19 +134,6 @@ export default {
 </script>
 
 <style lang='less' scoped>
-.title {
-  margin-top: 0px;
-  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
-    "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
-  font-size: 1.5em;
-  text-align: center;
-}
-
-.el-header {
-  background-color: #fff;
-  line-height: 60px;
-  padding: 0;
-}
 .el-autocomplete {
   padding: 0;
   height: 30px;

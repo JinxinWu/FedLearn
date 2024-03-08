@@ -1,133 +1,127 @@
 <template>
-  <el-container>
-    <!-- 头部 -->
-    <el-main
-      ><div class="message-box" style="min-height: 653.28px; margin: auto">
-        <el-row>
-          <el-col :span="18" :offset="3">
-            <p class="title">联邦同步</p>
-            <div style="text-align: center">
-              <el-transfer
-                style="text-align: left; display: inline-block"
-                v-model="value"
-                filterable
-                :left-default-checked="[]"
-                :right-default-checked="[]"
-                :titles="['可选客户端', '已选客户端']"
-                :button-texts="['删除所选', '添加所选']"
-                :format="{
-                  noChecked: '${total}',
-                  hasChecked: '${checked}/${total}',
-                }"
-                @change="handleChange"
-                :data="data"
+  <div>
+    <div class="message-box" style="min-height: 653.28px; margin: auto">
+      <el-row>
+        <el-col :span="18" :offset="3">
+          <p class="title">联邦同步</p>
+          <div style="text-align: center">
+            <el-transfer
+              style="text-align: left; display: inline-block"
+              v-model="value"
+              filterable
+              :left-default-checked="[]"
+              :right-default-checked="[]"
+              :titles="['可选客户端', '已选客户端']"
+              :button-texts="['删除所选', '添加所选']"
+              :format="{
+                noChecked: '${total}',
+                hasChecked: '${checked}/${total}',
+              }"
+              @change="handleChange"
+              :data="data"
+            >
+              <span slot-scope="{ option }"
+                >{{ option.key }} - {{ option.label }}</span
               >
-                <span slot-scope="{ option }"
-                  >{{ option.key }} - {{ option.label }}</span
-                >
-              </el-transfer>
-            </div>
-          </el-col>
-        </el-row>
-        <el-row class="menu" style="margin-top: 20px">
-          <el-col :span="4" style="line-height: 25px"
-            ><div class="rowDiv">相关技术</div></el-col
+            </el-transfer>
+          </div>
+        </el-col>
+      </el-row>
+      <el-row class="menu" style="margin-top: 20px">
+        <el-col :span="4" style="line-height: 25px"
+          ><div class="rowDiv">相关技术</div></el-col
+        >
+        <el-col :span="8">
+          <div
+            style="
+              margin: 5px auto 5px auto;
+              border: 1px dashed #4874cb;
+              width: 80%;
+            "
           >
-          <el-col :span="8">
-            <div
-              style="
-                margin: 5px auto 5px auto;
-                border: 1px dashed #4874cb;
-                width: 80%;
-              "
-            >
-              <div>差分隐私</div>
-              <div style="margin-top: 5px">
-                <MyButton
-                  v-for="item in [
-                    securityCom.csvImport,
-                    securityCom.ExcelImport,
-                  ]"
-                  :comData="item"
-                  :key="item.id"
-                  ref="myButton"
-                  @click.native="changeColor(item.id, item.step)"
-                ></MyButton>
-              </div>
-              <div style="margin-bottom: 5px">
-                <MyButton
-                  v-for="item in [
-                    securityCom.DBImport,
-                    securityCom.unstructuredImport,
-                  ]"
-                  :comData="item"
-                  :key="item.id"
-                  ref="myButton"
-                  @click.native="changeColor(item.id, item.step)"
-                ></MyButton>
-              </div>
+            <div>差分隐私</div>
+            <div style="margin-top: 5px">
+              <MyButton
+                v-for="item in [securityCom.csvImport, securityCom.ExcelImport]"
+                :comData="item"
+                :key="item.id"
+                ref="myButton"
+                @click.native="changeColor(item.id, item.step)"
+              ></MyButton>
             </div>
-          </el-col>
-          <el-col :span="8">
-            <div
-              style="
-                margin: 5px auto 5px auto;
-                border: 1px dashed #4874cb;
-                width: 80%;
-              "
-            >
-              <div>同态加密</div>
-              <div style="margin-top: 5px">
-                <MyButton
-                  v-for="item in [securityCom.delMisCol, securityCom.zeroCom]"
-                  :comData="item"
-                  :key="item.id"
-                  ref="myButton"
-                  @click.native="changeColor(item.id, item.step)"
-                ></MyButton>
-              </div>
-              <div style="margin-bottom: 5px">
-                <MyButton
-                  v-for="item in [securityCom.meanCom]"
-                  :comData="item"
-                  :key="item.id"
-                  ref="myButton"
-                  @click.native="changeColor(item.id, item.step)"
-                ></MyButton>
-              </div>
+            <div style="margin-bottom: 5px">
+              <MyButton
+                v-for="item in [
+                  securityCom.DBImport,
+                  securityCom.unstructuredImport,
+                ]"
+                :comData="item"
+                :key="item.id"
+                ref="myButton"
+                @click.native="changeColor(item.id, item.step)"
+              ></MyButton>
             </div>
-          </el-col>
-          <el-col :span="4">
-            <div
-              style="
-                margin: 5px auto 5px auto;
-                border: 1px dashed #4874cb;
-                width: 80%;
-              "
-            >
-              <div>压缩方法</div>
-              <div style="margin-top: 5px; margin-bottom: 5px">
-                <MyButton
-                  v-for="item in [securityCom.delError, securityCom.bcTrans]"
-                  :comData="item"
-                  :key="item.id"
-                  ref="myButton"
-                  @click.native="changeColor(item.id, item.step)"
-                ></MyButton>
-              </div>
-            </div>
-          </el-col>
-        </el-row>
-        <el-row style="margin-top: 20px">
-          <el-col
-            ><el-button type="primary" round @click="sendMessage()"
-              >发送同步信息</el-button
-            ></el-col
+          </div>
+        </el-col>
+        <el-col :span="8">
+          <div
+            style="
+              margin: 5px auto 5px auto;
+              border: 1px dashed #4874cb;
+              width: 80%;
+            "
           >
-        </el-row>
-      </div>
-    </el-main>
-  </el-container>
+            <div>同态加密</div>
+            <div style="margin-top: 5px">
+              <MyButton
+                v-for="item in [securityCom.delMisCol, securityCom.zeroCom]"
+                :comData="item"
+                :key="item.id"
+                ref="myButton"
+                @click.native="changeColor(item.id, item.step)"
+              ></MyButton>
+            </div>
+            <div style="margin-bottom: 5px">
+              <MyButton
+                v-for="item in [securityCom.meanCom]"
+                :comData="item"
+                :key="item.id"
+                ref="myButton"
+                @click.native="changeColor(item.id, item.step)"
+              ></MyButton>
+            </div>
+          </div>
+        </el-col>
+        <el-col :span="4">
+          <div
+            style="
+              margin: 5px auto 5px auto;
+              border: 1px dashed #4874cb;
+              width: 80%;
+            "
+          >
+            <div>压缩方法</div>
+            <div style="margin-top: 5px; margin-bottom: 5px">
+              <MyButton
+                v-for="item in [securityCom.delError, securityCom.bcTrans]"
+                :comData="item"
+                :key="item.id"
+                ref="myButton"
+                @click.native="changeColor(item.id, item.step)"
+              ></MyButton>
+            </div>
+          </div>
+        </el-col>
+      </el-row>
+      <el-row style="margin-top: 20px">
+        <el-col
+          ><el-button type="primary" round @click="sendMessage()"
+            >发送同步信息</el-button
+          ></el-col
+        >
+      </el-row>
+    </div>
+  </div>
 </template>
     
 <script>
@@ -243,38 +237,6 @@ export default {
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-// Container
-.el-header {
-  background-color: #fff;
-  line-height: 60px;
-  padding: 0;
-}
-
-.el-footer {
-  background-color: #b3c0d1;
-  color: #333;
-  text-align: center;
-  line-height: 60px;
-}
-
-.el-aside {
-  background-color: #d3dce6;
-  color: #333;
-  text-align: center;
-  line-height: 200px;
-}
-
-
-
-.el-container:nth-child(5) .el-aside,
-.el-container:nth-child(6) .el-aside {
-  line-height: 260px;
-}
-
-.el-container:nth-child(7) .el-aside {
-  line-height: 320px;
 }
 
 // Layout

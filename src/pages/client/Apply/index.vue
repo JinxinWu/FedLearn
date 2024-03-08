@@ -1,89 +1,86 @@
 <template>
-  <el-container>
-    <el-main>
-      <p class="title">模型应用</p>
-      <el-divider></el-divider>
-      <!-- 应用 -->
-      <el-row
-        type="flex"
-        class="row-bg"
-        justify="center"
-        v-for="(o, index) in Math.ceil(models.length / 3)"
-        :key="index.modelId"
+  <div>
+    <p class="title">模型应用</p>
+    <el-divider></el-divider>
+    <!-- 应用 -->
+    <el-row
+      type="flex"
+      class="row-bg"
+      justify="center"
+      v-for="(o, index) in Math.ceil(models.length / 3)"
+      :key="index.modelId"
+    >
+      <el-col
+        :span="5"
+        v-for="(model, index) in index == Math.ceil(models.length / 3) - 1
+          ? models.slice(index * 3)
+          : models.slice(index * 3, index * 3 + 3)"
+        :key="index"
+        :offset="index > 0 ? 1 : 0"
       >
-        <el-col
-          :span="5"
-          v-for="(model, index) in index == Math.ceil(models.length / 3) - 1
-            ? models.slice(index * 3)
-            : models.slice(index * 3, index * 3 + 3)"
-          :key="index"
-          :offset="index > 0 ? 1 : 0"
-        >
-          <el-card :body-style="{ padding: '0px' }">
-            <img :src="model.coverUrl" class="image" />
-            <div style="padding: 14px">
-              <span style="font-size: 18px">{{ model.name }}</span>
-              <div class="bottom clearfix">
-                <el-button type="text" class="button" @click="showdialog(model)"
-                  >立即上传</el-button
-                >
-              </div>
+        <el-card :body-style="{ padding: '0px' }">
+          <img :src="model.coverUrl" class="image" />
+          <div style="padding: 14px">
+            <span style="font-size: 18px">{{ model.name }}</span>
+            <div class="bottom clearfix">
+              <el-button type="text" class="button" @click="showdialog(model)"
+                >立即上传</el-button
+              >
             </div>
-          </el-card>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="8" :offset="8" v-show="messageShow">
-          <el-table
-            v-loading="loading"
-            element-loading-text="正在等待测试集结果"
-            :data="tableData"
-            style="width: 100%"
-            :header-cell-style="{ 'text-align': 'center' }"
-            :cell-style="{ 'text-align': 'center' }"
-          >
-            <el-table-column prop="algori" label="正确率" width="180">
-            </el-table-column>
-            <el-table-column prop="compress" label="准确率" width="180">
-            </el-table-column>
-            <el-table-column prop="address" label="xxx"> </el-table-column>
-          </el-table>
-        </el-col>
-      </el-row>
-      <el-dialog
-        title="应用体验"
-        :visible.sync="dialogVisible"
-        :append-to-body="true"
+          </div>
+        </el-card>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="8" :offset="8" v-show="messageShow">
+        <el-table
+          v-loading="loading"
+          element-loading-text="正在等待测试集结果"
+          :data="tableData"
+          style="width: 100%"
+          :header-cell-style="{ 'text-align': 'center' }"
+          :cell-style="{ 'text-align': 'center' }"
+        >
+          <el-table-column prop="algori" label="正确率" width="180">
+          </el-table-column>
+          <el-table-column prop="compress" label="准确率" width="180">
+          </el-table-column>
+          <el-table-column prop="address" label="xxx"> </el-table-column>
+        </el-table>
+      </el-col>
+    </el-row>
+    <el-dialog
+      title="应用体验"
+      :visible.sync="dialogVisible"
+      :append-to-body="true"
+    >
+      <div style="font-size: 18px; margin-bottom: 10px">
+        <p>{{ this.reactModel.modelInform }}</p>
+      </div>
+      <el-upload class="upload-demo" drag :http-request="uploadFile" multiple>
+        <i class="el-icon-upload"></i>
+        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+        <div class="el-upload__tip" slot="tip">上传后请耐心等待</div>
+      </el-upload>
+      <div
+        v-show="resultShow"
+        style="font-size: 18px; margin-top: 20px; margin-bottom: 10px"
       >
-        <div style="font-size: 18px; margin-bottom: 10px">
-          <p>{{ this.reactModel.modelInform }}</p>
-        </div>
-        <el-upload class="upload-demo" drag :http-request="uploadFile" multiple>
-          <i class="el-icon-upload"></i>
-          <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-          <div class="el-upload__tip" slot="tip">上传后请耐心等待</div>
-        </el-upload>
-        <div
-          v-show="resultShow"
-          style="font-size: 18px; margin-top: 20px; margin-bottom: 10px"
-        >
-          <p>请下载结果文件</p>
-        </div>
-        <a v-show="resultShow" :href="resultUrl"
-          ><el-button type="primary" icon="el-icon-download"
-            >结果文件</el-button
-          ></a
-        >
-      </el-dialog>
-    </el-main>
-  </el-container>
+        <p>请下载结果文件</p>
+      </div>
+      <a v-show="resultShow" :href="resultUrl"
+        ><el-button type="primary" icon="el-icon-download"
+          >结果文件</el-button
+        ></a
+      >
+    </el-dialog>
+  </div>
 </template>
 
 <script>
 import axios from "axios";
 
 export default {
-
   data() {
     return {
       dialogVisible: false,
@@ -184,7 +181,6 @@ export default {
 
 <style lang="less" scoped>
 .title {
-  margin-top: 20px;
   font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
     "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
   font-size: 2em;
@@ -197,44 +193,6 @@ export default {
 
 .el-card:hover {
   margin-top: -5px;
-}
-
-// Container
-.el-header {
-  // background-color: #b3c0d1;
-  color: #333;
-  line-height: 60px;
-  padding: 0;
-}
-
-.el-footer {
-  // background-color: #b3c0d1;
-  color: #333;
-  text-align: center;
-  line-height: 60px;
-}
-
-.el-main {
-  padding: 0;
-  // height: calc(100vh - 170px); // 设置主体 main 高度
-  // background-color: #e9eef3;
-  color: #333;
-  text-align: left;
-  // line-height: auto;
-}
-
-body > .el-container {
-  // height: 96vh;
-  margin-bottom: 0px;
-}
-
-.el-container:nth-child(5) .el-aside,
-.el-container:nth-child(6) .el-aside {
-  line-height: 260px;
-}
-
-.el-container:nth-child(7) .el-aside {
-  line-height: 320px;
 }
 
 // Layout

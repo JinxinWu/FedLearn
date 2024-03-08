@@ -1,80 +1,75 @@
 <template>
-  <el-container>
-    <el-header>
-      <Header></Header>
-    </el-header>
-    <el-main>
-      <div>
-        <h1
-          style="margin-top: 20px; margin-bottom: 25px"
-          class="text-center m-b-lg"
-        >
-          建模知多少
-        </h1>
-      </div>
-      <el-divider></el-divider>
-
-      <!-- :style="{ 'background-color': idx % 2 === 0 ? '' : '#ececf1' }" -->
-      <el-row
-        v-for="(item, idx) in chatMessages"
-        style="padding-top: 15px; padding-bottom: 15px"
-        :key="item.id"
+  <div>
+    <div>
+      <h1
+        style="margin-top: 20px; margin-bottom: 25px"
+        class="text-center m-b-lg"
       >
-        <el-col :span="1" :offset="7"
-          ><div class="size-icon">
-            <img
-              v-if="item.role === 'assistant'"
-              src="https://nlp-eb.cdn.bcebos.com/static/eb/asset/robin.e9dc83e5.png"
-              alt="头像"
-            />
-            <i v-else class="el-icon-user-solid"></i></div
-        ></el-col>
-        <el-col :span="8"
-          ><div>
-            <p class="chat">
-              {{ item.content }}
-            </p>
-          </div></el-col
-        >
-      </el-row>
-      <div class="input-group ipt" style="width: 650px">
-        <div class="col-xs-12" style="width: 95%">
-          <textarea
-            placeholder="Send a message"
-            id="chatInput"
-            class="form-control"
-            rows="1"
-            v-model="textareaData"
-            @keyup.enter="sendMessage"
-          ></textarea>
-        </div>
-        <button
-          id="chatBtn"
-          type="button"
-          :disabled="textareaData.length === 0"
-          @click="sendMessage"
-          :style="{ 'background-color': buttonColor }"
-        >
-          <svg
-            t="1690170211730"
-            class="icon"
-            viewBox="0 0 1024 1024"
-            version="1.1"
-            xmlns="http://www.w3.org/2000/svg"
-            p-id="2290"
-            width="16"
-            height="16"
-          >
-            <path
-              d="M0 1024l106.496-474.112 588.8-36.864-588.8-39.936L0 0l1024 512z"
-              :fill="fill"
-              p-id="2291"
-            ></path>
-          </svg>
-        </button>
+        建模知多少
+      </h1>
+    </div>
+    <el-divider></el-divider>
+
+    <!-- :style="{ 'background-color': idx % 2 === 0 ? '' : '#ececf1' }" -->
+    <el-row
+      v-for="(item, idx) in chatMessages"
+      style="padding-top: 15px; padding-bottom: 15px"
+      :key="item.id"
+    >
+      <el-col :span="1" :offset="7"
+        ><div class="size-icon">
+          <img
+            v-if="item.role === 'assistant'"
+            src="https://nlp-eb.cdn.bcebos.com/static/eb/asset/robin.e9dc83e5.png"
+            alt="头像"
+          />
+          <i v-else class="el-icon-user-solid"></i></div
+      ></el-col>
+      <el-col :span="8"
+        ><div>
+          <p class="chat">
+            {{ item.content }}
+          </p>
+        </div></el-col
+      >
+    </el-row>
+    <div class="input-group ipt" style="width: 650px">
+      <div class="col-xs-12" style="width: 95%">
+        <textarea
+          placeholder="Send a message"
+          id="chatInput"
+          class="form-control"
+          rows="1"
+          v-model="textareaData"
+          @keyup.enter="sendMessage"
+        ></textarea>
       </div>
-    </el-main>
-  </el-container>
+      <button
+        id="chatBtn"
+        type="button"
+        :disabled="textareaData.length === 0"
+        @click="sendMessage"
+        :style="{ 'background-color': buttonColor }"
+      >
+        <svg
+          t="1690170211730"
+          class="icon"
+          viewBox="0 0 1024 1024"
+          version="1.1"
+          xmlns="http://www.w3.org/2000/svg"
+          p-id="2290"
+          width="16"
+          height="16"
+        >
+          <path
+            d="M0 1024l106.496-474.112 588.8-36.864-588.8-39.936L0 0l1024 512z"
+            :fill="fill"
+            p-id="2291"
+          ></path>
+        </svg>
+      </button>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -235,36 +230,5 @@ img {
   margin: auto;
   max-height: 200px;
   overflow-y: hidden;
-}
-
-//
-.el-header {
-  // background-color: #b3c0d1;
-  color: #333;
-  line-height: 60px;
-  padding: 0;
-}
-
-.el-main {
-  padding: 0;
-  height: calc(100vh - 60px); // 设置主体 main 高度
-  // background: white;
-  color: #333;
-  text-align: left;
-  // line-height: auto;
-}
-
-body > .el-container {
-  height: 100vh;
-  margin-bottom: 0px;
-}
-
-.el-container:nth-child(5) .el-aside,
-.el-container:nth-child(6) .el-aside {
-  line-height: 260px;
-}
-
-.el-container:nth-child(7) .el-aside {
-  line-height: 320px;
 }
 </style>

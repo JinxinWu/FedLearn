@@ -1,134 +1,131 @@
 <template>
-  <el-container>
-    <!-- 头部 -->
-    <el-main>
-      <!-- 默认聚合客户端 -->
-      <div class="myBox">
-        <el-row class="menu" style="margin-bottom: 20px">
-          <el-col :span="8" :offset="8">
-            <div class="title" style="font-size: 20px">默认聚合客户端</div>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="18" :offset="2">
-            <Computer
-              @deleteTag="deleteTag"
-              v-for="tag in dynamicTags"
-              :key="tag"
-              :dynamicTag="tag"
-            ></Computer>
-          </el-col>
-          <el-col :span="2">
-            <el-button
-              class="button-new-tag"
-              size="medium"
-              @click="dialogTableVisible = true"
-              >添加</el-button
+  <div>
+    <!-- 默认聚合客户端 -->
+    <div class="myBox" style="margin-top: 0px;">
+      <el-row class="menu" style="margin-bottom: 20px">
+        <el-col :span="8" :offset="8">
+          <div class="title" style="font-size: 20px">默认聚合客户端</div>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="18" :offset="2">
+          <Computer
+            @deleteTag="deleteTag"
+            v-for="tag in dynamicTags"
+            :key="tag"
+            :dynamicTag="tag"
+          ></Computer>
+        </el-col>
+        <el-col :span="2">
+          <el-button
+            class="button-new-tag"
+            size="medium"
+            @click="dialogTableVisible = true"
+            >添加</el-button
+          >
+        </el-col>
+      </el-row>
+    </div>
+    <!-- 聚合方法 -->
+    <div class="myBox">
+      <el-row class="menu" style="margin-bottom: 20px">
+        <el-col :span="8" :offset="8">
+          <div class="title" style="font-size: 20px">聚合方法</div>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="6" :offset="2">
+          <MethCard :myMeth="methCard[0]"></MethCard>
+        </el-col>
+        <el-col :span="6" :offset="1">
+          <MethCard :myMeth="methCard[1]"></MethCard>
+        </el-col>
+        <el-col :span="6" :offset="1">
+          <MethCard :myMeth="methCard[2]"></MethCard>
+        </el-col>
+      </el-row>
+    </div>
+    <!-- 聚合轮次 -->
+    <div class="myBox">
+      <el-row class="menu" style="margin-bottom: 20px">
+        <el-col :span="8" :offset="8">
+          <div class="title" style="font-size: 20px">聚合轮次</div>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="6" :offset="6">
+          <div>
+            <el-statistic
+              group-separator=","
+              :value="allRound"
+              title="总轮次"
+            ></el-statistic>
+          </div>
+        </el-col>
+        <el-col :span="6">
+          <div>
+            <el-statistic
+              group-separator=","
+              :value="nowRound"
+              title="目前轮次"
+            ></el-statistic>
+          </div>
+        </el-col>
+      </el-row>
+    </div>
+    <!-- 聚合结果 -->
+    <div class="myBox">
+      <el-row class="menu" style="margin-bottom: 20px">
+        <el-col :span="8" :offset="8">
+          <div class="title" style="font-size: 20px">聚合结果</div>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="5" :offset="2">
+          <div style="margin-top: 25px">
+            <el-button>验证数据集</el-button>
+          </div>
+        </el-col>
+        <el-col :span="14">
+          <div class="title" style="font-size: 16px; margin-bottom: 10px">
+            验证正确率
+          </div>
+          <el-descriptions direction="vertical" :column="6" border>
+            <el-descriptions-item label="类1"
+              >{{ rightRate[1] }}%</el-descriptions-item
             >
-          </el-col>
-        </el-row>
-      </div>
-      <!-- 聚合方法 -->
-      <div class="myBox">
-        <el-row class="menu" style="margin-bottom: 20px">
-          <el-col :span="8" :offset="8">
-            <div class="title" style="font-size: 20px">聚合方法</div>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="6" :offset="2">
-            <MethCard :myMeth="methCard[0]"></MethCard>
-          </el-col>
-          <el-col :span="6" :offset="1">
-            <MethCard :myMeth="methCard[1]"></MethCard>
-          </el-col>
-          <el-col :span="6" :offset="1">
-            <MethCard :myMeth="methCard[2]"></MethCard>
-          </el-col>
-        </el-row>
-      </div>
-      <!-- 聚合轮次 -->
-      <div class="myBox">
-        <el-row class="menu" style="margin-bottom: 20px">
-          <el-col :span="8" :offset="8">
-            <div class="title" style="font-size: 20px">聚合轮次</div>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="6" :offset="6">
-            <div>
-              <el-statistic
-                group-separator=","
-                :value="allRound"
-                title="总轮次"
-              ></el-statistic>
-            </div>
-          </el-col>
-          <el-col :span="6">
-            <div>
-              <el-statistic
-                group-separator=","
-                :value="nowRound"
-                title="目前轮次"
-              ></el-statistic>
-            </div>
-          </el-col>
-        </el-row>
-      </div>
-      <!-- 聚合结果 -->
-      <div class="myBox">
-        <el-row class="menu" style="margin-bottom: 20px">
-          <el-col :span="8" :offset="8">
-            <div class="title" style="font-size: 20px">聚合结果</div>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="5" :offset="2">
-            <div style="margin-top: 25px">
-              <el-button>验证数据集</el-button>
-            </div>
-          </el-col>
-          <el-col :span="14">
-            <div class="title" style="font-size: 16px; margin-bottom: 10px">
-              验证正确率
-            </div>
-            <el-descriptions direction="vertical" :column="6" border>
-              <el-descriptions-item label="类1"
-                >{{ rightRate[1] }}%</el-descriptions-item
-              >
-              <el-descriptions-item label="类2"
-                >{{ rightRate[2] }}%</el-descriptions-item
-              >
-              <el-descriptions-item label="类3"
-                >{{ rightRate[3] }}%</el-descriptions-item
-              >
-              <el-descriptions-item label="类4"
-                >{{ rightRate[4] }}%</el-descriptions-item
-              >
-              <el-descriptions-item label="类5"
-                >{{ rightRate[5] }}%</el-descriptions-item
-              >
-              <el-descriptions-item label="总体"
-                >{{ rightRate[6] }}%</el-descriptions-item
-              >
-            </el-descriptions>
-          </el-col>
-        </el-row>
-      </div>
-      <!-- 聚合过程结果 -->
-      <div class="myBox">
-        <el-row class="menu" style="margin-bottom: 20px">
-          <el-col :span="8" :offset="8">
-            <div class="title" style="font-size: 20px">聚合过程结果</div>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="20" :offset="2">
-            <div id="drawLine" style="width: 100%; height: 300px"></div>
-          </el-col>
-        </el-row>
-      </div>
-    </el-main>
+            <el-descriptions-item label="类2"
+              >{{ rightRate[2] }}%</el-descriptions-item
+            >
+            <el-descriptions-item label="类3"
+              >{{ rightRate[3] }}%</el-descriptions-item
+            >
+            <el-descriptions-item label="类4"
+              >{{ rightRate[4] }}%</el-descriptions-item
+            >
+            <el-descriptions-item label="类5"
+              >{{ rightRate[5] }}%</el-descriptions-item
+            >
+            <el-descriptions-item label="总体"
+              >{{ rightRate[6] }}%</el-descriptions-item
+            >
+          </el-descriptions>
+        </el-col>
+      </el-row>
+    </div>
+    <!-- 聚合过程结果 -->
+    <div class="myBox">
+      <el-row class="menu" style="margin-bottom: 20px">
+        <el-col :span="8" :offset="8">
+          <div class="title" style="font-size: 20px">聚合过程结果</div>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="20" :offset="2">
+          <div id="drawLine" style="width: 100%; height: 300px"></div>
+        </el-col>
+      </el-row>
+    </div>
     <el-dialog title="添加客户端" :visible.sync="dialogTableVisible">
       <el-table
         ref="multipleTable"
@@ -149,7 +146,7 @@
         <el-button @click="addComputer()">确认添加</el-button>
       </div>
     </el-dialog>
-  </el-container>
+  </div>
 </template>
     
 <script>
@@ -452,36 +449,6 @@ export default {
     "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
   font-size: 2em;
   text-align: center;
-}
-
-// Container
-.el-header {
-  background-color: #fff;
-  line-height: 60px;
-  padding: 0;
-}
-
-.el-footer {
-  background-color: #b3c0d1;
-  color: #333;
-  text-align: center;
-  line-height: 60px;
-}
-
-.el-aside {
-  background-color: #d3dce6;
-  color: #333;
-  text-align: center;
-  line-height: 200px;
-}
-
-.el-container:nth-child(5) .el-aside,
-.el-container:nth-child(6) .el-aside {
-  line-height: 260px;
-}
-
-.el-container:nth-child(7) .el-aside {
-  line-height: 320px;
 }
 
 // Layout

@@ -1,18 +1,14 @@
 <template>
-  <div v-if="ifServer" style="height: 100%;">
-    <el-row style="height: 100%">
-      <el-col :span="3" style="height: 100%;position: fixed;">
-        <ServerHeader :style="{ height: windowHeight+ 'px' }" ></ServerHeader>
-      </el-col>
-      <el-col :span="21" :push="3" style="height: 100%">
-        <router-view> </router-view>
-      </el-col>
-    </el-row>
-  </div>
-  <div v-else style="height: 100%;">
-    <ClientHeader v-if="ifClient"></ClientHeader>
-    <router-view style="height: 100%;"> </router-view>
-  </div>
+  <el-container v-if="ifServer || ifClient">
+    <el-header>
+      <ServerHeader v-if="ifServer"></ServerHeader>
+      <ClientHeader v-else-if="ifClient"></ClientHeader>
+    </el-header>
+    <el-main>
+      <router-view> </router-view>
+    </el-main>
+  </el-container>
+  <router-view v-else> </router-view>
 </template>
 
 <script>
@@ -27,9 +23,9 @@ export default {
   },
   data() {
     return {
-      ifServer:true,
-      ifClient:true,
-      windowHeight: document.documentElement.clientHeight, 
+      ifServer: true,
+      ifClient: true,
+      windowHeight: document.documentElement.clientHeight,
     };
   },
   methods: {
@@ -39,14 +35,14 @@ export default {
         this.$route.path.includes("/Test") ||
         this.$route.path.includes("/test")
       ) {
-        this.ifServer=false;
-        this.ifClient=false;
-      }else if(this.$route.path.includes("/server")) {
-        this.ifServer=true;
-        this.ifClient=false;
-      }else {
-        this.ifServer=false;
-        this.ifClient=true;
+        this.ifServer = false;
+        this.ifClient = false;
+      } else if (this.$route.path.includes("/server")) {
+        this.ifServer = true;
+        this.ifClient = false;
+      } else {
+        this.ifServer = false;
+        this.ifClient = true;
       }
     },
   },
@@ -60,18 +56,42 @@ export default {
 </script>
 
 <style lang="less">
-//强制高度与上级一致
-html {
-  height: 100% !important;
-}
-body {
-  height: 100% !important;
-}
-.el-main {
-  height: 100% !important;
-}
-.el-container {
-  height: 100% !important;
-}
 @import "@/assets/css/client.less";
+// Container
+.el-header {
+  line-height: 60px;
+  padding: 0 !important;
+}
+
+.el-footer {
+  color: #333;
+  text-align: center;
+  line-height: 60px;
+}
+
+.el-aside {
+  color: #333;
+  text-align: center;
+  line-height: 200px;
+}
+
+.el-main {
+  color: #333;
+  text-align: center;
+  line-height: auto;
+  padding-top: 10px;
+}
+
+body > .el-container {
+  margin-bottom: 0px;
+}
+
+.el-container:nth-child(5) .el-aside,
+.el-container:nth-child(6) .el-aside {
+  line-height: 260px;
+}
+
+.el-container:nth-child(7) .el-aside {
+  line-height: 320px;
+}
 </style>

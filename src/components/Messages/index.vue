@@ -22,20 +22,22 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" width="40"> </el-table-column>
-      <el-table-column prop="content" label="内容" show-overflow-tooltip>
+      <el-table-column prop="client_ip" label="客户端ip" show-overflow-tooltip align="center">
       </el-table-column>
-      <el-table-column prop="name" label="客户端名称" width="120">
+      <el-table-column prop="clientName" label="客户端名称" width="120" align="center">
       </el-table-column>
-      <el-table-column label="时间" width="120">
-        <template slot-scope="scope">{{ scope.row.date }}</template>
+      <el-table-column prop="department" label="客户端部分" width="120" align="center">
       </el-table-column>
-      <el-table-column label="操作">
+      <el-table-column label="请求时间" width="200" align="center">
+        <template slot-scope="scope">{{ scope.row.gmtCreate | formatDateTime }}</template>
+      </el-table-column>
+      <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <a
             v-if="which == 'ask'"
             style="color: #409eff"
             @click="isAccept(scope.$index, scope.row)"
-            >是否同意加入联邦</a
+            >同意</a
           >
           <el-divider
             v-if="which == 'ask'"
@@ -44,18 +46,19 @@
           <a
             style="color: #409eff"
             @click="handleDelete(scope.$index, scope.row)"
-            >删除</a
+            >拒绝</a
           >
         </template>
       </el-table-column>
     </el-table>
-    <div class="block" style="padding-top: 10px;">
+    <div class="block" style="margin: 20px 0px 0px 0px">
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="currentPage"
+        :page-sizes="[10, 20, 30, 40]"
         :page-size="pagesize"
-        layout="total, prev, pager, next, jumper"
+        layout="total, sizes, prev, pager, next, jumper"
         :total="getMessage.length"
       >
       </el-pagination>
@@ -68,7 +71,7 @@ export default {
   data() {
     return {
       // 全部消息的数据
-      allMessage: this.getMessage,
+      allMessage: [],
       // checkbox选中的数据
       multipleSelection: [],
       // checkbox为true的数量
@@ -81,6 +84,12 @@ export default {
     };
   },
   props: ["which", "getMessage"],
+  watch:{
+    getMessage(val) {
+      this.allMessage = val;
+      this.getPageInfo();
+    },
+  },
   activated() {},
   methods: {
     // 批量标为已读
@@ -104,10 +113,10 @@ export default {
     // 操作的方法
     // 是否同意加入联邦
     isAccept(index, row) {
-      this.$confirm("是否同意加入联邦？", "加入联邦请求", {
+      this.$confirm("是否确认加入联邦？", "加入联邦请求", {
         distinguishCancelAndClose: true,
-        confirmButtonText: "同意",
-        cancelButtonText: "拒绝",
+        confirmButtonText: "确认",
+        cancelButtonText: "取消",
       })
         .then(() => {
           // 这里发送axios请求，将数据标为已读，然后重新获取数据
@@ -147,22 +156,22 @@ export default {
       console.log(index, row);
     },
     handleDelete(index, row) {
-      this.$confirm("是否确认删除此项？", "删除信息", {
+      this.$confirm("是否确认拒绝加入联邦？", "加入联邦请求", {
         distinguishCancelAndClose: true,
         confirmButtonText: "确认",
-        cancelButtonText: "放弃",
+        cancelButtonText: "取消",
       })
         .then(() => {
-          // 这里发送axios请求，将数据删除，然后重新获取数据
+          // 这里发送axios请求，将数据标为已读，然后重新获取数据
           this.$message({
             type: "success",
-            message: "删除成功",
+            message: "成功拒绝加入联邦",
           });
         })
         .catch((action) => {
           this.$message({
-            type: "info",
-            message: action === "cancel" ? "放弃删除此项" : "放弃删除此项目",
+            type: "warning",
+            message: action === "cancel" ? "放弃拒绝加入联邦" : "放弃同意加入联邦",
           });
         });
       console.log(index, row);
@@ -194,10 +203,6 @@ export default {
       //数据重新分页
       this.getPageInfo();
     },
-  },
-  mounted() {
-    // 初始化数据
-    this.getPageInfo();
   },
 };
 </script>

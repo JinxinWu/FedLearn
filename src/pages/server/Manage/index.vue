@@ -36,8 +36,6 @@
               show-overflow-tooltip
             >
             </el-table-column>
-            <el-table-column prop="manager" label="管理员名称">
-            </el-table-column>
             <el-table-column prop="area" label="部门"> </el-table-column>
             <el-table-column prop="ip" label="IP"> </el-table-column>
             <el-table-column prop="gpu" label="GPU"> </el-table-column>

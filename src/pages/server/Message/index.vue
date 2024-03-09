@@ -32,6 +32,7 @@
 <script>
 import Messages from "@/components/Messages";
 import axios from "axios";
+import VueCookies from "vue-cookies";
 
 export default {
   components: {
@@ -48,52 +49,32 @@ export default {
           name: "王小虎",
           content: "上海市普陀区金沙江路 1518 弄",
           type: 1,
-        },
-        {
-          date: "2",
-          name: "王小虎",
-          content: "上海市普陀区金沙江路 1518 弄",
-          type: 0,
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          content: "上海市普陀区金沙江路 1518 弄",
-          type: 1,
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          content: "上海市普陀区金沙江路 1518 弄",
-          type: 0,
-        },
-        {
-          date: "2016-05-08",
-          name: "王小虎",
-          content: "上海市普陀区金沙江路 1518 弄",
-          type: 1,
-        },
-        {
-          date: "2016-05-06",
-          name: "王小虎",
-          content: "上海市普陀区金沙江路 1518 弄",
-          type: 0,
-        },
-        {
-          date: "2016-05-07",
-          name: "王小虎",
-          content: "上海市普陀区金沙江路 1518 弄",
-          type: 1,
-        },
+        }
       ],
       // 未读消息的数据
       unreadMessage: [],
       // 已读消息的数据
       readMessage: [],
+      token: null
     };
   },
   activated() {},
+  created() {
+    this.getConnectMessage()
+  },
   methods: {
+    getConnectMessage(){
+      this.token = VueCookies.get("token");
+      console.log(this.token)
+      axios({
+        method: "get",
+        url: "http://localhost:7000/connect/getConnectionMessage",
+        headers:{ token: this.token, }
+      }).then((res) => {
+        console.log(res)
+        this.messages = res.data.message
+      })
+    },
     // 上面选择全部消息/未读消息/已读消息的方法
     handleClick(tab, event) {
       // console.log(tab, event);
@@ -124,12 +105,7 @@ export default {
     //       console.log(err);
     //     });
     // },
-  },
-  mounted() {
-    this.$nextTick(() => {
-      // this.getTicket();
-    });
-  },
+  }
 };
 </script>
 

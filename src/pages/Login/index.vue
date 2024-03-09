@@ -146,9 +146,8 @@ export default {
                     this.$router.replace({ name: "Connect" });
                     
                   } else {
-                    this.$message.error("用户名或者密码错误")
+                    this.$message.error("用户名密码或者验证码错误")
                     _this.getCaptcha();
-                    _this.$message.error(data.msg);
                   }
                 }
               })
@@ -178,7 +177,6 @@ export default {
                     this.$router.replace({ name: "Message" });
                   } else {
                     _this.getCaptcha();
-                    _this.$message.error(data.msg);
                   }
                 }
               })

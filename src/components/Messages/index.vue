@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div style="margin-bottom: 10px">
-      <span style="margin-right: 10px; margin-left: 10px"
+    <div style="margin-bottom: 10px;text-align: left;">
+      <span style="margin-right: 10px; margin-left: 10px;"
         >已选中{{ checkedNum }}项</span
       >
       <el-button v-if="which == 'ask'" size="small" @click="manyHadRead()">批量标为已读</el-button>

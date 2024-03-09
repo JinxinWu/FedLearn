@@ -4,7 +4,7 @@
       <el-col :span="18" :offset="3">
         <div class="message-box" style="min-height: 653.28px">
           <p class="title">客户端管理</p>
-          <div style="margin: 10px 0px">
+          <div style="margin: 10px 0px; text-align: left;">
             <span style="margin-right: 10px; margin-left: 10px"
               >已选中{{ checkedNum }}项</span
             >

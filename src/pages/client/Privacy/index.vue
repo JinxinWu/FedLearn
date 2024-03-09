@@ -17,18 +17,19 @@
         >
           <div>差分隐私</div>
           <div style="margin-top: 5px">
-            <NoInputCom
-              v-for="item in [csvImport, csvImport]"
+            <MyButton
+              v-for="item in [securityCom.csvImport, securityCom.ExcelImport]"
               :comData="item"
               :key="item.id"
-            ></NoInputCom>
+            ></MyButton>
           </div>
           <div style="margin-bottom: 5px">
-            <NoInputCom
-              v-for="item in [csvImport, csvImport]"
+            <MyButton
+              v-for="item in [securityCom.DBImport,
+                  securityCom.unstructuredImport,]"
               :comData="item"
               :key="item.id"
-            ></NoInputCom>
+            ></MyButton>
           </div>
         </div>
       </el-col>
@@ -42,18 +43,18 @@
         >
           <div>同态加密</div>
           <div style="margin-top: 5px">
-            <NoInputCom
-              v-for="item in [csvImport, csvImport]"
+            <MyButton
+              v-for="item in [securityCom.delMisCol, securityCom.zeroCom]"
               :comData="item"
               :key="item.id"
-            ></NoInputCom>
+            ></MyButton>
           </div>
           <div style="margin-bottom: 5px">
-            <NoInputCom
-              v-for="item in [csvImport]"
+            <MyButton
+              v-for="item in [securityCom.meanCom]"
               :comData="item"
               :key="item.id"
-            ></NoInputCom>
+            ></MyButton>
           </div>
         </div>
       </el-col>
@@ -67,11 +68,11 @@
         >
           <div>压缩方法</div>
           <div style="margin-top: 5px; margin-bottom: 5px">
-            <NoInputCom
-              v-for="item in [csvImport, csvImport]"
+            <MyButton
+              v-for="item in [securityCom.delError, securityCom.bcTrans]"
               :comData="item"
               :key="item.id"
-            ></NoInputCom>
+            ></MyButton>
           </div>
         </div>
       </el-col>
@@ -94,7 +95,7 @@
 </template>
   
 <script>
-import NoInputCom from "@/components/NoInputCom";
+import MyButton from "@/components/MyButton";
 import InputCom from "@/components/InputCom";
 //引入axios
 import axios from "axios";
@@ -103,17 +104,11 @@ export default {
   name: "Train",
   components: {
     InputCom,
-    NoInputCom,
+    MyButton,
   },
   data() {
     return {
-      csvImport: {
-        step: 1,
-        id: 1,
-        name: "xxx方法",
-        type: "null",
-        content: "拖入即可导入csv文件",
-      },
+      securityCom: this.$store.state.securityCom,
     };
   },
   mounted() {},

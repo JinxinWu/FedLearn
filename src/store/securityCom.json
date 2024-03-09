@@ -1,6 +1,6 @@
 {
   "csvImport": {
-    "isChange": false,
+    "isChange": true,
     "step": 1,
     "id": 1,
     "name": "csv文件",

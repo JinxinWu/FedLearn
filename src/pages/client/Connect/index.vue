@@ -115,82 +115,69 @@ export default {
       ip:null,
     };
   },
+  created() {
+    this.socket.onopen = this.onOpen;
+    this.socket.onmessage = this.onMessage;
+    this.socket.onclose = this.onClose;
+    this.socket.onerror = this.onError;
+  },
   mounted() {
     this.init()
   },
-  watch: {
-    connection(newValue, oldValue) {
-      if (newValue === true && oldValue === false) {
-        // 当 connection 从 false 变为 true 时执行逻辑
-        // 这里执行与服务器进行websocket连接
-        this.openSocket()
+  methods: {
+    onOpen(event) {
+      // 向服务端发送请求连接信息http://localhost:7000/connect/getConnection
+      axios({
+        method: "post",
+        url:`http://localhost:7000/connect/getConnection`,
+        headers:{
+          token: this.token,
+        },
+        data: {
+          ip: this.ip,
+          userId: this.userId,
+          clientName: this.ruleForm.name,
+          department: this.ruleForm.department
+        },
+        timeout: 30000
+        }).then((res)=>{
+          this.$message({
+            message: '请求连接信息发送成功',
+            type: 'success'
+          })
+          this.messageShow = true; // 开始转圈等待
+      });
+    },
+    onMessage(event) {
+        // 如果是请求处理信息，收到已经同意的信息，转圈等待停止，显示连接成功；如果是拒绝的信息，就关闭websocket
+
         this.$notify({
-                  title: "来自中央服务器的消息",
+                  title: "来自中央服务器的连接消息",
                   message: "连接成功",
                   duration: 0,
                   offset: 50,
                 });
-          // 可以禁用表单，可以优化成刷新仍然禁用
-          this.formDisabled = true;
-          // 进入loading状态
-          this.messageShow = true;
-      }
-    }
-  },
-  methods: {
-    openSocket(url) {
-        // 实现化WebSocket对象，指定要连接的服务器地址与端口  建立连接
-        // 等同于socket = new WebSocket("ws://localhost:8000/server");
-        // var socketUrl="http://localhost:8000/server/"+$("#userId").val();
-        let socketUrl=url.replace("https","ws").replace("http","ws");
-        console.log(socketUrl);
-        if(this.socket!=null){
-            this.socket.close();
-            this.socket=null;
-        }
-        this.socket = new WebSocket(socketUrl);
-        let _this = this
-        //打开事件
-        this.socket.onopen = function() {
-            this.connection = true
-            // 向服务端发送请求连接信息http://localhost:7000/connect/getConnection
-            axios({
-              method: "post",
-              url:`http://localhost:7000/connect/getConnection`,
-              headers:{
-                token: _this.token,
-              },
-              data: {
-                ip: _this.ip,
-                userId: _this.userId,
-                clientName: _this.ruleForm.name,
-                department: _this.ruleForm.department
-              },
-              timeout: 30000
-              }).then((res)=>{
-                _this.$message({
-                  message: '请求连接信息发送成功',
-                  type: 'success'
-                })
-                _this.messageShow = true;
-                _this.startTimer();
-            });
-            // socket.send("这是来自客户端的消息"+ new Date());
-        };
-        //获得消息事件
-        this.socket.onmessage = function(msg) {
-            console.log(msg.data);
-            this.loading = false;
-            //发现消息进入,开始处理前端触发逻辑
-        };
-        //关闭事件
-        this.socket.onclose = function() {
-            console.log("websocket已关闭");
-        };
-        //发生了错误事件
-        this.socket.onerror = function() {
-            console.log("websocket发生了错误");
-        }
+        // 可以禁用表单，可以优化成刷新仍然禁用
+        this.formDisabled = true;
+        
+        // 如果是方法同步信息，则赋值给tableData
+        
+        this.loading = false; // 停止转圈获取到了服务器同步方法信息
+        this.$notify({
+                  title: "来自中央服务器的同步方法消息",
+                  message: "获取同步方法",
+                  duration: 0,
+                  offset: 50,
+                });
+        
+        // this.message = event.data;
+        // console.log('Received message: ' + this.message);
+    },
+    onClose(event) {
+        console.log('WebSocket closed');
+    },
+    onError(event) {
+        console.error('WebSocket error: ' + event);
     },
     init() {
       this.getUserId();
@@ -253,10 +240,18 @@ export default {
       },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
-        if (valid) {
-          // TODO:这里向服务器发送ajax请求，请求服务器建立连接,服务器出现消息请求，点击同意后才能继续向下
+        if (valid) { 
           let url = "http://" + this.ruleForm.ip + "/server/" +this.userId
-          this.openSocket(url)
+          // var url="http://localhost:8000/server/"+$("#userId").val();
+          // 实现化WebSocket对象，指定要连接的服务器地址与端口  建立连接
+          // 等同于socket = new WebSocket("ws://localhost:8000/server");
+          let socketUrl=url.replace("https","ws").replace("http","ws");
+          console.log(socketUrl);
+          if(this.socket!=null){
+              this.socket.close();
+              this.socket=null;
+          }
+          this.socket = new WebSocket(socketUrl);
         } else {
           console.log("error submit!!");
           return false;
@@ -273,21 +268,6 @@ export default {
         duration: 0,
         offset: 50,
       });
-    },
-    startTimer() {
-      // 使用 setInterval 创建定时器，每隔一段时间执行一次 Axios 请求
-      this.timer = setInterval(() => {
-        // 执行 Axios 请求
-        axios.get('http://localhost:8000/async/getAsync')
-          .then(response => {
-            
-            // 请求成功后更新 responseData 数据
-            this.responseData = response.data;
-          })
-          .catch(error => {
-            console.error('Error fetching data:', error);
-          });
-      }, 3000);
     },
   },
   beforeDestroy() {

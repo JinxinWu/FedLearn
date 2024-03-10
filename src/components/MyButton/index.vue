@@ -44,7 +44,7 @@ export default {
 <style lang='less' scoped>
 @height: 25px;
 .myButton {
-  margin: 2.5px 5px;
+  margin: 2.5px auto;
   // 圆角
   border-radius: 6px;
   // 小手形状

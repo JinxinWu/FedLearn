@@ -28,9 +28,6 @@
         </el-col>
       </el-row>
       <el-row class="menu" style="margin-top: 20px">
-        <el-col :span="4" style="line-height: 25px"
-          ><div class="rowDiv">相关技术</div></el-col
-        >
         <el-col :span="8">
           <div
             style="
@@ -112,6 +109,32 @@
             </div>
           </div>
         </el-col>
+        <el-col :span="8">
+          <div
+            style="
+              margin: 5px auto 5px auto;
+              border: 1px dashed #4874cb;
+              width: 80%;
+            "
+          >
+            <div>聚合方法</div>
+            <div style="margin-top: 5px; margin-bottom: 5px">
+              <MyButton
+                v-for="item in [securityCom.delError, securityCom.bcTrans,securityCom.bcTrans]"
+                :comData="item"
+                :key="item.id"
+                ref="myButton"
+                @click.native="changeColor(item.id, item.step)"
+              ></MyButton>
+            </div>
+          </div>
+        </el-col>
+      </el-row>
+      <el-row style="margin-top: 20px;">
+        <span style="font-size: 14px;margin-right: 10px;">聚合轮次</span>
+        
+        <el-input v-model="num" style="width: 100px;height: 30px !important;"></el-input>
+        
       </el-row>
       <el-row style="margin-top: 20px">
         <el-col
@@ -151,7 +174,8 @@ export default {
       data: generateData(),
       value: [],
       securityCom: this.$store.state.securityCom,
-      token: null
+      token: null,
+      num:null,
     };
   },
   activated() {},

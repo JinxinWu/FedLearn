@@ -73,6 +73,8 @@ export default {
       }).then((res) => {
         console.log(res)
         this.messages = res.data.message
+      }).catch((action) => {
+        return
       })
     },
     // 上面选择全部消息/未读消息/已读消息的方法

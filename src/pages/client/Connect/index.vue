@@ -111,11 +111,12 @@ export default {
       messageShow: false,
       token: null,
       connection:false,
-      socket:null
+      socket:null,
+      ip:null,
     };
   },
   mounted() {
-    this.getUserId()
+    this.init()
   },
   watch: {
     connection(newValue, oldValue) {
@@ -160,7 +161,7 @@ export default {
                 token: _this.token,
               },
               data: {
-                ip: _this.ruleForm.ip,
+                ip: _this.ip,
                 userId: _this.userId,
                 clientName: _this.ruleForm.name,
                 department: _this.ruleForm.department
@@ -171,6 +172,8 @@ export default {
                   message: '请求连接信息发送成功',
                   type: 'success'
                 })
+                _this.messageShow = true;
+                _this.startTimer();
             });
             // socket.send("这是来自客户端的消息"+ new Date());
         };
@@ -178,7 +181,6 @@ export default {
         this.socket.onmessage = function(msg) {
             console.log(msg.data);
             this.loading = false;
-            
             //发现消息进入,开始处理前端触发逻辑
         };
         //关闭事件
@@ -189,6 +191,13 @@ export default {
         this.socket.onerror = function() {
             console.log("websocket发生了错误");
         }
+    },
+    init() {
+      this.getUserId();
+      this.getUserIP((ip) => {
+        this.ip = ip;
+        console.log(this.ip)
+      });
     },
     getUserId() {
       // 从cookie中获取id
@@ -207,6 +216,41 @@ export default {
         });
       }
     },
+    getUserIP(onNewIP) {
+        let MyPeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
+        let pc = new MyPeerConnection({
+            iceServers: []
+          });
+        let noop = () => {
+          };
+        let localIPs = {};
+        let ipRegex = /([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/g;
+        let isFirstIPFound = false; // 添加一个标志来判断是否已经找到第一个IP
+        let iterateIP = (ip) => {
+          if (!isFirstIPFound) { // 只在第一个IP找到时调用回调函数
+            onNewIP(ip);
+            isFirstIPFound = true;
+          }
+          localIPs[ip] = true;
+        };
+        // let iterateIP = (ip) => {
+        //   if (!localIPs[ip]) onNewIP(ip);
+        //   localIPs[ip] = true;
+        // };
+        pc.createDataChannel('');
+        pc.createOffer().then((sdp) => {
+          sdp.sdp.split('\n').forEach(function (line) {
+            if (line.indexOf('candidate') < 0) return;
+            line.match(ipRegex).forEach(iterateIP);
+          });
+          pc.setLocalDescription(sdp, noop, noop);
+        }).catch((reason) => {
+        });
+        pc.onicecandidate = (ice) => {
+          if (!ice || !ice.candidate || !ice.candidate.candidate || !ice.candidate.candidate.match(ipRegex)) return;
+          ice.candidate.candidate.match(ipRegex).forEach(iterateIP);
+        };
+      },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
@@ -230,6 +274,25 @@ export default {
         offset: 50,
       });
     },
+    startTimer() {
+      // 使用 setInterval 创建定时器，每隔一段时间执行一次 Axios 请求
+      this.timer = setInterval(() => {
+        // 执行 Axios 请求
+        axios.get('http://localhost:8000/async/getAsync')
+          .then(response => {
+            
+            // 请求成功后更新 responseData 数据
+            this.responseData = response.data;
+          })
+          .catch(error => {
+            console.error('Error fetching data:', error);
+          });
+      }, 3000);
+    },
+  },
+  beforeDestroy() {
+    // 在组件销毁前清除定时器，以防止内存泄漏
+    clearInterval(this.timer);
   },
 };
 </script>

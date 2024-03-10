@@ -128,6 +128,7 @@
 import Messages from "@/components/Messages";
 import MyButton from "@/components/MyButton";
 import axios from "axios";
+import VueCookies from "vue-cookies";
 
 export default {
   components: {
@@ -150,10 +151,31 @@ export default {
       data: generateData(),
       value: [],
       securityCom: this.$store.state.securityCom,
+      token: null
     };
   },
   activated() {},
+  mounted() {
+    this.getUserId()
+  },
   methods: {
+    getUserId() {
+      // 从cookie中获取id
+      this.token = VueCookies.get("token");
+      if (this.token) {
+        axios({
+          method: "get",
+          url: `http://localhost:7000/User/user/getUserId`,
+          headers: {
+            token: this.token,
+          },
+          timeout: 30000,
+        }).then((res) => {
+          this.userId = res.data.userId;
+          console.log(this.userId)
+        });
+      }
+    },
     handleChange(value, direction, movedKeys) {
       // console.log(value, direction, movedKeys);
     },
@@ -184,6 +206,26 @@ export default {
         return;
       } else {
         // 这里发送axios请求
+        var idArray = []; // 用于存储收集到的 id 属性值的数组
+        for (var i = 0; i < arr.length; i++) {
+          idArray.push(arr[i].id);
+        }
+        var idString = idArray.join(','); // 使用 join() 方法将数组元素连接成一个用逗号隔开的字符串
+        console.log(idString)
+        console.log(this.value)
+        var valueString = this.value.join(',')
+        axios({
+          method: 'post',
+          url: "http://localhost:8000/async/addAsync",
+          data: {
+            severId: this.userId,
+            clientIds: valueString,
+            methods: idString
+          },
+          headers: {
+            token: this.token
+          }
+        })
         this.$message({
           message: "发送成功",
           type: "success",
@@ -191,7 +233,6 @@ export default {
       }
     },
   },
-  mounted() {},
 };
 </script>
 

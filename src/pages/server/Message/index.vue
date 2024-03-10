@@ -11,7 +11,7 @@
                   >({{ messages.length }})</span
                 >
               </div>
-              <Messages which="ask" :getMessage="messages"></Messages>
+              <Messages which="ask" :getMessage="messages" @getConnectMessage="getConnectMessage"></Messages>
             </el-tab-pane>
             <el-tab-pane label="其他消息" name="second">
               <div slot="label">
@@ -20,7 +20,7 @@
                   >({{ messages.length }})</span
                 >
               </div>
-              <Messages which="other" :getMessage="messages"></Messages>
+              <Messages which="other" :getMessage="messages" @getConnectMessage="getConnectMessage"></Messages>
             </el-tab-pane>
           </el-tabs>
         </div>

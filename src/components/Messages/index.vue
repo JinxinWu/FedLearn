@@ -22,7 +22,7 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" width="40"> </el-table-column>
-      <el-table-column prop="client_ip" label="客户端ip" show-overflow-tooltip align="center">
+      <el-table-column prop="ip" label="客户端ip" show-overflow-tooltip align="center">
       </el-table-column>
       <el-table-column prop="clientName" label="客户端名称" width="120" align="center">
       </el-table-column>
@@ -36,7 +36,7 @@
           <a
             v-if="which == 'ask'"
             style="color: #409eff"
-            @click="isAccept(scope.$index, scope.row)"
+            @click="accept(scope.$index, scope.row)"
             >同意</a
           >
           <el-divider
@@ -45,7 +45,7 @@
           ></el-divider>
           <a
             style="color: #409eff"
-            @click="handleDelete(scope.$index, scope.row)"
+            @click="decline(scope.$index, scope.row)"
             >拒绝</a
           >
         </template>
@@ -65,8 +65,10 @@
     </div>
   </div>
 </template>
-    
+
 <script>
+import VueCookies from "vue-cookies";
+import axios from "axios";
 export default {
   data() {
     return {
@@ -81,17 +83,45 @@ export default {
       // 分页的数据
       currentPage: 1,
       pagesize: 10,
+      userId: null
     };
   },
-  props: ["which", "getMessage"],
+  props: {
+    which: {
+      type: String,
+    },
+    getMessage: {
+      type: Array,
+    },
+  },
   watch:{
     getMessage(val) {
       this.allMessage = val;
       this.getPageInfo();
     },
   },
+  mounted() {
+    this.getUserId()
+  },
   activated() {},
   methods: {
+    getUserId() {
+      // 从cookie中获取id
+      this.token = VueCookies.get("token");
+      if (this.token) {
+        axios({
+          method: "get",
+          url: `http://localhost:7000/User/user/getUserId`,
+          headers: {
+            token: this.token,
+          },
+          timeout: 30000,
+        }).then((res) => {
+          this.userId = res.data.userId;
+          console.log(this.userId)
+        });
+      }
+    },
     // 批量标为已读
     manyHadRead() {
       console.log(this.multipleSelection);
@@ -112,8 +142,44 @@ export default {
     },
     // 操作的方法
     // 是否同意加入联邦
-    isAccept(index, row) {
+    accept(index, row) {
       this.$confirm("是否确认加入联邦？", "加入联邦请求", {
+        distinguishCancelAndClose: true,
+        confirmButtonText: "确认",
+        cancelButtonText: "取消",
+      })
+        .then(() => {
+          // 这里发送axios请求，将数据标为已读，然后重新获取数据
+          console.log("111111111111111")
+          console.log(row)
+          axios({
+            method: "post",
+            url: "http://localhost:7000/connect/confirmConnection",
+            data: {
+              userId: row.userId,
+              confirm: "1"
+            },
+            headers: {
+              token: this.token
+            }
+          }).then((res) => {
+            this.$message({
+              type: "success",
+              message: "成功同意加入联邦",
+            });
+            this.$emit('getConnectMessage');
+          })
+        })
+        .catch((action) => {
+          this.$message({
+            type: "warning",
+            message: action === "cancel" ? "放弃同意加入联邦" : "放弃同意加入联邦",
+          });
+        });
+      console.log(index, row);
+    },
+    decline(index, row) {
+      this.$confirm("是否确认拒绝加入联邦？", "加入联邦请求", {
         distinguishCancelAndClose: true,
         confirmButtonText: "确认",
         cancelButtonText: "取消",
@@ -122,13 +188,13 @@ export default {
           // 这里发送axios请求，将数据标为已读，然后重新获取数据
           this.$message({
             type: "success",
-            message: "成功同意加入联邦",
+            message: "成功拒绝加入联邦",
           });
         })
         .catch((action) => {
           this.$message({
             type: "warning",
-            message: action === "cancel" ? "放弃同意加入联邦" : "放弃同意加入联邦",
+            message: action === "cancel" ? "放弃拒绝加入联邦" : "放弃同意加入联邦",
           });
         });
       console.log(index, row);
@@ -151,27 +217,6 @@ export default {
           this.$message({
             type: "info",
             message: action === "cancel" ? "放弃标为已读" : "放弃标为已读",
-          });
-        });
-      console.log(index, row);
-    },
-    handleDelete(index, row) {
-      this.$confirm("是否确认拒绝加入联邦？", "加入联邦请求", {
-        distinguishCancelAndClose: true,
-        confirmButtonText: "确认",
-        cancelButtonText: "取消",
-      })
-        .then(() => {
-          // 这里发送axios请求，将数据标为已读，然后重新获取数据
-          this.$message({
-            type: "success",
-            message: "成功拒绝加入联邦",
-          });
-        })
-        .catch((action) => {
-          this.$message({
-            type: "warning",
-            message: action === "cancel" ? "放弃拒绝加入联邦" : "放弃同意加入联邦",
           });
         });
       console.log(index, row);

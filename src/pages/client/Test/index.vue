@@ -42,6 +42,7 @@
     mounted() {
       this.getUserIP((ip) => {
         this.ip = ip;
+        console.log("this.ip" + this.ip)
       });
     }
   }

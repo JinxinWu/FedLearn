@@ -36,7 +36,7 @@
       </el-col>
     </el-row>
     <el-row>
-      <el-col :span="4" :offset="6" v-show="agreeShow">
+      <el-col v-if="show" :span="8" :offset="8" v-show="agreeShow">
         <el-result
           v-loading="agreeLoading"
           element-loading-text="中央服务器是否同意连接"
@@ -46,7 +46,7 @@
         >
         </el-result>
       </el-col>
-      <el-col :span="6" :offset="0" v-show="messageShow">
+      <el-col v-else :span="8" :offset="8" v-show="messageShow">
         <el-table
           v-loading="loading"
           element-loading-text="正在等待中央服务器的同步消息"
@@ -82,6 +82,7 @@ export default {
   data() {
     return {
       userId: "",
+      show: true,
       ruleForm: {
         ip: "",
         name: "",
@@ -128,10 +129,7 @@ export default {
     };
   },
   created() {
-    this.socket.onopen = this.onOpen;
-    this.socket.onmessage = this.onMessage;
-    this.socket.onclose = this.onClose;
-    this.socket.onerror = this.onError;
+    
   },
   mounted() {
     this.init();
@@ -157,39 +155,72 @@ export default {
           message: "请求连接信息发送成功",
           type: "success",
         });
-        this.messageShow = true; // 开始转圈等待
+        this.agreeShow = true; // 开始转圈等待同意连接
       });
     },
     onMessage(event) {
       // 如果是请求处理信息，收到已经同意的信息，转圈等待停止，显示连接成功；如果是拒绝的信息，就关闭websocket
-
-      this.$notify({
-        title: "来自中央服务器的连接消息",
-        message: "连接成功",
-        duration: 0,
-        offset: 50,
-      });
-      // 可以禁用表单，可以优化成刷新仍然禁用
-      this.formDisabled = true;
-
+      console.log(event.data)
+      const eventDataObject = JSON.parse(event.data);
+      const messageValue = eventDataObject.message;
+      if (messageValue.split(",")[0] == "1") {
+        this.$notify({
+          title: "来自中央服务器的连接消息",
+          message: "连接成功",
+          duration: 0,
+          offset: 50,
+        });
+        this.show = false
+        this.messageShow = true
+        // 可以禁用表单，可以优化成刷新仍然禁用
+        this.formDisabled = true;
+      }
+      
       // 如果是方法同步信息，则赋值给tableData
-
-      this.loading = false; // 停止转圈获取到了服务器同步方法信息
-      this.$notify({
-        title: "来自中央服务器的同步方法消息",
-        message: "获取同步方法",
-        duration: 0,
-        offset: 50,
-      });
-
+      if (messageValue.split(",")[0] == "2") {
+        this.loading = false; // 停止转圈获取到了服务器同步方法信息
+        this.$notify({
+          title: "来自中央服务器的同步方法消息",
+          message: "获取同步方法",
+          duration: 0,
+          offset: 50,
+        });
+      }
+      
       // this.message = event.data;
       // console.log('Received message: ' + this.message);
     },
-    onClose(event) {
-      console.log("WebSocket closed");
+    onClose(event) {  // 还未测试
+      console.log("close....")
+      axios({
+        method: "post",
+        url: `http://localhost:7000/connect/deleteConnection`,
+        headers: {
+          token: this.token,
+        },
+        data: {
+          userId: this.userId
+        },
+        timeout: 30000,
+      }).then((res) => {
+
+      });
     },
-    onError(event) {
+    onError(event) { // 还未测试
       console.error("WebSocket error: " + event);
+      axios({
+        method: "post",
+        url: `http://localhost:7000/connect/deleteConnection`,
+        headers: {
+          token: this.token,
+        },
+        data: {
+          userId: this.userId
+        },
+        timeout: 30000,
+      }).then((res) => {
+
+      });
     },
     init() {
       this.getUserId();
@@ -275,6 +306,10 @@ export default {
             this.socket = null;
           }
           this.socket = new WebSocket(socketUrl);
+          this.socket.onopen = this.onOpen;
+          this.socket.onmessage = this.onMessage;
+          this.socket.onclose = this.onClose;
+          this.socket.onerror = this.onError;
         } else {
           console.log("error submit!!");
           return false;

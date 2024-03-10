@@ -150,8 +150,6 @@ export default {
       })
         .then(() => {
           // 这里发送axios请求，将数据标为已读，然后重新获取数据
-          console.log("111111111111111")
-          console.log(row)
           axios({
             method: "post",
             url: "http://localhost:7000/connect/confirmConnection",
@@ -168,6 +166,17 @@ export default {
               message: "成功同意加入联邦",
             });
             this.$emit('getConnectMessage');
+            // 这里向客户端发送信息表明已经同意加入
+            axios({
+              method: "post",
+              url: "http://localhost:8000/Server/push/" + row.userId,
+              data: {
+                message: "1,服务端已经同意加入联邦"
+              },
+              headers: {
+                token: this.token
+              }
+            })
           })
         })
         .catch((action) => {

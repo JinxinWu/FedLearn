@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import Header from "@/components/Header/index.vue";
+import Header from "@/components/ClientHeader/index.vue";
 import axios from "axios";
 
 export default {

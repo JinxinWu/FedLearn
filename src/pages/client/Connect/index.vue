@@ -46,7 +46,7 @@
         >
         </el-result>
       </el-col>
-      <el-col v-else :span="8" :offset="8" v-show="messageShow">
+      <el-col v-else :span="15" :offset="5" v-show="messageShow">
         <el-table
           v-loading="loading"
           element-loading-text="正在等待中央服务器的同步消息"
@@ -59,7 +59,12 @@
           </el-table-column>
           <el-table-column prop="compress" label="压缩算法" width="180">
           </el-table-column>
-          <el-table-column prop="address" label="xxx"> </el-table-column>
+          <el-table-column prop="chafen" label="差分隐私算法" width="180">
+          </el-table-column>
+          <el-table-column prop="jiami" label="加密算法" width="180">
+          </el-table-column>
+          <el-table-column prop="epochs" label="聚合轮次" width="180">
+          </el-table-column>
         </el-table>
         <div style="margin: 20px"></div>
         <el-button
@@ -84,7 +89,7 @@ export default {
       userId: "",
       show: true,
       ruleForm: {
-        ip: "",
+        ip: "localhost:8000",
         name: "",
         department: "",
       },
@@ -110,13 +115,13 @@ export default {
           { required: true, message: "请选择部门", trigger: "change" },
         ],
       },
-      tableData: [
-        {
-          algori: "CNN",
-          compress: "xx算法",
-          address: "xxx",
-        },
-      ],
+      tableData: [{
+        algori: "CNN",
+        compress: "xx算法",
+        chafen: "xxx",
+        epochs: 2000,
+        jiami: "xxxxx"
+      }],
       formDisabled: false,
       agreeLoading: true,
       loading: true,
@@ -160,10 +165,8 @@ export default {
     },
     onMessage(event) {
       // 如果是请求处理信息，收到已经同意的信息，转圈等待停止，显示连接成功；如果是拒绝的信息，就关闭websocket
-      console.log(event.data)
-      const eventDataObject = JSON.parse(event.data);
-      const messageValue = eventDataObject.message;
-      if (messageValue.split(",")[0] == "1") {
+      console.log("--------" + event.data)
+      if (event.data.split(",")[0] == "1") {
         this.$notify({
           title: "来自中央服务器的连接消息",
           message: "连接成功",
@@ -177,7 +180,7 @@ export default {
       }
       
       // 如果是方法同步信息，则赋值给tableData
-      if (messageValue.split(",")[0] == "2") {
+      if (event.data.split(",")[0] == "2") {  // 2,服务端同步信息已发送,1,5,10,10
         this.loading = false; // 停止转圈获取到了服务器同步方法信息
         this.$notify({
           title: "来自中央服务器的同步方法消息",
@@ -185,6 +188,18 @@ export default {
           duration: 0,
           offset: 50,
         });
+        let trans_data = event.data.split(";")[1]
+        console.log("trans_data" + trans_data)
+        let trans_dataArray = trans_data.split(",")
+        console.log(typeof(trans_dataArray))
+        console.log("trans_dataArray" + trans_dataArray)
+        console.log(trans_dataArray[1])
+        console.log(trans_dataArray[2])
+        this.tableData[0].algori = trans_dataArray[0]
+        this.tableData[0].compress = trans_dataArray[1]
+        this.tableData[0].chafen = trans_dataArray[2]
+        this.tableData[0].epochs = trans_dataArray[3]
+        this.tableData[0].jiami = trans_dataArray[4]
       }
       
       // this.message = event.data;
@@ -203,7 +218,7 @@ export default {
         },
         timeout: 30000,
       }).then((res) => {
-
+        console.log("删除成功")
       });
     },
     onError(event) { // 还未测试

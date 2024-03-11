@@ -155,6 +155,7 @@ export default {
             method: "post",
             url: "http://localhost:7000/connect/confirmConnection",
             data: {
+              serverId: this.userId,
               userId: row.userId,
               confirm: "1"
             },

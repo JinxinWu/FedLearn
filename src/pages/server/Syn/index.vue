@@ -18,10 +18,10 @@
                 hasChecked: '${checked}/${total}',
               }"
               @change="handleChange"
-              :data="data"
+              :data="options"
             >
               <span slot-scope="{ option }"
-                >{{ option.key }} - {{ option.label }}</span
+                >{{ option.clientName }} - {{ option.department }} - {{ option.label }}</span
               >
             </el-transfer>
           </div>
@@ -160,30 +160,31 @@ export default {
   },
   data() {
     // 这里的待选数据要通过axios请求获取，应该是一个数组里面包含json
-    const generateData = (_) => {
-      const data = [];
-      for (let i = 1; i <= 15; i++) {
-        data.push({
-          key: i,
-          label: `备选项 ${i}`,
-        });
-      }
-      return data;
-    };
+    // const generateData = (_) => {
+    //   const data = [];
+    //   for (let i = 1; i <= 15; i++) {
+    //     data.push({
+    //       key: i,
+    //       label: `备选项 ${i}`,
+    //     });
+    //   }
+    //   return data;
+    // };
     return {
-      data: generateData(),
+      options:[],  // key设计为userId, clientName设计为客户名，department设计为部门，label设计为IP
       value: [],
       securityCom: this.$store.state.securityCom,
       token: null,
       num:null,
+      userId:null
     };
   },
   activated() {},
   mounted() {
-    this.getUserId()
+    this.init()
   },
   methods: {
-    getUserId() {
+    init() {  // 获取服务端的userId以及获取所有同意后的客户端信息
       // 从cookie中获取id
       this.token = VueCookies.get("token");
       if (this.token) {
@@ -196,7 +197,16 @@ export default {
           timeout: 30000,
         }).then((res) => {
           this.userId = res.data.userId;
-          console.log(this.userId)
+          axios({  // 从connection表中获取所有的已连接的clientId以及客户的一些信息
+            method: "get",
+            url: `http://localhost:7000/connect/getClient/${this.userId}`,
+            headers: {
+              token: this.token,
+            },
+          }).then((res) => {
+            this.options = res.data.data,
+            console.log(this.options)
+          })
         });
       }
     },
@@ -230,30 +240,44 @@ export default {
         return;
       } else {
         // 这里发送axios请求
-        var idArray = []; // 用于存储收集到的 id 属性值的数组
+        var methodsArray = []; // 用于存储收集到的methods的 id 属性值的数组
         for (var i = 0; i < arr.length; i++) {
-          idArray.push(arr[i].id);
+          methodsArray.push(arr[i].id);
         }
-        var idString = idArray.join(','); // 使用 join() 方法将数组元素连接成一个用逗号隔开的字符串
-        console.log(idString)
-        console.log(this.value)
-        var valueString = this.value.join(',')
-        axios({
+        var methodsId = methodsArray.join(','); // 使用 join() 方法将数组元素连接成一个用逗号隔开的字符串
+        console.log(methodsId)
+        var clientIdsArray = this.value.join(',')
+        console.log(clientIdsArray)
+        axios({  // 这里将同步方法和发送给的client保存到一张表里
           method: 'post',
           url: "http://localhost:8000/async/addAsync",
           data: {
             severId: this.userId,
-            clientIds: valueString,
-            methods: idString
+            clientIds: clientIdsArray,
+            methods: methodsId,
+            epochs: this.num
           },
           headers: {
             token: this.token
           }
+        }).then((res) => {
+          axios({
+            method: "post",
+            url: "http://localhost:8000/Server/pushToGroup",
+            data: {
+              toUserIds: this.value,
+              message: `2,服务端同步信息已发送;${methodsId},${this.num}`
+            },
+            headers: {
+              token: this.token
+            }
+          }).then((res) => {
+            this.$message({
+              message: "服务端同步信息发送成功",
+              type: "success",
+            });
+          })
         })
-        this.$message({
-          message: "发送成功",
-          type: "success",
-        });
       }
     },
   },

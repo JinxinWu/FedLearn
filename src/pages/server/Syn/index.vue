@@ -18,7 +18,7 @@
                 hasChecked: '${checked}/${total}',
               }"
               @change="handleChange"
-              :data="data"
+              :data="options"
             >
               <span slot-scope="{ option }"
                 >{{ option.key }} - {{ option.label }}</span
@@ -160,30 +160,31 @@ export default {
   },
   data() {
     // 这里的待选数据要通过axios请求获取，应该是一个数组里面包含json
-    const generateData = (_) => {
-      const data = [];
-      for (let i = 1; i <= 15; i++) {
-        data.push({
-          key: i,
-          label: `备选项 ${i}`,
-        });
-      }
-      return data;
-    };
+    // const generateData = (_) => {
+    //   const data = [];
+    //   for (let i = 1; i <= 15; i++) {
+    //     data.push({
+    //       key: i,
+    //       label: `备选项 ${i}`,
+    //     });
+    //   }
+    //   return data;
+    // };
     return {
-      data: generateData(),
+      options:[],  // key设计为client_name,  label设计为IP
       value: [],
       securityCom: this.$store.state.securityCom,
       token: null,
       num:null,
+      userId:null
     };
   },
   activated() {},
   mounted() {
-    this.getUserId()
+    this.init()
   },
   methods: {
-    getUserId() {
+    init() {  // 获取服务端的userId以及获取所有同意后的客户端信息
       // 从cookie中获取id
       this.token = VueCookies.get("token");
       if (this.token) {
@@ -196,7 +197,15 @@ export default {
           timeout: 30000,
         }).then((res) => {
           this.userId = res.data.userId;
-          console.log(this.userId)
+          axios({
+            method: "get",
+            url: `http://localhost:7000/connect/getClient/${this.userId}`,
+            headers: {
+              token: this.token,
+            },
+          }).then((res) => {
+            this.options = res.data.data
+          })
         });
       }
     },
@@ -244,16 +253,29 @@ export default {
           data: {
             severId: this.userId,
             clientIds: valueString,
-            methods: idString
+            methods: idString,
+            epochs: this.num
           },
           headers: {
             token: this.token
           }
+        }).then((res) => {
+          this.$message({
+            message: "发送成功",
+            type: "success",
+          });
+          axios({
+            method: "post",
+            url: "http://localhost:8000/Server/push/" + row.userId,
+            data: {
+              message: "2,服务端同步信息已发送," + methods
+            },
+            headers: {
+              token: this.token
+            }
+          })
         })
-        this.$message({
-          message: "发送成功",
-          type: "success",
-        });
+        
       }
     },
   },

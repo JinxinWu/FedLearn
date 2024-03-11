@@ -59,7 +59,12 @@
           </el-table-column>
           <el-table-column prop="compress" label="压缩算法" width="180">
           </el-table-column>
-          <el-table-column prop="address" label="xxx"> </el-table-column>
+          <el-table-column prop="chafen" label="差分隐私算法" width="180">
+          </el-table-column>
+          <el-table-column prop="jiami" label="加密算法" width="180">
+          </el-table-column>
+          <el-table-column prop="epochs" label="聚合轮次" width="180">
+          </el-table-column>
         </el-table>
         <div style="margin: 20px"></div>
         <el-button
@@ -84,7 +89,7 @@ export default {
       userId: "",
       show: true,
       ruleForm: {
-        ip: "",
+        ip: "localhost:8000",
         name: "",
         department: "",
       },
@@ -114,7 +119,9 @@ export default {
         {
           algori: "CNN",
           compress: "xx算法",
-          address: "xxx",
+          chafen: "xxx",
+          epochs: 2000,
+          jiami: "xxxxx"
         },
       ],
       formDisabled: false,
@@ -185,6 +192,13 @@ export default {
           duration: 0,
           offset: 50,
         });
+        let methods = message.split(",")[2]
+        let methodsArray = methods.split(",")
+        this.tableData.algori = methodsArray[0]
+        this.tableData.compress = methodsArray[1]
+        this.tableData.chafen = methodsArray[2]
+        this.tableData.epochs = methodsArray[3]
+        this.tableData.jiami = methodsArray[4]
       }
       
       // this.message = event.data;

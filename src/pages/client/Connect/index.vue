@@ -300,16 +300,13 @@ export default {
           // 实现化WebSocket对象，指定要连接的服务器地址与端口  建立连接
           // 等同于socket = new WebSocket("ws://localhost:8000/server");
           let socketUrl = url.replace("https", "ws").replace("http", "ws");
+          this.$store.dispatch("createWebSocket",socketUrl);
           console.log(socketUrl);
-          if (this.socket != null) {
-            this.socket.close();
-            this.socket = null;
-          }
-          this.socket = new WebSocket(socketUrl);
-          this.socket.onopen = this.onOpen;
-          this.socket.onmessage = this.onMessage;
-          this.socket.onclose = this.onClose;
-          this.socket.onerror = this.onError;
+          
+
+
+
+          
         } else {
           console.log("error submit!!");
           return false;
@@ -328,7 +325,7 @@ export default {
       });
     },
   },
-  beforeDestroy() {
+    beforeDestroy() {
     // 在组件销毁前清除定时器，以防止内存泄漏
     clearInterval(this.timer);
   },

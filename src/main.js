@@ -40,10 +40,17 @@ new Vue({
   beforeCreate() {
     Vue.prototype.$bus = this
   },
+  created() {
+    window.addEventListener('beforeunload', () => {
+      if (this.$store.state.websocket != null) {
+        this.$store.dispatch("closeWebSocket");
+      }
+    })
+  },
   router,
 }).$mount('#app')
 
-Vue.filter('formatDateTime', function(value) {
+Vue.filter('formatDateTime', function (value) {
   if (!value) return '';
 
   // 将传入的日期字符串转换为Date对象

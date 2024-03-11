@@ -150,6 +150,7 @@ export default {
       })
         .then(() => {
           // 这里发送axios请求，将数据标为已读，然后重新获取数据
+
           axios({
             method: "post",
             url: "http://localhost:7000/connect/confirmConnection",

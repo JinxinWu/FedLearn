@@ -1,83 +1,137 @@
 <template>
   <div>
-    <p class="title">隐私保护</p>
+    <p class="title">模型训练</p>
     <el-divider></el-divider>
     <!-- 组件+步骤 -->
-    <el-row class="menu">
-      <el-col :span="4" style="line-height: 25px"
-        ><div class="rowDiv">相关技术</div></el-col
-      >
-      <el-col :span="8">
-        <div
-          style="
-            margin: 5px auto 5px auto;
-            border: 1px dashed #4874cb;
-            width: 80%;
-          "
-        >
-          <div>差分隐私</div>
-          <div style="margin-top: 5px">
-            <MyButton
-              v-for="item in [securityCom.csvImport, securityCom.ExcelImport]"
-              :comData="item"
-              :key="item.id"
-            ></MyButton>
+    <el-row class="menu" style="margin-top: 20px">
+        <el-col :span="8">
+          <div
+            style="
+              margin: 5px auto 5px auto;
+              border: 1px dashed #4874cb;
+              width: 80%;
+            "
+          >
+            <div>差分隐私</div>
+            <div style="margin-top: 5px">
+              <MyButton
+                v-for="item in [securityCom.csvImport, securityCom.ExcelImport]"
+                :comData="item"
+                :key="item.id"
+                ref="myButton"
+                @click.native="changeColor(item.id, item.step)"
+              ></MyButton>
+            </div>
+            <div style="margin-bottom: 5px">
+              <MyButton
+                v-for="item in [
+                  securityCom.DBImport,
+                  securityCom.unstructuredImport,
+                ]"
+                :comData="item"
+                :key="item.id"
+                ref="myButton"
+                @click.native="changeColor(item.id, item.step)"
+              ></MyButton>
+            </div>
           </div>
-          <div style="margin-bottom: 5px">
-            <MyButton
-              v-for="item in [securityCom.DBImport,
-                  securityCom.unstructuredImport,]"
-              :comData="item"
-              :key="item.id"
-            ></MyButton>
+        </el-col>
+        <el-col :span="8">
+          <div
+            style="
+              margin: 5px auto 5px auto;
+              border: 1px dashed #4874cb;
+              width: 80%;
+            "
+          >
+            <div>同态加密</div>
+            <div style="margin-top: 5px">
+              <MyButton
+                v-for="item in [securityCom.delMisCol, securityCom.zeroCom]"
+                :comData="item"
+                :key="item.id"
+                ref="myButton"
+                @click.native="changeColor(item.id, item.step)"
+              ></MyButton>
+            </div>
+            <div style="margin-bottom: 5px">
+              <MyButton
+                v-for="item in [securityCom.meanCom]"
+                :comData="item"
+                :key="item.id"
+                ref="myButton"
+                @click.native="changeColor(item.id, item.step)"
+              ></MyButton>
+            </div>
           </div>
-        </div>
-      </el-col>
-      <el-col :span="8">
-        <div
-          style="
-            margin: 5px auto 5px auto;
-            border: 1px dashed #4874cb;
-            width: 80%;
-          "
-        >
-          <div>同态加密</div>
-          <div style="margin-top: 5px">
-            <MyButton
-              v-for="item in [securityCom.delMisCol, securityCom.zeroCom]"
-              :comData="item"
-              :key="item.id"
-            ></MyButton>
+        </el-col>
+        <el-col :span="4">
+          <div
+            style="
+              margin: 5px auto 5px auto;
+              border: 1px dashed #4874cb;
+              width: 80%;
+            "
+          >
+            <div>压缩方法</div>
+            <div style="margin-top: 5px; margin-bottom: 5px">
+              <MyButton
+                v-for="item in [securityCom.delError, securityCom.bcTrans]"
+                :comData="item"
+                :key="item.id"
+                ref="myButton"
+                @click.native="changeColor(item.id, item.step)"
+              ></MyButton>
+            </div>
           </div>
-          <div style="margin-bottom: 5px">
-            <MyButton
-              v-for="item in [securityCom.meanCom]"
-              :comData="item"
-              :key="item.id"
-            ></MyButton>
+        </el-col>
+        <el-col :span="8">
+          <div
+            style="
+              margin: 5px auto 5px auto;
+              border: 1px dashed #4874cb;
+              width: 80%;
+            "
+          >
+            <div>聚合方法</div>
+            <div style="margin-top: 5px; margin-bottom: 5px">
+              <MyButton
+                v-for="item in [securityCom.delError, securityCom.bcTrans,securityCom.bcTrans]"
+                :comData="item"
+                :key="item.id"
+                ref="myButton"
+                @click.native="changeColor(item.id, item.step)"
+              ></MyButton>
+            </div>
           </div>
-        </div>
-      </el-col>
-      <el-col :span="4">
-        <div
-          style="
-            margin: 5px auto 5px auto;
-            border: 1px dashed #4874cb;
-            width: 80%;
-          "
-        >
-          <div>压缩方法</div>
-          <div style="margin-top: 5px; margin-bottom: 5px">
-            <MyButton
-              v-for="item in [securityCom.delError, securityCom.bcTrans]"
-              :comData="item"
-              :key="item.id"
-            ></MyButton>
-          </div>
-        </div>
-      </el-col>
-    </el-row>
+        </el-col>
+      </el-row>
     <!-- 一串文字 -->
+    <el-row class="menu" style="margin-bottom: 20px;margin-top: 20px;border: none;">
+        <el-col :span="8" :offset="8">
+          <div class="title" style="font-size: 20px">聚合轮次</div>
+        </el-col>
+      </el-row>
+      <el-row style="margin-bottom: 20px;">
+        <el-col :span="6" :offset="6">
+          <div>
+            <el-statistic
+              group-separator=","
+              :value="allRound"
+              title="总轮次"
+            ></el-statistic>
+          </div>
+        </el-col>
+        <el-col :span="6">
+          <div>
+            <el-statistic
+              group-separator=","
+              :value="nowRound"
+              title="目前轮次"
+            ></el-statistic>
+          </div>
+        </el-col>
+      </el-row>
     <el-row
       style="
         margin: 10px auto;
@@ -109,6 +163,10 @@ export default {
   data() {
     return {
       securityCom: this.$store.state.securityCom,
+      // 总轮次
+      allRound: 100,
+      // 目前轮次
+      nowRound: 1,
     };
   },
   mounted() {},

@@ -58,7 +58,7 @@
             <span slot="title">数据预处理可视化</span>
           </el-menu-item>
           <el-menu-item index="/client/Privacy">
-            <span slot="title">隐私保护（展示）</span>
+            <span slot="title">模型训练</span>
           </el-menu-item>
           <el-menu-item index="/client/Apply">
             <span slot="title">模型应用</span>

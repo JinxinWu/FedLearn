@@ -75,6 +75,7 @@
 <script>
 import Header from "@/components/ClientHeader/index.vue";
 import axios from "axios";
+import VueCookies from "vue-cookies"
 
 export default {
   components: {
@@ -82,6 +83,7 @@ export default {
   },
   data() {
     return {
+      token: null,
       fill: "#cdcdcd",
       buttonColor: "",
       textareaData: "",
@@ -94,6 +96,10 @@ export default {
       ],
       id: 1,
     };
+  },
+  mounted() {
+    // 从cookie中获取id
+    this.token = VueCookies.get("token");
   },
   methods: {
     sendMessage() {
@@ -109,8 +115,13 @@ export default {
         this.id = this.id + 1;
         this.textareaData = "";
         axios
-          .post("/guo/test/message", {
+          .post("http://localhost:9000/chat/message", {
             message: message,
+          },
+          {
+            headers: {
+              token: this.token,
+            }
           })
           .then((response) => {
             console.log(response.data);

@@ -62,9 +62,9 @@
         <el-col :span="8" :offset="0">
           <div class="Echarts">
             <div style="width: 382px; height: 250px">
-              <p style="font-size: 20px; padding-top: 80px">总样本数量：</p>
-              <p style="font-size: 20px">样本类别种类：</p>
-              <p style="font-size: 20px">特征数量：</p>
+              <p style="font-size: 20px; padding-top: 80px">总样本数量：{{ n }}</p>
+              <p style="font-size: 20px">样本类别种类：{{ n2 }}</p>
+              <p style="font-size: 20px">特征数量：{{ n3 }}</p>
             </div>
           </div>
         </el-col>
@@ -342,7 +342,7 @@
             :on-exceed="handleExceed"
             :accept="fileType"
           >
-            <el-button
+            <!-- <el-button
               size="medium"
               round
               style="
@@ -354,7 +354,7 @@
                 left: 780px;
               "
               >加载数据</el-button
-            >
+            > -->
             <div
               v-show="fileType !== ''"
               slot="tip"
@@ -367,7 +367,7 @@
           <el-button
             size="medium"
             round
-            @click="modelTrain"
+            @click="preprocess"
             style="
               z-index: 999;
               position: absolute;
@@ -382,7 +382,7 @@
           <el-button
             size="medium"
             round
-            @click="modelDownload"
+            @click="dataDownload"
             style="
               z-index: 999;
               position: absolute;
@@ -437,7 +437,7 @@
         <el-col :span="8" :offset="0">
           <div class="Echarts">
             <div style="width: 382px; height: 250px">
-              <p style="font-size: 20px; padding-top: 80px">总样本数量：</p>
+              <p style="font-size: 20px; padding-top: 80px">总样本数量：{{  }}</p>
               <p style="font-size: 20px">样本类别种类：</p>
               <p style="font-size: 20px">特征数量：</p>
             </div>
@@ -514,6 +514,7 @@ import methods from "@/utils/methods";
 //引入axios
 import axios from "axios";
 import Loading from "@/components/Loading";
+import VueCookies from "vue-cookies";
 
 export default {
   name: "Train",
@@ -524,6 +525,21 @@ export default {
   },
   data() {
     return {
+      n: null,
+      n2: null,
+      n3: null,
+      x1: null, 
+      y1: null,
+      r1: null,
+      r2: null,
+      r3: null, 
+      r21: null,
+      r22: null,
+      c1: null,
+      c2: null,
+      columns: null,
+      arr: null,
+      userId: null,
       // 更多详情的弹出设置
       moreInfoVisible: false,
       // 更多详情的数据
@@ -571,6 +587,7 @@ export default {
       trainId: "0",
       user_id: "1",
       data_url: "",
+      preprocess_data: "",
       //弹窗等待
       visible: false,
       message: "",
@@ -583,11 +600,7 @@ export default {
     this.$nextTick(() => {
       this.init();
     });
-    this.heatmap();
-    this.bar();
-    this.pie();
-    this.classPie();
-    this.Nightingale();
+    this.getUserId();
   },
   watch: {
     data: {
@@ -603,6 +616,23 @@ export default {
     },
   },
   methods: {
+    getUserId() {
+      // 从cookie中获取id
+      this.token = VueCookies.get("token");
+      if (this.token) {
+        axios({
+          method: "get",
+          url: `http://localhost:7000/User/user/getUserId`,
+          headers: {
+            token: this.token,
+          },
+          timeout: 30000,
+        }).then((res) => {
+          this.userId = res.data.userId;
+          console.log(this.userId);
+        });
+      }
+    },
     bar() {
       var chartDom = document.getElementById("bar");
       var myChart = echarts.init(chartDom);
@@ -634,7 +664,8 @@ export default {
         xAxis: [
           {
             type: "category",
-            data: ["S", "C", "Q"],
+            // data: ["S", "C", "Q"],
+            data: this.x1,
             axisTick: {
               alignWithLabel: true,
             },
@@ -657,7 +688,8 @@ export default {
             type: "bar",
             barWidth: "35%",
             // ajax传动态数据
-            data: [644, 169, 78],
+            // data: [644, 169, 78],
+            data: this.y1,
             itemStyle: {
               // 修改柱子圆角
               barBorderRadius: 5,
@@ -720,15 +752,15 @@ export default {
             },
             data: [
               {
-                value: 864,
+                value: this.r1,
                 name: "缺失值",
               },
               {
-                value: 67,
+                value: this.r2,
                 name: "异常值",
               },
               {
-                value: 8870,
+                value: this.r3,
                 name: "既不是缺失值也不是异常值",
               },
             ],
@@ -769,11 +801,11 @@ export default {
             endAngle: 360,
             data: [
               {
-                value: 7,
+                value: this.c1,
                 name: "连续特征",
               },
               {
-                value: 4,
+                value: this.c2,
                 name: "离散特征",
               },
             ],
@@ -789,67 +821,63 @@ export default {
       var option;
 
       // prettier-ignores
-      const hours = [
-        "PassengerId",
-        "Survived",
-        "Pclass",
-        "Age",
-        "SibSp",
-        "Parch",
-        "Fare",
-      ];
+      const hours = this.columns;
+      // const hours = ['PassengerId', 'Survived', 'Pclass', 'Age', 'SibSp', 'Parch', 'Fare'];
       // prettier-ignore
-      const days = ['PassengerId', 'Survived', 'Pclass', 'Age', 'SibSp', 'Parch', 'Fare'];
+      // const days = ['PassengerId', 'Survived', 'Pclass', 'Age', 'SibSp', 'Parch', 'Fare'];
+      const days = this.columns;
       // prettier-ignore
-      const data =[[ 0.000e+00,  0.000e+00,  1.000e+00],
-       [ 0.000e+00,  1.000e+00, -5.000e-03],
-       [ 0.000e+00,  2.000e+00, -3.510e-02],
-       [ 0.000e+00,  3.000e+00,  3.680e-02],
-       [ 0.000e+00,  4.000e+00, -5.750e-02],
-       [ 0.000e+00,  5.000e+00, -1.700e-03],
-       [ 0.000e+00,  6.000e+00,  1.270e-02],
-       [ 1.000e+00,  0.000e+00, -5.000e-03],
-       [ 1.000e+00,  1.000e+00,  1.000e+00],
-       [ 1.000e+00,  2.000e+00, -3.385e-01],
-       [ 1.000e+00,  3.000e+00, -7.720e-02],
-       [ 1.000e+00,  4.000e+00, -3.530e-02],
-       [ 1.000e+00,  5.000e+00,  8.160e-02],
-       [ 1.000e+00,  6.000e+00,  2.573e-01],
-       [ 2.000e+00,  0.000e+00, -3.510e-02],
-       [ 2.000e+00,  1.000e+00, -3.385e-01],
-       [ 2.000e+00,  2.000e+00,  1.000e+00],
-       [ 2.000e+00,  3.000e+00, -3.692e-01],
-       [ 2.000e+00,  4.000e+00,  8.310e-02],
-       [ 2.000e+00,  5.000e+00,  1.840e-02],
-       [ 2.000e+00,  6.000e+00, -5.495e-01],
-       [ 3.000e+00,  0.000e+00,  3.680e-02],
-       [ 3.000e+00,  1.000e+00, -7.720e-02],
-       [ 3.000e+00,  2.000e+00, -3.692e-01],
-       [ 3.000e+00,  3.000e+00,  1.000e+00],
-       [ 3.000e+00,  4.000e+00, -3.082e-01],
-       [ 3.000e+00,  5.000e+00, -1.891e-01],
-       [ 3.000e+00,  6.000e+00,  9.610e-02],
-       [ 4.000e+00,  0.000e+00, -5.750e-02],
-       [ 4.000e+00,  1.000e+00, -3.530e-02],
-       [ 4.000e+00,  2.000e+00,  8.310e-02],
-       [ 4.000e+00,  3.000e+00, -3.082e-01],
-       [ 4.000e+00,  4.000e+00,  1.000e+00],
-       [ 4.000e+00,  5.000e+00,  4.148e-01],
-       [ 4.000e+00,  6.000e+00,  1.597e-01],
-       [ 5.000e+00,  0.000e+00, -1.700e-03],
-       [ 5.000e+00,  1.000e+00,  8.160e-02],
-       [ 5.000e+00,  2.000e+00,  1.840e-02],
-       [ 5.000e+00,  3.000e+00, -1.891e-01],
-       [ 5.000e+00,  4.000e+00,  4.148e-01],
-       [ 5.000e+00,  5.000e+00,  1.000e+00],
-       [ 5.000e+00,  6.000e+00,  2.162e-01],
-       [ 6.000e+00,  0.000e+00,  1.270e-02],
-       [ 6.000e+00,  1.000e+00,  2.573e-01],
-       [ 6.000e+00,  2.000e+00, -5.495e-01],
-       [ 6.000e+00,  3.000e+00,  9.610e-02],
-       [ 6.000e+00,  4.000e+00,  1.597e-01],
-       [ 6.000e+00,  5.000e+00,  2.162e-01],
-       [ 6.000e+00,  6.000e+00,  1.000e+00]]
+      const data =
+      // [[ 0.000e+00,  0.000e+00,  1.000e+00],
+      //  [ 0.000e+00,  1.000e+00, -5.000e-03],
+      //  [ 0.000e+00,  2.000e+00, -3.510e-02],
+      //  [ 0.000e+00,  3.000e+00,  3.680e-02],
+      //  [ 0.000e+00,  4.000e+00, -5.750e-02],
+      //  [ 0.000e+00,  5.000e+00, -1.700e-03],
+      //  [ 0.000e+00,  6.000e+00,  1.270e-02],
+      //  [ 1.000e+00,  0.000e+00, -5.000e-03],
+      //  [ 1.000e+00,  1.000e+00,  1.000e+00],
+      //  [ 1.000e+00,  2.000e+00, -3.385e-01],
+      //  [ 1.000e+00,  3.000e+00, -7.720e-02],
+      //  [ 1.000e+00,  4.000e+00, -3.530e-02],
+      //  [ 1.000e+00,  5.000e+00,  8.160e-02],
+      //  [ 1.000e+00,  6.000e+00,  2.573e-01],
+      //  [ 2.000e+00,  0.000e+00, -3.510e-02],
+      //  [ 2.000e+00,  1.000e+00, -3.385e-01],
+      //  [ 2.000e+00,  2.000e+00,  1.000e+00],
+      //  [ 2.000e+00,  3.000e+00, -3.692e-01],
+      //  [ 2.000e+00,  4.000e+00,  8.310e-02],
+      //  [ 2.000e+00,  5.000e+00,  1.840e-02],
+      //  [ 2.000e+00,  6.000e+00, -5.495e-01],
+      //  [ 3.000e+00,  0.000e+00,  3.680e-02],
+      //  [ 3.000e+00,  1.000e+00, -7.720e-02],
+      //  [ 3.000e+00,  2.000e+00, -3.692e-01],
+      //  [ 3.000e+00,  3.000e+00,  1.000e+00],
+      //  [ 3.000e+00,  4.000e+00, -3.082e-01],
+      //  [ 3.000e+00,  5.000e+00, -1.891e-01],
+      //  [ 3.000e+00,  6.000e+00,  9.610e-02],
+      //  [ 4.000e+00,  0.000e+00, -5.750e-02],
+      //  [ 4.000e+00,  1.000e+00, -3.530e-02],
+      //  [ 4.000e+00,  2.000e+00,  8.310e-02],
+      //  [ 4.000e+00,  3.000e+00, -3.082e-01],
+      //  [ 4.000e+00,  4.000e+00,  1.000e+00],
+      //  [ 4.000e+00,  5.000e+00,  4.148e-01],
+      //  [ 4.000e+00,  6.000e+00,  1.597e-01],
+      //  [ 5.000e+00,  0.000e+00, -1.700e-03],
+      //  [ 5.000e+00,  1.000e+00,  8.160e-02],
+      //  [ 5.000e+00,  2.000e+00,  1.840e-02],
+      //  [ 5.000e+00,  3.000e+00, -1.891e-01],
+      //  [ 5.000e+00,  4.000e+00,  4.148e-01],
+      //  [ 5.000e+00,  5.000e+00,  1.000e+00],
+      //  [ 5.000e+00,  6.000e+00,  2.162e-01],
+      //  [ 6.000e+00,  0.000e+00,  1.270e-02],
+      //  [ 6.000e+00,  1.000e+00,  2.573e-01],
+      //  [ 6.000e+00,  2.000e+00, -5.495e-01],
+      //  [ 6.000e+00,  3.000e+00,  9.610e-02],
+      //  [ 6.000e+00,  4.000e+00,  1.597e-01],
+      //  [ 6.000e+00,  5.000e+00,  2.162e-01],
+      //  [ 6.000e+00,  6.000e+00,  1.000e+00]]
+      this.arr
     .map(function (item) {
     return [item[1], item[0], item[2] || '-'];
 });
@@ -931,7 +959,7 @@ export default {
         },
         series: [
           {
-            name: "地区分布",
+            name: "特征值中数据类型分布",
             type: "pie",
             radius: ["10%", "60%"],
             // 饼图的中心（圆心）坐标，数组的第一项是横坐标，第二项是纵坐标
@@ -954,33 +982,13 @@ export default {
             },
             data: [
               {
-                value: 26,
-                name: "北京",
+                value: this.r21,
+                name: "字符数量",
               },
               {
-                value: 24,
-                name: "山东",
-              },
-              {
-                value: 25,
-                name: "河北",
-              },
-              {
-                value: 20,
-                name: "江苏",
-              },
-              {
-                value: 25,
-                name: "浙江",
-              },
-              {
-                value: 30,
-                name: "四川",
-              },
-              {
-                value: 42,
-                name: "湖北",
-              },
+                value: this.r22,
+                name: "非字符数量",
+              }
             ],
           },
         ],
@@ -1009,7 +1017,6 @@ export default {
     },
     uploadFile(item) {
       console.log("文件上传中........");
-      console.log();
       // item.file.name获取的是完整的文件名
       const suffix = item.file.name.slice(
         ((item.file.name.lastIndexOf(".") - 1) >>> 0) + 1
@@ -1028,68 +1035,68 @@ export default {
       } else {
         type = "4";
       }
-      if (!this.isValidFile(item.file)) {
-        this.$message.warning(`文件格式不符合要求！`);
-      } else {
-        //上传文件的需要formdata类型;所以要转
-        let FormDatas = new FormData();
-        FormDatas.append("file", item.file);
-        axios({
-          method: "post",
-          url: `/guo/test/upload?user_id=${this.user_id}&data_name=${dataName}`,
-          headers: this.headers,
-          timeout: 30000,
-          data: FormDatas,
-        }).then((res) => {
-          const result = res.data;
-          if (result.msg.includes("文件上传成功")) {
-            this.$message.success("文件上传成功");
-            //将后端传来的数据存储
-            this.trainId = result.trainId;
-            this.data_url = result.url;
-            this.message = "文件上传成功,正在分析，请稍作等待";
-            this.visible = true;
-            axios({
-              method: "get",
-              url: `/guo/test/showDetail?url=${this.data_url}&type=${type}`,
-              headers: this.headers,
+      //上传文件的需要formdata类型;所以要转
+      let FormDatas = new FormData();
+      FormDatas.append("file", item.file);
+      axios({
+        method: "post",
+        url: `http://localhost:9000/file/upload?user_id=${this.userId}&data_name=${dataName}`,
+        headers: this.headers,
+        timeout: 30000,
+        data: FormDatas,
+      }).then((res) => {
+        const result = res.data;
+        if (result.msg.includes("文件上传成功")) {
+          this.$message.success("文件上传成功");
+          // 将后端传来的数据存储
+          this.trainId = result.trainId;
+          this.data_url = result.url;
+          this.message = "文件上传成功,正在分析，请稍作等待";
+          this.visible = true;
+          axios({
+            method: "get",
+            url: `http://localhost:9000/file/showDetail?url=${this.data_url}&type=${type}`,
+            headers: this.headers,
+          })
+            .then((res) => {
+              // 在这里展示图表,可视化数据
+              this.n = res.data.n;
+              this.n2 = res.data.n2;
+              this.n3 = res.data.n3;
+              this.x1 = res.data.x1;
+              this.y1 = res.data.y1;
+              this.r1 = res.data.r1;
+              this.r2 = res.data.r2;
+              this.r3 = res.data.r3;
+              this.r21 = res.data.r21;
+              this.r22 = res.data.r22;
+              this.c1 = res.data.c1;
+              this.c2 = res.data.c2;
+              this.columns = res.data.columns;
+              this.arr = res.data.arr;
+              this.message = "";
+              this.visible = false;
+              this.heatmap();
+              this.bar();
+              this.pie();
+              this.classPie();
+              this.Nightingale();
+              this.$refs.reply.innerHTML = res.data.reply;
             })
-              .then((res) => {
-                this.message = "";
-                this.visible = false;
-                let reply = res.data.reply;
-                this.$refs.reply.innerHTML = reply;
-                console.log(reply);
-              })
-              .catch((err) => {
-                this.message = "";
-                this.visible = false;
-              });
-          } else {
-            this.$message.warning(`文件上传失败，请重新上传`);
-          }
-        });
-      }
-    },
-    //文件检测
-    isValidFile(file) {
-      // 定义允许的文件类型和大小
-      const allowedTypes = [this.fileType];
-      // 检测文件类型
-      if (
-        !allowedTypes.includes(
-          file.name.slice(((file.name.lastIndexOf(".") - 1) >>> 0) + 1)
-        )
-      ) {
-        return false;
-      }
-      return true;
+            .catch((err) => {
+              this.message = "";
+              this.visible = false;
+            });
+        } else {
+          this.$message.warning(`文件上传失败，请重新上传`);
+        }
+      });
     },
     //导入methods中的函数
     ...methods,
     //传输画布中的信息给后端
-    modelTrain() {
-      this.message = "正在构建模型，请稍作等待……";
+    preprocess() {
+      this.message = "正在预处理数据集，请稍作等待……";
       this.visible = true;
       // 创建一个空数组来存储拓扑排序后的节点列表
       const sortedNodeList = [];
@@ -1130,15 +1137,13 @@ export default {
       const idString = idArray.join(",");
       axios({
         method: "get",
-        url: `/guo/test/train?trainId=${this.trainId}&idString=${idString}`,
-        headers: this.headers,
-        data: idString,
+        url: `http://localhost:9000/process/train?trainId=${this.trainId}&idString=${idString}`,
+        headers: this.headers
       })
         .then((res) => {
           this.message = "";
           this.visible = false;
-          const result = res.data.retInfo;
-          this.$refs.reply.innerHTML = result;
+          this.preprocess_data = res.data.retInfo;  // 返回了预处理完后的数据集的url
           console.log(result);
         })
         .catch((err) => {
@@ -1157,22 +1162,22 @@ export default {
       document.body.removeChild(DownloadLink);
     },
     //下载函数
-    modelDownload() {
+    dataDownload() {
       if (this.trainId) {
         axios({
           method: "get",
-          url: `/guo/test/modelDownload?trainId=${this.trainId}`,
+          url: `http://localhost:9000/file/getModelUrlByTrainId?trainId=${this.trainId}`,
           // url: "/guo/test/modelDownload?trainId=4a432dddeb77f581be8d250380ab49b9",
           headers: this.headers,
         })
           .then((res) => {
-            const url = res.data.modelUrl;
+            const url = res.data.preprocessDataUrl;
             if (url) {
-              this.download("model", url);
+              this.download("preprocessData", url);
               window.URL.revokeObjectURL(url);
-              this.$message.success("模型下载成功");
+              this.$message.success("预处理数据集下载成功");
             } else {
-              this.$message.warning(`未存在已训练好的模型`);
+              this.$message.warning(`未存在已预处理好的数据集`);
             }
           })
           .catch((err) => {});

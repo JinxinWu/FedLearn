@@ -62,7 +62,9 @@
         <el-col :span="8" :offset="0">
           <div class="Echarts">
             <div style="width: 382px; height: 250px">
-              <p style="font-size: 20px; padding-top: 80px">总样本数量：{{ n }}</p>
+              <p style="font-size: 20px; padding-top: 80px">
+                总样本数量：{{ n }}
+              </p>
               <p style="font-size: 20px">样本类别种类：{{ n2 }}</p>
               <p style="font-size: 20px">特征数量：{{ n3 }}</p>
             </div>
@@ -437,37 +439,40 @@
         <el-col :span="8" :offset="0">
           <div class="Echarts">
             <div style="width: 382px; height: 250px">
-              <p style="font-size: 20px; padding-top: 80px">总样本数量：{{  }}</p>
-              <p style="font-size: 20px">样本类别种类：</p>
-              <p style="font-size: 20px">特征数量：</p>
+              <p style="font-size: 20px; padding-top: 80px">总样本数量：{{ nAfter }}</p>
+              <p style="font-size: 20px">样本类别种类：{{ n2After }}</p>
+              <p style="font-size: 20px">特征数量：{{ n3After }}</p>
             </div>
           </div>
         </el-col>
         <el-col :span="8" :offset="0">
           <div class="Echarts">
-            <div id="bar" style="width: 382px; height: 250px"></div>
+            <div id="barAfter" style="width: 382px; height: 250px"></div>
           </div>
         </el-col>
         <el-col :span="8" :offset="0">
           <div class="Echarts">
-            <div id="pie" style="width: 382px; height: 250px"></div>
+            <div id="pieAfter" style="width: 382px; height: 250px"></div>
           </div>
         </el-col>
       </el-row>
       <el-row class="menu">
         <el-col :span="8" :offset="0">
           <div class="Echarts">
-            <div id="Nightingale" style="width: 382px; height: 250px"></div>
+            <div
+              id="NightingaleAfter"
+              style="width: 382px; height: 250px"
+            ></div>
           </div>
         </el-col>
         <el-col :span="8" :offset="0">
           <div class="Echarts">
-            <div id="classPie" style="width: 382px; height: 250px"></div>
+            <div id="classPieAfter" style="width: 382px; height: 250px"></div>
           </div>
         </el-col>
         <el-col :span="8" :offset="0">
           <div class="Echarts">
-            <div id="heatmap" style="width: 382px; height: 250px"></div>
+            <div id="heatmapAfter" style="width: 382px; height: 250px"></div>
           </div>
         </el-col>
       </el-row>
@@ -525,20 +530,37 @@ export default {
   },
   data() {
     return {
+      // 预处理之前的数据状态
       n: null,
       n2: null,
       n3: null,
-      x1: null, 
+      x1: null,
       y1: null,
       r1: null,
       r2: null,
-      r3: null, 
+      r3: null,
       r21: null,
       r22: null,
       c1: null,
       c2: null,
       columns: null,
       arr: null,
+      // 预处理之后的数据状态
+      nAfter: null,
+      n2After: null,
+      n3After: null,
+      x1After: null,
+      y1After: null,
+      r1After: null,
+      r2After: null,
+      r3After: null,
+      r21After: null,
+      r22After: null,
+      c1After: null,
+      c2After: null,
+      columnsAfter: null,
+      arr: null,
+      // 用户id
       userId: null,
       // 更多详情的弹出设置
       moreInfoVisible: false,
@@ -988,7 +1010,373 @@ export default {
               {
                 value: this.r22,
                 name: "非字符数量",
-              }
+              },
+            ],
+          },
+        ],
+      };
+
+      myChart.setOption(option);
+      window.addEventListener("resize", function () {
+        myChart.resize();
+      });
+    },
+    barAfter() {
+      var chartDom = document.getElementById("barAfter");
+      var myChart = echarts.init(chartDom);
+
+      // 2.指定配置项和数据
+      var option = {
+        title: {
+          text: "样本数据类别",
+          left: "center",
+        },
+        color: ["#2f89cf"],
+        // 提示框组件
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            // 坐标轴指示器，坐标轴触发有效
+            type: "shadow", // 默认为直线，可选为：'line' | 'shadow'
+          },
+        },
+        // 修改图表位置大小
+        grid: {
+          left: "0%",
+          top: "30px",
+          right: "0%",
+          bottom: "10%",
+          containLabel: true,
+        },
+        // x轴相关配置
+        xAxis: [
+          {
+            type: "category",
+            // data: ["S", "C", "Q"],
+            data: this.x1After,
+            axisTick: {
+              alignWithLabel: true,
+            },
+            // x轴样式不显示
+            axisLine: {
+              show: false,
+            },
+          },
+        ],
+        // y轴相关配置
+        yAxis: [
+          {
+            type: "value",
+          },
+        ],
+        // 系列列表配置
+        series: [
+          {
+            name: "样本数据量",
+            type: "bar",
+            barWidth: "35%",
+            // ajax传动态数据
+            // data: [644, 169, 78],
+            data: this.y1After,
+            itemStyle: {
+              // 修改柱子圆角
+              barBorderRadius: 5,
+            },
+          },
+        ],
+      };
+
+      option && myChart.setOption(option);
+      window.addEventListener("resize", function () {
+        myChart.resize();
+      });
+    },
+    pieAfter() {
+      var chartDom = document.getElementById("pieAfter");
+      var myChart = echarts.init(chartDom);
+
+      var option = {
+        title: {
+          text: "缺失值与异常值",
+          left: "center",
+        },
+        color: ["#1089E7", "#F57474", "#56D0E3", "#F8B448", "#8B78F6"],
+        tooltip: {
+          trigger: "item",
+          formatter: "{a} <br/>{b}: {c} ({d}%)",
+        },
+        legend: {
+          // 垂直居中,默认水平居中
+          // orient: 'vertical',
+
+          bottom: 20,
+          left: "center",
+          // 小图标的宽度和高度
+          itemWidth: 10,
+          itemHeight: 10,
+          // 修改图例组件的文字为 12px
+          textStyle: {
+            color: "rgba(0,0,0,.5)",
+            fontSize: "10",
+          },
+        },
+        series: [
+          {
+            name: "数量与比例",
+            type: "pie",
+            // 设置饼形图在容器中的位置
+            center: ["50%", "50%"],
+            // 修改饼形图大小，第一个为内圆半径，第二个为外圆半径
+            radius: ["40%", "60%"],
+            avoidLabelOverlap: false,
+            // 图形上的文字
+            label: {
+              show: false,
+              position: "center",
+            },
+            // 链接文字和图形的线
+            labelLine: {
+              show: false,
+            },
+            data: [
+              {
+                value: this.r1After,
+                name: "缺失值",
+              },
+              {
+                value: this.r2After,
+                name: "异常值",
+              },
+              {
+                value: this.r3After,
+                name: "既不是缺失值也不是异常值",
+              },
+            ],
+          },
+        ],
+      };
+
+      option && myChart.setOption(option);
+    },
+    classPieAfter() {
+      var chartDom = document.getElementById("classPieAfter");
+      var myChart = echarts.init(chartDom);
+      var option;
+
+      option = {
+        title: {
+          top: 0,
+          left: "center",
+          text: "数据类型分布",
+        },
+        tooltip: {
+          trigger: "item",
+        },
+        legend: {
+          top: "20%",
+          left: "center",
+          // doesn't perfectly work with our tricks, disable it
+          selectedMode: false,
+        },
+        series: [
+          {
+            name: "Access From",
+            type: "pie",
+            radius: ["40%", "70%"],
+            center: ["50%", "80%"],
+            // adjust the start and end angle
+            startAngle: 180,
+            endAngle: 360,
+            data: [
+              {
+                value: this.c1After,
+                name: "连续特征",
+              },
+              {
+                value: this.c2After,
+                name: "离散特征",
+              },
+            ],
+          },
+        ],
+      };
+
+      option && myChart.setOption(option);
+    },
+    heatmapAfter() {
+      var chartDom = document.getElementById("heatmapAfter");
+      var myChart = echarts.init(chartDom);
+      var option;
+
+      // prettier-ignores
+      const hours = this.columnsAfter;
+      // const hours = ['PassengerId', 'Survived', 'Pclass', 'Age', 'SibSp', 'Parch', 'Fare'];
+      // prettier-ignore
+      // const days = ['PassengerId', 'Survived', 'Pclass', 'Age', 'SibSp', 'Parch', 'Fare'];
+      const days = this.columnsAfter;
+      // prettier-ignore
+      const data =
+      // [[ 0.000e+00,  0.000e+00,  1.000e+00],
+      //  [ 0.000e+00,  1.000e+00, -5.000e-03],
+      //  [ 0.000e+00,  2.000e+00, -3.510e-02],
+      //  [ 0.000e+00,  3.000e+00,  3.680e-02],
+      //  [ 0.000e+00,  4.000e+00, -5.750e-02],
+      //  [ 0.000e+00,  5.000e+00, -1.700e-03],
+      //  [ 0.000e+00,  6.000e+00,  1.270e-02],
+      //  [ 1.000e+00,  0.000e+00, -5.000e-03],
+      //  [ 1.000e+00,  1.000e+00,  1.000e+00],
+      //  [ 1.000e+00,  2.000e+00, -3.385e-01],
+      //  [ 1.000e+00,  3.000e+00, -7.720e-02],
+      //  [ 1.000e+00,  4.000e+00, -3.530e-02],
+      //  [ 1.000e+00,  5.000e+00,  8.160e-02],
+      //  [ 1.000e+00,  6.000e+00,  2.573e-01],
+      //  [ 2.000e+00,  0.000e+00, -3.510e-02],
+      //  [ 2.000e+00,  1.000e+00, -3.385e-01],
+      //  [ 2.000e+00,  2.000e+00,  1.000e+00],
+      //  [ 2.000e+00,  3.000e+00, -3.692e-01],
+      //  [ 2.000e+00,  4.000e+00,  8.310e-02],
+      //  [ 2.000e+00,  5.000e+00,  1.840e-02],
+      //  [ 2.000e+00,  6.000e+00, -5.495e-01],
+      //  [ 3.000e+00,  0.000e+00,  3.680e-02],
+      //  [ 3.000e+00,  1.000e+00, -7.720e-02],
+      //  [ 3.000e+00,  2.000e+00, -3.692e-01],
+      //  [ 3.000e+00,  3.000e+00,  1.000e+00],
+      //  [ 3.000e+00,  4.000e+00, -3.082e-01],
+      //  [ 3.000e+00,  5.000e+00, -1.891e-01],
+      //  [ 3.000e+00,  6.000e+00,  9.610e-02],
+      //  [ 4.000e+00,  0.000e+00, -5.750e-02],
+      //  [ 4.000e+00,  1.000e+00, -3.530e-02],
+      //  [ 4.000e+00,  2.000e+00,  8.310e-02],
+      //  [ 4.000e+00,  3.000e+00, -3.082e-01],
+      //  [ 4.000e+00,  4.000e+00,  1.000e+00],
+      //  [ 4.000e+00,  5.000e+00,  4.148e-01],
+      //  [ 4.000e+00,  6.000e+00,  1.597e-01],
+      //  [ 5.000e+00,  0.000e+00, -1.700e-03],
+      //  [ 5.000e+00,  1.000e+00,  8.160e-02],
+      //  [ 5.000e+00,  2.000e+00,  1.840e-02],
+      //  [ 5.000e+00,  3.000e+00, -1.891e-01],
+      //  [ 5.000e+00,  4.000e+00,  4.148e-01],
+      //  [ 5.000e+00,  5.000e+00,  1.000e+00],
+      //  [ 5.000e+00,  6.000e+00,  2.162e-01],
+      //  [ 6.000e+00,  0.000e+00,  1.270e-02],
+      //  [ 6.000e+00,  1.000e+00,  2.573e-01],
+      //  [ 6.000e+00,  2.000e+00, -5.495e-01],
+      //  [ 6.000e+00,  3.000e+00,  9.610e-02],
+      //  [ 6.000e+00,  4.000e+00,  1.597e-01],
+      //  [ 6.000e+00,  5.000e+00,  2.162e-01],
+      //  [ 6.000e+00,  6.000e+00,  1.000e+00]]
+      this.arrAfter
+    .map(function (item) {
+    return [item[1], item[0], item[2] || '-'];
+});
+      option = {
+        title: {
+          top: 0,
+          left: "center",
+          text: "特征之间的关联系数",
+        },
+        tooltip: {
+          position: "top",
+        },
+        grid: {
+          height: "60%",
+          top: "15%",
+        },
+        xAxis: {
+          type: "category",
+          data: hours,
+          splitArea: {
+            show: true,
+          },
+        },
+        yAxis: {
+          type: "category",
+          data: days,
+          splitArea: {
+            show: true,
+          },
+        },
+        visualMap: {
+          min: -1,
+          max: 1,
+          calculable: true,
+          orient: "horizontal",
+          left: "center",
+          bottom: "0%",
+        },
+        series: [
+          {
+            name: "Punch Card",
+            type: "heatmap",
+            data: data,
+            label: {
+              show: true,
+            },
+            emphasis: {
+              itemStyle: {
+                shadowBlur: 10,
+                shadowColor: "rgba(0, 0, 0, 0.5)",
+              },
+            },
+          },
+        ],
+      };
+
+      option && myChart.setOption(option);
+    },
+    NightingaleAfter() {
+      var chartDom = document.getElementById("NightingaleAfter");
+      var myChart = echarts.init(chartDom);
+      var option = {
+        title: {
+          text: "特征值中的字符总体比例",
+          left: "center",
+        },
+        tooltip: {
+          trigger: "item",
+          formatter: "{a} <br/>{b} : {c} ({d}%)",
+        },
+        legend: {
+          bottom: 0,
+          itemWidth: 10,
+          itemHeight: 10,
+          textStyle: {
+            color: "rgba(0,0,0,.5)",
+            fontSize: 10,
+          },
+        },
+        series: [
+          {
+            name: "特征值中数据类型分布",
+            type: "pie",
+            radius: ["10%", "60%"],
+            // 饼图的中心（圆心）坐标，数组的第一项是横坐标，第二项是纵坐标
+            center: ["50%", "50%"],
+            itemStyle: {
+              borderRadius: 5,
+            },
+            // 半径模式  area面积模式
+            roseType: "radius",
+            // 图形的文字标签
+            label: {
+              fontsize: 10,
+            },
+            // 引导线调整
+            labelLine: {
+              // 连接扇形图线长(斜线)
+              length: 6,
+              // 连接文字线长(横线)
+              length2: 8,
+            },
+            data: [
+              {
+                value: this.r21After,
+                name: "字符数量",
+              },
+              {
+                value: this.r22After,
+                name: "非字符数量",
+              },
             ],
           },
         ],
@@ -1138,13 +1526,48 @@ export default {
       axios({
         method: "get",
         url: `http://localhost:9000/process/train?trainId=${this.trainId}&idString=${idString}`,
-        headers: this.headers
+        headers: this.headers,
       })
         .then((res) => {
           this.message = "";
           this.visible = false;
-          this.preprocess_data = res.data.retInfo;  // 返回了预处理完后的数据集的url
+          this.preprocess_data = res.data.retInfo; // 返回了预处理完后的数据集的url
           console.log(result);
+          // 感觉这里应该是要请求数据
+          axios({
+            method: "get",
+            url: `http://localhost:9000/file/showDetail?url=${this.data_url}&type=${type}`,
+            headers: this.headers,
+          })
+            .then((res) => {
+              // 在这里展示图表,可视化数据
+              this.nAfter = res.data.n;
+              this.n2After = res.data.n2;
+              this.n3After = res.data.n3;
+              this.x1After = res.data.x1;
+              this.y1After = res.data.y1;
+              this.r1After = res.data.r1;
+              this.r2After = res.data.r2;
+              this.r3After = res.data.r3;
+              this.r21After = res.data.r21;
+              this.r22After = res.data.r22;
+              this.c1After = res.data.c1;
+              this.c2After = res.data.c2;
+              this.columnsAfter = res.data.columns;
+              this.arrAfter = res.data.arr;
+              this.message = "";
+              this.visible = false;
+              this.heatmapAfter();
+              this.barAfter();
+              this.pieAfter();
+              this.classPieAfter();
+              this.NightingaleAfter();
+              this.$refs.reply.innerHTML = res.data.reply;
+            })
+            .catch((err) => {
+              this.message = "";
+              this.visible = false;
+            });
         })
         .catch((err) => {
           this.message = "";

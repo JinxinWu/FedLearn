@@ -7,6 +7,7 @@
       :close-on-click-modal="false"
       :close-on-press-escape="false"
       :show-close="false"
+      :modal-append-to-body="false"
     >
         <div class="folding">
           <div class="sk-cube1 sk-cube"></div>

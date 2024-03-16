@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- 默认聚合客户端 -->
-    <div class="myBox" style="margin-top: 0px;">
+    <div class="myBox" style="margin-top: 0px">
       <el-row class="menu" style="margin-bottom: 20px">
         <el-col :span="8" :offset="8">
           <div class="title" style="font-size: 20px">默认聚合客户端</div>
@@ -126,7 +126,11 @@
         </el-col>
       </el-row>
     </div>
-    <el-dialog title="添加客户端" :visible.sync="dialogTableVisible">
+    <el-dialog
+      title="添加客户端"
+      :visible.sync="dialogTableVisible"
+      :modal-append-to-body="false"
+    >
       <el-table
         ref="multipleTable"
         :data="allClient"

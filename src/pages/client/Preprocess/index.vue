@@ -439,7 +439,9 @@
         <el-col :span="8" :offset="0">
           <div class="Echarts">
             <div style="width: 382px; height: 250px">
-              <p style="font-size: 20px; padding-top: 80px">总样本数量：{{ nAfter }}</p>
+              <p style="font-size: 20px; padding-top: 80px">
+                总样本数量：{{ nAfter }}
+              </p>
               <p style="font-size: 20px">样本类别种类：{{ n2After }}</p>
               <p style="font-size: 20px">特征数量：{{ n3After }}</p>
             </div>
@@ -478,7 +480,11 @@
       </el-row>
     </div>
     <Loading :visible.sync="visible"></Loading>
-    <el-dialog title="更多详情" :visible.sync="moreInfoVisible">
+    <el-dialog
+      title="更多详情"
+      :visible.sync="moreInfoVisible"
+      :modal-append-to-body="false"
+    >
       <el-descriptions
         title="垂直带边框列表"
         direction="vertical"
@@ -1361,7 +1367,7 @@ export default {
         0,
         ((item.file.name.lastIndexOf(".") - 1) >>> 0) + 1
       );
-      
+
       if (suffix == ".csv") {
         this.type = "1";
       } else if (suffix == ".xlsx") {

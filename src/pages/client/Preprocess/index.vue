@@ -530,6 +530,7 @@ export default {
   },
   data() {
     return {
+      type: null,
       // 预处理之前的数据状态
       n: null,
       n2: null,
@@ -1413,15 +1414,15 @@ export default {
         0,
         ((item.file.name.lastIndexOf(".") - 1) >>> 0) + 1
       );
-      let type = "0";
+      
       if (suffix == ".csv") {
-        type = "1";
+        this.type = "1";
       } else if (suffix == ".xlsx") {
-        type = "2";
+        this.type = "2";
       } else if (suffix == ".db") {
-        type = "3";
+        this.type = "3";
       } else {
-        type = "4";
+        this.type = "4";
       }
       //上传文件的需要formdata类型;所以要转
       let FormDatas = new FormData();
@@ -1443,7 +1444,7 @@ export default {
           this.visible = true;
           axios({
             method: "get",
-            url: `http://localhost:9000/file/showDetail?url=${this.data_url}&type=${type}`,
+            url: `http://localhost:9000/file/showDetail1?url=${this.data_url}&type=${this.type}`,
             headers: this.headers,
           })
             .then((res) => {
@@ -1532,11 +1533,11 @@ export default {
           this.message = "";
           this.visible = false;
           this.preprocess_data = res.data.retInfo; // 返回了预处理完后的数据集的url
-          console.log(result);
+          console.log(res);
           // 感觉这里应该是要请求数据
           axios({
             method: "get",
-            url: `http://localhost:9000/file/showDetail?url=${this.data_url}&type=${type}`,
+            url: `http://localhost:9000/file/showDetail2?url=${res.data.retInfo}&type=${this.type}`,
             headers: this.headers,
           })
             .then((res) => {
@@ -1570,6 +1571,7 @@ export default {
             });
         })
         .catch((err) => {
+          console.log(err);
           this.message = "";
           this.visible = false;
         });

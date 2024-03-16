@@ -104,7 +104,12 @@ const state = {
     myComponents,
     securityCom,
     websocket: null,
-
+    websocketEvents: {
+        onmessage: null,
+        onopen: null,
+        onclose: null,
+        onerror: null
+    },
 }
 
 //包装state，解耦
@@ -131,12 +136,7 @@ const store = new Vuex.Store({
     mutations,
     state,
     getters,
-    websocketEvents: {
-        onmessage: null,
-        onopen: null,
-        onclose: null,
-        onerror: null
-    },
+    
 })
 
 export default store

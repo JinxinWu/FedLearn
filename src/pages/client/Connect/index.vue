@@ -195,11 +195,47 @@ export default {
         console.log("trans_dataArray" + trans_dataArray)
         console.log(trans_dataArray[1])
         console.log(trans_dataArray[2])
-        this.tableData[0].algori = trans_dataArray[0]
-        this.tableData[0].compress = trans_dataArray[1]
-        this.tableData[0].chafen = trans_dataArray[2]
-        this.tableData[0].epochs = trans_dataArray[3]
-        this.tableData[0].jiami = trans_dataArray[4]
+        axios({
+            method: "get",
+            url: `http://localhost:7000/component/getMethodName/${trans_dataArray[0]}`,
+            headers: {
+              token: this.token,
+            },
+            timeout: 30000,
+          }).then((res) => {
+            this.tableData[0].algori = res.data.methodName
+        });
+        axios({
+            method: "get",
+            url: `http://localhost:7000/component/getMethodName/${trans_dataArray[1]}`,
+            headers: {
+              token: this.token,
+            },
+            timeout: 30000,
+          }).then((res) => {
+            this.tableData[0].compress = res.data.methodName
+        });
+        axios({
+            method: "get",
+            url: `http://localhost:7000/component/getMethodName/${trans_dataArray[2]}`,
+            headers: {
+              token: this.token,
+            },
+            timeout: 30000,
+          }).then((res) => {
+            this.tableData[0].chafen = res.data.methodName
+        });
+        axios({
+            method: "get",
+            url: `http://localhost:7000/component/getMethodName/${trans_dataArray[3]}`,
+            headers: {
+              token: this.token,
+            },
+            timeout: 30000,
+          }).then((res) => {
+            this.tableData[0].jiami = res.data.methodName
+        });
+        this.tableData[0].epochs = trans_dataArray[4]
       }
       
       // this.message = event.data;
@@ -317,9 +353,25 @@ export default {
           let socketUrl = url.replace("https", "ws").replace("http", "ws");
           this.$store.dispatch("createWebSocket",socketUrl);
           console.log(socketUrl);
-          
-
-
+          this.socket = this.$store.getters.websocket;
+          this.$store.commit('setWebSocketEvent', {
+              event: 'onopen',
+              handler: event => {
+                  this.onOpen(event);
+              }
+          });
+          this.$store.commit('setWebSocketEvent', {
+            event: 'onmessage',
+            handler: event => {
+                this.onMessage(event);
+            }
+        });
+        this.$store.commit('setWebSocketEvent', {
+            event: 'onerror',
+            handler: event => {
+                this.onError(event);
+            }
+        });
 
           
         } else {

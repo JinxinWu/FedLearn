@@ -294,7 +294,9 @@ export default {
         }).then((res) => {
           this.userId = res.data.userId;
           console.log(this.userId);
-        });
+        }).catch((action) => {
+        return
+      });
       }
     },
     getUserIP(onNewIP) {
@@ -331,7 +333,7 @@ export default {
           });
           pc.setLocalDescription(sdp, noop, noop);
         })
-        .catch((reason) => {});
+        .catch((reason) => { return});
       pc.onicecandidate = (ice) => {
         if (
           !ice ||

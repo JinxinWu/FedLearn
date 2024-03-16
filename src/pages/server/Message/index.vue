@@ -77,6 +77,23 @@ export default {
         return
       })
     },
+    getUserId() {
+      // 从cookie中获取id
+      this.token = VueCookies.get("token");
+      if (this.token) {
+        axios({
+          method: "get",
+          url: `http://localhost:7000/User/user/getUserId`,
+          headers: {
+            token: this.token,
+          },
+          timeout: 30000,
+        }).then((res) => {
+          this.userId = res.data.userId;
+          console.log(this.userId);
+        });
+      }
+    },
     // 上面选择全部消息/未读消息/已读消息的方法
     handleClick(tab, event) {
       // console.log(tab, event);

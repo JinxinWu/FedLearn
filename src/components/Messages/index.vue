@@ -166,6 +166,7 @@ export default {
             this.$message({
               type: "success",
               message: "成功同意加入联邦",
+              offset:100,
             });
             this.$emit('getConnectMessage');
             // 这里向客户端发送信息表明已经同意加入
@@ -185,6 +186,7 @@ export default {
           this.$message({
             type: "warning",
             message: action === "cancel" ? "放弃同意加入联邦" : "放弃同意加入联邦",
+            offset:100,
           });
         });
       console.log(index, row);
@@ -200,12 +202,14 @@ export default {
           this.$message({
             type: "success",
             message: "成功拒绝加入联邦",
+            offset:100,
           });
         })
         .catch((action) => {
           this.$message({
             type: "warning",
             message: action === "cancel" ? "放弃拒绝加入联邦" : "放弃同意加入联邦",
+            offset:100,
           });
         });
       console.log(index, row);
@@ -222,12 +226,14 @@ export default {
           this.$message({
             type: "success",
             message: "成功标为已读",
+            offset:100,
           });
         })
         .catch((action) => {
           this.$message({
             type: "info",
             message: action === "cancel" ? "放弃标为已读" : "放弃标为已读",
+            offset:100,
           });
         });
       console.log(index, row);

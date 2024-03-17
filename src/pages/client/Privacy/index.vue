@@ -4,7 +4,7 @@
     <el-divider></el-divider>
     <!-- 组件+步骤 -->
     <el-row>
-    <el-col v-if="true" :span="11.5" :offset="6">
+      <el-col v-if="true" :span="11.5" :offset="6">
         <el-table
           v-loading="loading"
           element-loading-text="正在等待中央服务器的同步消息"
@@ -26,33 +26,39 @@
       </el-col>
     </el-row>
     <!-- 一串文字 -->
-    <el-row class="menu" style="margin-bottom: 20px;margin-top: 20px;border: none;">
-        <el-col :span="8" :offset="8">
-          <div class="title" style="font-size: 20px">聚合轮次</div>
-        </el-col>
-      </el-row>
-      <el-row style="margin-bottom: 20px;">
-        <el-col :span="6" :offset="6">
-          <div>
-            <el-statistic
-              group-separator=","
-              :value="parseInt(tableData[0].epochs)"
-              title="总轮次"
-            ></el-statistic>
-          </div>
-        </el-col>
-        <el-col :span="6">
-          <div>
-            <el-statistic
-              group-separator=","
-              :value="nowRound"
-              title="目前轮次"
-            ></el-statistic>
-          </div>
-        </el-col>
-      </el-row>
-      <div class="myBox">
-      <el-row class="menu" style="margin-bottom: 20px;margin-top: 20px;border: none;">
+    <el-row
+      class="menu"
+      style="margin-bottom: 20px; margin-top: 20px; border: none"
+    >
+      <el-col :span="8" :offset="8">
+        <div class="title" style="font-size: 20px">聚合轮次</div>
+      </el-col>
+    </el-row>
+    <el-row style="margin-bottom: 20px">
+      <el-col :span="6" :offset="6">
+        <div>
+          <el-statistic
+            group-separator=","
+            :value="parseInt(tableData[0].epochs)"
+            title="总轮次"
+          ></el-statistic>
+        </div>
+      </el-col>
+      <el-col :span="6">
+        <div>
+          <el-statistic
+            group-separator=","
+            :value="nowRound"
+            title="目前轮次"
+          ></el-statistic>
+        </div>
+      </el-col>
+    </el-row>
+    <div class="myBox">
+      <el-row
+        class="menu"
+        style="margin-bottom: 20px; margin-top: 20px; border: none"
+      >
         <el-col :span="8" :offset="8">
           <div class="title" style="font-size: 20px">聚合过程结果</div>
         </el-col>
@@ -92,7 +98,7 @@ export default {
           jiami: this.$store.state.tableData[0].jiami,
         },
       ],
-      show: this.$store.state.show,//显示哪个弹出框
+      show: this.$store.state.show, //显示哪个弹出框
 
       // 总轮次
       allRound: 100,
@@ -102,7 +108,7 @@ export default {
   },
   mounted() {
     console.log(this.tableData[0].epochs);
-    console.log(typeof(this.tableData[0].epochs));
+    console.log(typeof this.tableData[0].epochs);
     this.drawLine();
   },
   watch: {},
@@ -141,6 +147,8 @@ export default {
         },
         yAxis: {
           type: "value",
+          min: 80,
+          max: 100,
           axisLabel: {
             formatter: "{value} %",
           },
@@ -152,24 +160,50 @@ export default {
         // 这里是可以参考的后端传过来的数据格式
         var lineChartData = [
           {
-            name: "类1",
-            accuracy: [12, 13, 10, 13, 90, 23, 21],
+            name: "类别1",
+            accuracy: [
+              0.92631579, 0.99122807, 0.99298246, 0.99122807, 0.99298246,
+              0.99473684, 0.99473684, 0.99824561, 0.99824561, 0.99649123,
+            ],
           },
           {
-            name: "类2",
-            accuracy: [22, 18, 19, 23, 29, 33, 31],
+            name: "类别2",
+            accuracy: [
+              0.84534271, 0.94727592, 0.94551845, 0.97188049, 0.96836555,
+              0.96660808, 0.97891037, 0.97891037, 0.98769772, 0.9771529,
+            ],
           },
           {
-            name: "类3",
-            accuracy: [15, 23, 20, 15, 19, 33, 41],
+            name: "类别3",
+            accuracy: [
+              0.96660808, 0.98945518, 0.99297012, 0.99297012, 1, 0.99648506,
+              0.99297012, 0.99648506, 0.99297012, 0.99824253,
+            ],
           },
           {
-            name: "类4",
-            accuracy: [32, 33, 30, 33, 39, 33, 32],
+            name: "类别4",
+            accuracy: [
+              0.88927944, 0.98769772, 0.98242531, 0.99648506, 0.99297012,
+              0.98594025, 0.99824253, 0.99824253, 0.99824253, 0.99824253,
+            ],
           },
           {
-            name: "类5",
-            accuracy: [82.3, 93, 90, 93, 12, 13, 13],
+            name: "类别8",
+            accuracy: [0.98774081, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+          },
+          {
+            name: "类别9",
+            accuracy: [
+              0.93497364, 0.98242531, 0.98066784, 0.98945518, 0.99297012,
+              0.99472759, 0.99648506, 0.99297012, 0.99121265, 0.99824253,
+            ],
+          },
+          {
+            name: "类别10",
+            accuracy: [
+              0.9543058, 0.99297012, 0.99824253, 0.99648506, 1, 0.99824253,
+              0.99824253, 0.99824253, 1, 1,
+            ],
           },
         ];
 
@@ -185,7 +219,7 @@ export default {
         const formattedData = lineChartData.map((item) => ({
           name: item.name,
           type: "line",
-          data: item.accuracy,
+          data: item.accuracy.map((item) => (item * 100).toFixed(2)),
         }));
 
         myChart.setOption({

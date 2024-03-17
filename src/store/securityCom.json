@@ -68,5 +68,33 @@
     "name": "Box-Cox变换",
     "type": "BCTransformation",
     "content": "调整数据分布以满足正态性假设"
+  },
+  "Model_Parameter_Averaging": {
+    "step": 8,
+    "id": 54,
+    "name": "模型参数平均",
+    "type": "Model_Parameter_Averaging",
+    "content": "模型参数平均"
+  },
+  "Gradient_Averaging": {
+    "step": 8,
+    "id": 55,
+    "name": "梯度平均",
+    "type": "Gradient_Averaging",
+    "content": "梯度平均"
+  },
+  "Election_based_Aggregation": {
+    "step": 8,
+    "id": 56,
+    "name": "选举式聚合",
+    "type": "Election_based_Aggregation",
+    "content": "选举式聚合"
+  },
+  "Hierarchical_Aggregation": {
+    "step": 8,
+    "id": 57,
+    "name": "分层聚合",
+    "type": "Hierarchical_Aggregation",
+    "content": "分层聚合"
   }
 }

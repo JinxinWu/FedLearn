@@ -120,7 +120,7 @@
             <div>聚合方法</div>
             <div style="margin-top: 5px; margin-bottom: 5px">
               <MyButton
-                v-for="item in [securityCom.delError, securityCom.bcTrans,securityCom.bcTrans]"
+                v-for="item in [securityCom.Model_Parameter_Averaging, securityCom.Gradient_Averaging,securityCom.Election_based_Aggregation,securityCom.Hierarchical_Aggregation]"
                 :comData="item"
                 :key="item.id"
                 ref="myButton"

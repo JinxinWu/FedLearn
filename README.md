@@ -1,4 +1,4 @@
-# aivisual
+# FedLearn
 ```
 npm i yarn
 ```

@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- 默认聚合客户端 -->
-    <div class="myBox" style="margin-top: 0px;">
+    <div class="myBox" style="margin-top: 0px">
       <el-row class="menu" style="margin-bottom: 20px">
         <el-col :span="8" :offset="8">
           <div class="title" style="font-size: 20px">默认聚合客户端</div>
@@ -126,7 +126,11 @@
         </el-col>
       </el-row>
     </div>
-    <el-dialog title="添加客户端" :visible.sync="dialogTableVisible">
+    <el-dialog
+      title="添加客户端"
+      :visible.sync="dialogTableVisible"
+      :modal-append-to-body="false"
+    >
       <el-table
         ref="multipleTable"
         :data="allClient"
@@ -220,7 +224,7 @@ export default {
           cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
           memory: "16GB",
           alive: "是",
-        }
+        },
       ],
       multipleSelection: [],
     };
@@ -260,7 +264,7 @@ export default {
             "{b0}<br/>{a0}: {c0}%<br />{a1}: {c1}%<br />{a2}: {c2}%<br />{a3}: {c3}%<br />{a4}: {c4}%", //展示百分比  五条折线
         },
         legend: {
-          data: ["类1", "类2", "类3", "类4", "类5"],
+          // data: ["类1", "类2", "类3", "类4", "类5"],
         },
         grid: {
           left: "3%",
@@ -276,7 +280,6 @@ export default {
         xAxis: {
           type: "category",
           boundaryGap: false,
-          data: ["1", "2", "3", "4", "5", "6", "7"],
         },
         yAxis: {
           type: "value",
@@ -289,52 +292,49 @@ export default {
 
       setInterval(function () {
         // 这里是可以参考的后端传过来的数据格式
-        var seriesData = {
-          类1: [12, 13, 10, 13, 90, 23, 21],
-          类2: [22, 18, 19, 23, 29, 33, 31],
-          类3: [15, 23, 20, 15, 19, 33, 41],
-          类4: [32, 33, 30, 33, 39, 33, 32],
-          类5: [82, 93, 90, 93, 12, 13, 13],
-        };
+        var lineChartData = [
+          {
+            name: "类1",
+            accuracy: [12, 13, 10, 13, 90, 23, 21],
+          },
+          {
+            name: "类2",
+            accuracy: [22, 18, 19, 23, 29, 33, 31],
+          },
+          {
+            name: "类3",
+            accuracy: [15, 23, 20, 15, 19, 33, 41],
+          },
+          {
+            name: "类4",
+            accuracy: [32, 33, 30, 33, 39, 33, 32],
+          },
+          {
+            name: "类5",
+            accuracy: [82.3, 93, 90, 93, 12, 13, 13],
+          },
+        ];
 
-        let i = 0;
-        let xdata = [];
-        while (i < seriesData["类1"].length) {
-          xdata.push((i + 1).toString());
-          i++;
-        }
+        // 获取第一个对象的正确率数组长度
+        const accuracyLength = lineChartData[0].accuracy.length;
+        // 生成从1开始，长度与accuracy相同的数组
+        const xdata = Array.from(
+          { length: accuracyLength },
+          (_, index) => index + 1
+        );
+
+        // 使用 map 方法转换数据格式
+        const formattedData = lineChartData.map((item) => ({
+          name: item.name,
+          type: "line",
+          data: item.accuracy,
+        }));
 
         myChart.setOption({
           xAxis: {
             data: xdata,
           },
-          series: [
-            {
-              name: "类1",
-              type: "line",
-              data: seriesData["类1"],
-            },
-            {
-              name: "类2",
-              type: "line",
-              data: seriesData["类2"],
-            },
-            {
-              name: "类3",
-              type: "line",
-              data: seriesData["类3"],
-            },
-            {
-              name: "类4",
-              type: "line",
-              data: seriesData["类4"],
-            },
-            {
-              name: "类5",
-              type: "line",
-              data: seriesData["类5"],
-            },
-          ],
+          series: formattedData,
         });
         /*$.ajax({
           url: "后台的URL",

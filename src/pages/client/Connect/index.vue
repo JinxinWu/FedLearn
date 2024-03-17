@@ -21,7 +21,11 @@
             <el-input v-model="ruleForm.name"></el-input>
           </el-form-item>
           <el-form-item label="部门" prop="department">
-            <el-select v-model="ruleForm.department" placeholder="请选择部门" style="width: 100%;">
+            <el-select
+              v-model="ruleForm.department"
+              placeholder="请选择部门"
+              style="width: 100%"
+            >
               <el-option label="一号车间" value="一号车间"></el-option>
               <el-option label="二号车间" value="二号车间"></el-option>
             </el-select>
@@ -36,20 +40,23 @@
       </el-col>
     </el-row>
     <el-row>
+
       <el-col v-if="show" :span="8" :offset="8" v-show="agreeShow">
         <el-result
           v-loading="agreeLoading"
-          element-loading-text="中央服务器是否同意连接"
-          :icon="agreeShow ? 'success' : 'error'"
-          :title="agreeShow ? '连接成功' : '拒绝连接'"
-          :subTitle="agreeShow ? '请等待中央服务器同步' : ''"
+          element-loading-text="正在等待服务器接受连接"
+          element-loading-background="#ffffff"
+          :icon="agreeShow ? '' : 'error'"
+          :title="agreeShow ? '' : '服务器拒绝连接'"
         >
         </el-result>
       </el-col>
+
       <el-col v-else :span="15" :offset="5" v-show="messageShow">
         <el-table
           v-loading="loading"
           element-loading-text="正在等待中央服务器的同步消息"
+          element-loading-background="#ffffff"
           :data="tableData"
           style="width: 100%"
           :header-cell-style="{ 'text-align': 'center' }"
@@ -66,13 +73,6 @@
           <el-table-column prop="epochs" label="聚合轮次" width="180">
           </el-table-column>
         </el-table>
-        <div style="margin: 20px"></div>
-        <el-button
-          style="margin-left: 400px"
-          type="primary"
-          @click="agreeMessage()"
-          >方法启用</el-button
-        >
       </el-col>
     </el-row>
   </div>
@@ -86,13 +86,29 @@ export default {
   components: {},
   data() {
     return {
-      userId: "",
-      show: true,
-      ruleForm: {
-        ip: "localhost:8000",
-        name: "",
-        department: "",
-      },
+      userId: this.$store.state.userId,      
+      ip: this.$store.state.ip,
+
+      show: this.$store.state.show,//显示哪个弹出框
+      agreeShow: this.$store.state.agreeShow,//服务器是否同意
+      agreeLoading: this.$store.state.agreeLoading,
+      ruleForm: this.$store.state.ruleForm,
+
+      messageShow: this.$store.state.messageShow,
+      loading: this.$store.state.loading,
+      formDisabled: this.$store.state.formDisabled,
+      
+      tableData: [
+        {
+          algori: this.$store.state.tableData[0].algori,
+          compress: this.$store.state.tableData[0].compress,
+          chafen: this.$store.state.tableData[0].chafen,
+          epochs: this.$store.state.tableData[0].epochs,
+          jiami: this.$store.state.tableData[0].jiami,
+        },
+      ],
+      
+
       rules: {
         ip: [
           {
@@ -115,26 +131,12 @@ export default {
           { required: true, message: "请选择部门", trigger: "change" },
         ],
       },
-      tableData: [{
-        algori: "CNN",
-        compress: "xx算法",
-        chafen: "xxx",
-        epochs: 2000,
-        jiami: "xxxxx"
-      }],
-      formDisabled: false,
-      agreeLoading: true,
-      loading: true,
-      messageShow: false,
-      agreeShow: false,
       token: null,
-      connection: false,
       socket: null,
-      ip: null,
     };
   },
   created() {
-    
+    // this.$store.dispatch("")
   },
   mounted() {
     this.init();
@@ -142,6 +144,12 @@ export default {
   methods: {
     onOpen(event) {
       // 向服务端发送请求连接信息http://localhost:7000/connect/getConnection
+      console.log("onopen----------------");
+      console.log(this.ip);
+      console.log(this.userId);
+      console.log(this.ruleForm.name);
+      console.log(this.ruleForm.department);
+      console.log("-----------------------");
       axios({
         method: "post",
         url: `http://localhost:7000/connect/getConnection`,
@@ -159,90 +167,112 @@ export default {
         this.$message({
           message: "请求连接信息发送成功",
           type: "success",
+          offset: 100,
         });
-        this.agreeShow = true; // 开始转圈等待同意连接
+        // this.agreeShow = true; // 开始转圈等待同意连接
+        this.agreeShow = true;
+        this.$store.commit("setAgreeShow", true);
       });
     },
     onMessage(event) {
       // 如果是请求处理信息，收到已经同意的信息，转圈等待停止，显示连接成功；如果是拒绝的信息，就关闭websocket
-      console.log("--------" + event.data)
+      console.log("onMessage--------" + event.data);
       if (event.data.split(",")[0] == "1") {
         this.$notify({
           title: "来自中央服务器的连接消息",
           message: "连接成功",
           duration: 0,
-          offset: 50,
+          offset: 100,
         });
-        this.show = false
-        this.messageShow = true
+
+        this.show = false;
+        this.$store.commit("setShow",this.show);
+        this.messageShow = true;
+        this.$store.commit("setMessageShow",this.messageShow);
         // 可以禁用表单，可以优化成刷新仍然禁用
         this.formDisabled = true;
+        this.$store.commit("setFormDisabled",this.formDisabled);
       }
-      
+
       // 如果是方法同步信息，则赋值给tableData
-      if (event.data.split(",")[0] == "2") {  // 2,服务端同步信息已发送,1,5,10,10
+      if (event.data.split(",")[0] == "2") {
+        // 2,服务端同步信息已发送,1,5,10,10
         this.loading = false; // 停止转圈获取到了服务器同步方法信息
+        this.$store.commit("setLoading", false);
         this.$notify({
           title: "来自中央服务器的同步方法消息",
           message: "获取同步方法",
           duration: 0,
-          offset: 50,
+          offset: 100,
         });
-        let trans_data = event.data.split(";")[1]
-        console.log("trans_data" + trans_data)
-        let trans_dataArray = trans_data.split(",")
-        console.log(typeof(trans_dataArray))
-        console.log("trans_dataArray" + trans_dataArray)
-        console.log(trans_dataArray[1])
-        console.log(trans_dataArray[2])
+        let trans_data = event.data.split(";")[1];
+        console.log("trans_data----" + trans_data);
+        let trans_dataArray = trans_data.split(",");
+        console.log("trans_dataArray----" + trans_dataArray);
+        let tableData = [
+          {
+            algori: null,
+            compress: null,
+            chafen: null,
+            jiami: null,
+            epochs: null,
+          },
+        ];
         axios({
-            method: "get",
-            url: `http://localhost:7000/component/getMethodName/${trans_dataArray[0]}`,
-            headers: {
-              token: this.token,
-            },
-            timeout: 30000,
-          }).then((res) => {
-            this.tableData[0].algori = res.data.methodName
-        });
-        axios({
-            method: "get",
-            url: `http://localhost:7000/component/getMethodName/${trans_dataArray[1]}`,
-            headers: {
-              token: this.token,
-            },
-            timeout: 30000,
-          }).then((res) => {
-            this.tableData[0].compress = res.data.methodName
+          method: "get",
+          url: `http://localhost:7000/component/getMethodName/${trans_dataArray[0]}`,
+          headers: {
+            token: this.token,
+          },
+          timeout: 30000,
+        }).then((res) => {
+          tableData[0].algori = res.data.methodName;
         });
         axios({
-            method: "get",
-            url: `http://localhost:7000/component/getMethodName/${trans_dataArray[2]}`,
-            headers: {
-              token: this.token,
-            },
-            timeout: 30000,
-          }).then((res) => {
-            this.tableData[0].chafen = res.data.methodName
+          method: "get",
+          url: `http://localhost:7000/component/getMethodName/${trans_dataArray[1]}`,
+          headers: {
+            token: this.token,
+          },
+          timeout: 30000,
+        }).then((res) => {
+          tableData[0].compress = res.data.methodName;
         });
         axios({
-            method: "get",
-            url: `http://localhost:7000/component/getMethodName/${trans_dataArray[3]}`,
-            headers: {
-              token: this.token,
-            },
-            timeout: 30000,
-          }).then((res) => {
-            this.tableData[0].jiami = res.data.methodName
+          method: "get",
+          url: `http://localhost:7000/component/getMethodName/${trans_dataArray[2]}`,
+          headers: {
+            token: this.token,
+          },
+          timeout: 30000,
+        }).then((res) => {
+          tableData[0].chafen = res.data.methodName;
         });
-        this.tableData[0].epochs = trans_dataArray[4]
+        axios({
+          method: "get",
+          url: `http://localhost:7000/component/getMethodName/${trans_dataArray[3]}`,
+          headers: {
+            token: this.token,
+          },
+          timeout: 30000,
+        }).then((res) => {
+          tableData[0].jiami = res.data.methodName;
+        });
+        tableData[0].epochs = trans_dataArray[4];
+        console.log("tableDate----"+tableData[0]);
+
+        this.$store.commit("setTableData", tableData[0]);
+        console.log(this.$store.state.tableData[0]);
+        this.tableData = tableData;
+        console.log("-------------")
       }
-      
+
       // this.message = event.data;
       // console.log('Received message: ' + this.message);
     },
-    onClose(event) {  // 还未测试
-      console.log("close....")
+    onClose(event) {
+      // 还未测试
+      console.log("close....");
       axios({
         method: "post",
         url: `http://localhost:7000/connect/deleteConnection`,
@@ -250,14 +280,15 @@ export default {
           token: this.token,
         },
         data: {
-          userId: this.userId
+          userId: this.userId,
         },
         timeout: 30000,
       }).then((res) => {
-        console.log("删除成功")
+        console.log("删除成功");
       });
     },
-    onError(event) { // 还未测试
+    onError(event) {
+      // 还未测试
       console.error("WebSocket error: " + event);
       axios({
         method: "post",
@@ -266,19 +297,21 @@ export default {
           token: this.token,
         },
         data: {
-          userId: this.userId
+          userId: this.userId,
         },
         timeout: 30000,
-      }).then((res) => {
-
-      });
+      }).then((res) => {});
     },
     init() {
-      this.getUserId();
-      this.getUserIP((ip) => {
-        this.ip = ip;
-        console.log(this.ip);
-      });
+      if (!this.userId) {
+        this.getUserId();
+      }
+      if (!this.ip) {
+        this.getUserIP((ip) => {
+          this.ip = ip;
+          console.log(this.ip);
+        });
+      }
     },
     getUserId() {
       // 从cookie中获取id
@@ -291,12 +324,15 @@ export default {
             token: this.token,
           },
           timeout: 30000,
-        }).then((res) => {
-          this.userId = res.data.userId;
-          console.log(this.userId);
-        }).catch((action) => {
-        return
-      });
+        })
+          .then((res) => {
+            this.userId = res.data.userId;
+            // this.userId = res.data.userId;
+            console.log(res.data.userId);
+          })
+          .catch((action) => {
+            return;
+          });
       }
     },
     getUserIP(onNewIP) {
@@ -316,6 +352,7 @@ export default {
         if (!isFirstIPFound) {
           // 只在第一个IP找到时调用回调函数
           onNewIP(ip);
+
           isFirstIPFound = true;
         }
         localIPs[ip] = true;
@@ -333,7 +370,9 @@ export default {
           });
           pc.setLocalDescription(sdp, noop, noop);
         })
-        .catch((reason) => { return});
+        .catch((reason) => {
+          return;
+        });
       pc.onicecandidate = (ice) => {
         if (
           !ice ||
@@ -353,29 +392,28 @@ export default {
           // 实现化WebSocket对象，指定要连接的服务器地址与端口  建立连接
           // 等同于socket = new WebSocket("ws://localhost:8000/server");
           let socketUrl = url.replace("https", "ws").replace("http", "ws");
-          this.$store.dispatch("createWebSocket",socketUrl);
+          this.$store.dispatch("createWebSocket", socketUrl);
           console.log(socketUrl);
           this.socket = this.$store.getters.websocket;
-          this.$store.commit('setWebSocketEvent', {
-              event: 'onopen',
-              handler: event => {
-                  this.onOpen(event);
-              }
+          this.$store.commit("setWebSocketEvent", {
+            event: "onopen",
+            handler: (event) => {
+              this.onOpen(event);
+            },
           });
-          this.$store.commit('setWebSocketEvent', {
-            event: 'onmessage',
-            handler: event => {
-                this.onMessage(event);
-            }
-        });
-        this.$store.commit('setWebSocketEvent', {
-            event: 'onerror',
-            handler: event => {
-                this.onError(event);
-            }
-        });
-
-          
+          this.$store.commit("setWebSocketEvent", {
+            event: "onmessage",
+            handler: (event) => {
+              this.onMessage(event);
+            },
+          });
+          this.$store.commit("setWebSocketEvent", {
+            event: "onerror",
+            handler: (event) => {
+              this.onError(event);
+            },
+          });
+          this.$store.commit("setRuleForm", formName);
         } else {
           console.log("error submit!!");
           return false;
@@ -390,11 +428,35 @@ export default {
         title: "提示",
         message: "方法已启用",
         duration: 0,
-        offset: 50,
+        offset: 100,
       });
     },
   },
-    beforeDestroy() {
+  beforeRouteLeave(to, from, next) {
+    this.$store.commit("setUserId", this.userId);
+    this.$store.commit("setShow", this.show);
+    this.$store.commit("setIp", this.ip);
+    this.$store.commit("setRuleForm", this.ruleForm);
+    this.$store.commit("setMessageShow", this.messageShow);
+    this.$store.commit("setAgreeShow", this.agreeShow);
+    this.$store.commit("setTableData", this.tableData[0]);
+    this.$store.commit("setFormDisabled", this.formDisabled);
+    this.$store.commit("setAgreeLoading", this.agreeLoading);
+    this.$store.commit("setLoading", this.loading);
+
+    console.log("set----->" + this.userId);
+    console.log("set----->" + this.show);
+    console.log("set----->" + this.ip);
+    console.log("set----->" + this.ruleForm);
+    console.log("set----->" + this.messageShow);
+    console.log("set----->" + this.agreeShow);
+    console.log("set----->" + this.tableData[0]);
+    console.log("set----->" + this.formDisabled);
+    console.log("set----->" + this.agreeLoading);
+    console.log("set----->" + this.loading);
+    next();
+  },
+  beforeDestroy() {
     // 在组件销毁前清除定时器，以防止内存泄漏
     clearInterval(this.timer);
   },

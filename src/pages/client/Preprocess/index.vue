@@ -336,7 +336,7 @@
 
           <el-upload
             class="upload-demo"
-            action
+            
             :http-request="uploadFile"
             :on-preview="handlePreview"
             :on-remove="handleRemove"

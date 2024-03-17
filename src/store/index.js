@@ -58,7 +58,8 @@ const actions = {
             state.websocket.close();
             commit('clearWebSocket');
         }
-    }
+    },
+
 }
 
 // 用于操作数据
@@ -90,12 +91,43 @@ const mutations = {
     //在结束页面的时候可以清理本页面设置的事件监听
     clearWebSocketEvent(state, event) {
         state.websocketEvents[event] = null;
-    }
+    },
     //使用案例 在页面
     //beforedestroyed(){
     //     this.$store.commit('clearWebSocketEvent', 'onmessage');
     // }
 
+
+    setUserId(state, userId) {
+        state.userId = userId;
+    },
+    setIp(state, Ip) {
+        state.Ip = Ip;
+    },
+    setShow(state, show) {
+        state.show = show;
+    },
+    setRuleForm(state, ruleForm) {
+        state.ruleForm = ruleForm;
+    },
+    setFormDisabled(state, formDisabled) {
+        state.formDisabled = formDisabled;
+    },
+    setAgreeLoading(state, agreeLoading) {
+        state.agreeLoading = agreeLoading;
+    },
+    setLoading(state, loading) {
+        state.loading = loading;
+    },
+    setMessageShow(state, messageShow) {
+        state.messageShow = messageShow;
+    },
+    setAgreeShow(state, agreeShow) {
+        state.agreeShow = agreeShow;
+    },
+    setTableData(state, tableData) {
+        state.tableData[0] = tableData;
+    },
 }
 
 // 用于存储数据
@@ -103,6 +135,8 @@ const state = {
     // sum: 0,
     myComponents,
     securityCom,
+
+    //websocket连接
     websocket: null,
     websocketEvents: {
         onmessage: null,
@@ -110,13 +144,35 @@ const state = {
         onclose: null,
         onerror: null
     },
+
+    userId: null,
+    ip:null,
+    show: true,
+    ruleForm: {
+        ip: "localhost:8000",
+        name: "",
+        department: "",
+    },
+    tableData: [{
+            algori: "CNN",
+            compress: "xx算法",
+            chafen: "xxx",
+            epochs: 2000,
+            jiami: "xxxxx"
+    }],
+    formDisabled: false,
+    agreeLoading: true,
+    loading: true,
+    messageShow: false,
+    agreeShow: false,
+    
 }
 
 //包装state，解耦
 const getters = {
     //其他页面获取websocket连接
     websocket(state) {
-      return state.websocket;
+        return state.websocket;
     }
     //案例 页面js部分
     // computed: {
@@ -129,14 +185,14 @@ const getters = {
     //       console.log('WebSocket connection:', this.websocket);
     //     }
     //   }
-  }
+}
 
 const store = new Vuex.Store({
     actions,
     mutations,
     state,
     getters,
-    
+
 })
 
 export default store

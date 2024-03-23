@@ -60,7 +60,7 @@
         style="margin-bottom: 20px; margin-top: 20px; border: none"
       >
         <el-col :span="8" :offset="8">
-          <div class="title" style="font-size: 20px">聚合过程结果</div>
+          <div class="title" style="font-size: 20px">训练过程结果</div>
         </el-col>
       </el-row>
       <el-row>
@@ -103,7 +103,7 @@ export default {
       // 总轮次
       allRound: 100,
       // 目前轮次
-      nowRound: 1,
+      nowRound: 10,
     };
   },
   mounted() {

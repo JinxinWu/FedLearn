@@ -115,7 +115,9 @@
         </el-col>
       </el-row>
       <el-row class="menu">
-        <div id="reply" ref="reply" style="text-align: left"></div>
+        <el-col :span="8" :offset="8">
+          <div id="reply" ref="reply" style="text-align: center;"></div>
+        </el-col>
       </el-row>
     </div>
     <!-- 组件+步骤 -->

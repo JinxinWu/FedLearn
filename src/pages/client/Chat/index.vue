@@ -2,7 +2,6 @@
   <div>
     <div>
       <h1
-        style="margin-top: 20px; margin-bottom: 25px"
         class="text-center m-b-lg"
       >
         建模知多少

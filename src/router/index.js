@@ -8,7 +8,7 @@ import Connect from "@/pages/client/Connect"; // 连接中央服务器
 import Apply from "@/pages/client/Apply"; // 模型应用
 import Privacy from "@/pages/client/Privacy"; // 隐私保护
 import Preprocess from "@/pages/client/Preprocess"; // 数据预处理
-import Chat from "@/pages/client/Chat"
+import Chat from "@/pages/client/Chat" // 智慧聊天
 import Test from "@/pages/client/Test";
 
 // 服务端界面
@@ -16,6 +16,7 @@ import Message from "@/pages/server/Message"; // 消息管理
 import Manage from "@/pages/server/Manage"; // 管理客户端
 import Syn from "@/pages/server/Syn"; // 同步算法
 import Poly from "@/pages/server/Poly"; // 模型聚合
+import Log from "@/pages/server/Log"; // 日志
 
 const router = new VueRouter({
   routes: [
@@ -24,7 +25,8 @@ const router = new VueRouter({
       name: 'Connect',
       component: Connect,
       meta: {
-        requireAuth: true
+        requireAuth: true,
+        title: '服务端连接',
       },
     },
     {
@@ -32,7 +34,8 @@ const router = new VueRouter({
       name: 'Apply',
       component: Apply,
       meta: {
-        requireAuth: true
+        requireAuth: true,
+        title: '模型应用',
       },
     },
     {
@@ -40,7 +43,8 @@ const router = new VueRouter({
       name: 'Privacy',
       component: Privacy,
       meta: {
-        requireAuth: true
+        requireAuth: true,
+        title: '隐私保护',
       },
     },
     {
@@ -48,7 +52,8 @@ const router = new VueRouter({
       name: 'Preprocess',
       component: Preprocess,
       meta: {
-        requireAuth: true
+        requireAuth: true,
+        title: '数据预处理',
       },
     },
     {
@@ -56,31 +61,42 @@ const router = new VueRouter({
       name: 'Chat',
       component: Chat,
       meta: {
-        requireAuth: true
+        requireAuth: true,
+        title: '智慧聊天',
       },
     },
     {
       path: '/Login',
       name: 'Login',
       component: Login,
+      meta: {
+        title: '用户登录',
+      },
     },
     //默认为登录页面
     {
       path: '/',
       name: '/',
       redirect: '/login',
+      meta: {
+        title: '用户登录',
+      },
     },
     {
       path: '/Test',
       name: 'Test',
       component: Test,
+      meta: {
+        title: '测试',
+      },
     },
     {
       path: '/server/Message',
       name: 'Message',
       component: Message,
       meta: {
-        requireAuth: true
+        requireAuth: true,
+        title: '消息管理',
       },
     },
     {
@@ -88,7 +104,8 @@ const router = new VueRouter({
       name: 'Manage',
       component: Manage,
       meta: {
-        requireAuth: true
+        requireAuth: true,
+        title: '客户端管理',
       },
     },
     {
@@ -96,7 +113,8 @@ const router = new VueRouter({
       name: 'Syn',
       component: Syn,
       meta: {
-        requireAuth: true
+        requireAuth: true,
+        title: '算法同步',
       },
     },
     {
@@ -104,11 +122,26 @@ const router = new VueRouter({
       name: 'Poly',
       component: Poly,
       meta: {
-        requireAuth: true
+        requireAuth: true,
+        title: '模型聚合',
       },
     },
+    {
+      path: '/server/Log',
+      name: 'Log',
+      component: Log,
+      meta: {
+        requireAuth: true,
+        title: '日志',
+      },
+    }
   ],
 });
+
+router.afterEach((to, from) => {
+  document.title = to.meta.title //在全局后置守卫中获取路由元信息设置title
+  
+})
 
 export default router;
 

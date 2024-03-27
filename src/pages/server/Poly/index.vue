@@ -454,6 +454,13 @@ export default {
 
 <style lang='less' scoped>
 @import "@/assets/css/server.less";
+/deep/ .el-statistic .head {
+  font-size: 14px;
+}
+
+/deep/ .el-statistic .con .number {
+  font-size: 14px;
+}
 
 // Descriptions
 ::v-deep

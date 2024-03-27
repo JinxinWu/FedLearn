@@ -51,7 +51,7 @@
         </el-col>
         <el-col :span="1" :offset="0">
           <el-button
-            style="margin-top: 20px"
+            style="margin-top: 20px; font-size: 14px;"
             type="mini"
             @click="moreInfoVisible = true"
             >更多详情</el-button
@@ -61,12 +61,12 @@
       <el-row class="menu">
         <el-col :span="8" :offset="0">
           <div class="Echarts">
-            <div style="width: 382px; height: 250px">
-              <p style="font-size: 20px; padding-top: 80px">
+            <div style="width: 382px; height: 250px; font-size: 14px;">
+              <p style="padding-top: 80px">
                 总样本数量：{{ n }}
               </p>
-              <p style="font-size: 20px">样本类别种类：{{ n2 }}</p>
-              <p style="font-size: 20px">特征数量：{{ n3 }}</p>
+              <p>样本类别种类：{{ n2 }}</p>
+              <p>特征数量：{{ n3 }}</p>
             </div>
           </div>
         </el-col>
@@ -323,7 +323,7 @@
           <p
             v-show="!data.nodeList.length"
             style="
-              font-size: 16px;
+              font-size: 14px;
               text-align: left;
               z-index: 999;
               position: absolute;
@@ -430,7 +430,7 @@
         </el-col>
         <el-col :span="1" :offset="0">
           <el-button
-            style="margin-top: 20px"
+            style="margin-top: 20px; font-size: 14px;"
             type="mini"
             @click="moreInfoVisible = true"
             >更多详情</el-button
@@ -440,12 +440,12 @@
       <el-row class="menu">
         <el-col :span="8" :offset="0">
           <div class="Echarts">
-            <div style="width: 382px; height: 250px">
-              <p style="font-size: 20px; padding-top: 80px">
+            <div style="width: 382px; height: 250px; font-size: 14px">
+              <p style="padding-top: 80px">
                 总样本数量：{{ nAfter }}
               </p>
-              <p style="font-size: 20px">样本类别种类：{{ n2After }}</p>
-              <p style="font-size: 20px">特征数量：{{ n3After }}</p>
+              <p>样本类别种类：{{ n2After }}</p>
+              <p>特征数量：{{ n3After }}</p>
             </div>
           </div>
         </el-col>
@@ -1681,6 +1681,7 @@ export default {
   height: 25px;
   margin: 10px auto;
   color: white;
+  font-size: 14px;
   border-radius: 5px;
 }
 //组件

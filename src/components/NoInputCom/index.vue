@@ -63,7 +63,7 @@ export default {
   // 小手形状
   cursor: pointer;
   background-color: #f2f5fa;
-  font-size: 13px;
+  font-size: 14px;
   color: black;
   border: none;
   // height与line-height相同时文字居中

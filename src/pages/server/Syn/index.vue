@@ -34,6 +34,7 @@
               margin: 5px auto 5px auto;
               border: 1px dashed #4874cb;
               width: 80%;
+              font-size: 14px;
             "
           >
             <div>差分隐私</div>
@@ -66,6 +67,7 @@
               margin: 5px auto 5px auto;
               border: 1px dashed #4874cb;
               width: 80%;
+              font-size: 14px;
             "
           >
             <div>同态加密</div>
@@ -95,6 +97,7 @@
               margin: 5px auto 5px auto;
               border: 1px dashed #4874cb;
               width: 80%;
+              font-size: 14px;
             "
           >
             <div>压缩方法</div>
@@ -115,6 +118,7 @@
               margin: 5px auto 5px auto;
               border: 1px dashed #4874cb;
               width: 80%;
+              font-size: 14px;
             "
           >
             <div>聚合方法</div>
@@ -131,7 +135,7 @@
         </el-col>
       </el-row>
       <el-row style="margin-top: 20px;">
-        <span style="font-size: 14px;margin-right: 10px;">聚合轮次</span>
+        <span style="font-size: 14px; margin-right: 10px;">聚合轮次</span>
         
         <el-input v-model="num" style="width: 100px;height: 30px !important;"></el-input>
         

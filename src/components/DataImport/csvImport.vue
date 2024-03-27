@@ -43,7 +43,7 @@ export default {
   <style scoped>
 div {
   background-color: #d6edf7;
-  font-size: 13px;
+  font-size: 14px;
   color: black;
   border: none;
   height:25px;
@@ -55,7 +55,7 @@ div {
 }
 .el-button:hover {
   background-color: #d6edf7;
-  font-size: 13px;
+  font-size: 14px;
   color: black;
   border: none;
   height:25px;

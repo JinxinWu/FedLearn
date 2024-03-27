@@ -94,7 +94,7 @@ export default {
 .hf-button-2 {
   cursor: pointer; // 小手图标
   background-color: #409eff;
-  font-size: 13px;
+  font-size: 14px;
   color: black;
   border: none;
   height: 25px;
@@ -113,7 +113,7 @@ export default {
   // 小手形状
   cursor: pointer;
   background-color: #409eff;
-  font-size: 13px;
+  font-size: 14px;
   color: black;
   border: none;
   width: 120px;
@@ -127,7 +127,7 @@ export default {
 .opts {
   cursor: pointer;
   background-color: #a1cdf3;
-  font-size: 13px;
+  font-size: 14px;
   color: black;
   border: none;
   height: 25px;
@@ -145,7 +145,7 @@ export default {
 .opts-click {
   cursor: pointer;
   background-color: #458ecd;
-  font-size: 13px;
+  font-size: 14px;
   color: black;
   border: none;
   height: 25px;

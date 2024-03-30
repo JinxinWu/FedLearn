@@ -8,6 +8,7 @@ import Connect from "@/pages/client/Connect"; // 连接中央服务器
 import Apply from "@/pages/client/Apply"; // 模型应用
 import Privacy from "@/pages/client/Privacy"; // 隐私保护
 import Preprocess from "@/pages/client/Preprocess"; // 数据预处理
+import ClientCp from "@/pages/client/ClientCp"; // 客户端对比
 import Chat from "@/pages/client/Chat" // 智慧聊天
 import Test from "@/pages/client/Test";
 
@@ -16,6 +17,7 @@ import Message from "@/pages/server/Message"; // 消息管理
 import Manage from "@/pages/server/Manage"; // 管理客户端
 import Syn from "@/pages/server/Syn"; // 同步算法
 import Poly from "@/pages/server/Poly"; // 模型聚合
+import ServerCp from "@/pages/server/ServerCp"; // 服务端对比
 import Log from "@/pages/server/Log"; // 日志
 
 const router = new VueRouter({
@@ -54,6 +56,15 @@ const router = new VueRouter({
       meta: {
         requireAuth: true,
         title: '数据预处理',
+      },
+    },
+    {
+      path: '/client/ClientCp',
+      name: 'ClientCp',
+      component: ClientCp,
+      meta: {
+        requireAuth: true,
+        title: '模型对比',
       },
     },
     {
@@ -124,6 +135,15 @@ const router = new VueRouter({
       meta: {
         requireAuth: true,
         title: '模型聚合',
+      },
+    },
+    {
+      path: '/server/ServerCp',
+      name: 'ServerCp',
+      component: ServerCp,
+      meta: {
+        requireAuth: true,
+        title: '模型对比',
       },
     },
     {

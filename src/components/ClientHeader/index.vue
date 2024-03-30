@@ -40,7 +40,7 @@
       <span style="font-size: 20px">客户端</span>
     </el-col>
 
-    <el-col :span="17" style="padding-left: 180px">
+    <el-col :span="17" style="padding-left: 100px">
       <div class="menu">
         <el-menu
           :default-active="activeIndex"
@@ -53,12 +53,14 @@
           <el-menu-item index="/client/Connect">
             <span slot="title">连接服务端</span>
           </el-menu-item>
-
           <el-menu-item index="/client/Preprocess">
             <span slot="title">数据预处理</span>
           </el-menu-item>
           <el-menu-item index="/client/Privacy">
             <span slot="title">模型训练</span>
+          </el-menu-item>
+          <el-menu-item index="/client/ClientCp">
+            <span slot="title">模型对比</span>
           </el-menu-item>
           <el-menu-item index="/client/Chat">
             <span slot="title">智慧聊天</span>
@@ -93,7 +95,7 @@ export default {
   name: "Header",
   data() {
     return {
-      activeIndex: "1",
+      activeIndex: this.$route.path,
       userAvatar: "",
     };
   },

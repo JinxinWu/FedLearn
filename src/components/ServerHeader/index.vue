@@ -79,6 +79,9 @@
           <el-menu-item index="/server/Poly">
             <span slot="title">模型聚合</span>
           </el-menu-item>
+          <el-menu-item index="/server/ServerCp">
+            <span slot="title">模型对比</span>
+          </el-menu-item>
           <el-menu-item index="/server/Log">
             <span slot="title">日志</span>
           </el-menu-item>
@@ -98,7 +101,7 @@ export default {
   name: "Header",
   data() {
     return {
-      activeIndex: "/server/Message",
+      activeIndex: this.$route.path,
       userAvatar: "",
     };
   },

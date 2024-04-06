@@ -453,7 +453,6 @@ export default {
 </script>
 
 <style lang='less' scoped>
-@import "@/assets/css/server.less";
 /deep/ .el-statistic .head {
   font-size: 14px;
 }

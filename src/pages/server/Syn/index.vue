@@ -21,7 +21,8 @@
               :data="options"
             >
               <span slot-scope="{ option }"
-                >{{ option.clientName }} - {{ option.department }} - {{ option.label }}</span
+                >{{ option.clientName }} - {{ option.department }} -
+                {{ option.label }}</span
               >
             </el-transfer>
           </div>
@@ -33,35 +34,62 @@
             style="
               margin: 5px auto 5px auto;
               border: 1px dashed #4874cb;
-              width: 80%;
+              width: 90%;
               font-size: 14px;
             "
           >
             <div>差分隐私</div>
-            <div style="margin-top: 5px">
-              <MyButton
-                v-for="item in [securityCom.csvImport, securityCom.ExcelImport]"
-                :comData="item"
-                :key="item.id"
-                ref="myButton"
-                @click.native="changeColor(item.id, item.step)"
-              ></MyButton>
+            <div
+              style="
+                margin: 5px 1px;
+                border: 1px dashed #4874cb;
+                width: 46%;
+                font-size: 14px;
+                display: inline-block;
+              "
+            >
+              <div>中心化差分隐私</div>
+              <div style="margin-top: 5px">
+                <MyButton
+                  v-for="item in [
+                    securityCom.gauss1,
+                    securityCom.laplace1,
+                    securityCom.index1,
+                  ]"
+                  :comData="item"
+                  :key="item.id"
+                  ref="myButton"
+                  @click.native="changeColor(item.id, item.step)"
+                ></MyButton>
+              </div>
             </div>
-            <div style="margin-bottom: 5px">
-              <MyButton
-                v-for="item in [
-                  securityCom.DBImport,
-                  securityCom.unstructuredImport,
-                ]"
-                :comData="item"
-                :key="item.id"
-                ref="myButton"
-                @click.native="changeColor(item.id, item.step)"
-              ></MyButton>
+            <div
+              style="
+                margin: 5px 1px;
+                border: 1px dashed #4874cb;
+                width: 46%;
+                font-size: 14px;
+                display: inline-block;
+              "
+            >
+              <div>本地化差分隐私</div>
+              <div style="margin-top: 5px">
+                <MyButton
+                  v-for="item in [
+                    securityCom.gauss2,
+                    securityCom.laplace2,
+                    securityCom.index2,
+                  ]"
+                  :comData="item"
+                  :key="item.id"
+                  ref="myButton"
+                  @click.native="changeColor(item.id, item.step)"
+                ></MyButton>
+              </div>
             </div>
           </div>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="6">
           <div
             style="
               margin: 5px auto 5px auto;
@@ -73,14 +101,14 @@
             <div>同态加密</div>
             <div style="margin-top: 5px">
               <MyButton
-                v-for="item in [securityCom.delMisCol, securityCom.zeroCom]"
+                v-for="item in [securityCom.ckks, securityCom.ElGamal]"
                 :comData="item"
                 :key="item.id"
                 ref="myButton"
                 @click.native="changeColor(item.id, item.step)"
               ></MyButton>
             </div>
-            <div style="margin-bottom: 5px">
+            <!-- <div style="margin-bottom: 5px">
               <MyButton
                 v-for="item in [securityCom.meanCom]"
                 :comData="item"
@@ -88,10 +116,10 @@
                 ref="myButton"
                 @click.native="changeColor(item.id, item.step)"
               ></MyButton>
-            </div>
+            </div> -->
           </div>
         </el-col>
-        <el-col :span="4">
+        <el-col :span="6">
           <div
             style="
               margin: 5px auto 5px auto;
@@ -103,7 +131,7 @@
             <div>压缩方法</div>
             <div style="margin-top: 5px; margin-bottom: 5px">
               <MyButton
-                v-for="item in [securityCom.delError, securityCom.bcTrans]"
+                v-for="item in [securityCom.textcom, securityCom.Huffman]"
                 :comData="item"
                 :key="item.id"
                 ref="myButton"
@@ -112,7 +140,7 @@
             </div>
           </div>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="6">
           <div
             style="
               margin: 5px auto 5px auto;
@@ -121,10 +149,13 @@
               font-size: 14px;
             "
           >
-            <div>聚合方法</div>
+            <div>联邦方法</div>
             <div style="margin-top: 5px; margin-bottom: 5px">
               <MyButton
-                v-for="item in [securityCom.Model_Parameter_Averaging, securityCom.Gradient_Averaging,securityCom.Election_based_Aggregation,securityCom.Hierarchical_Aggregation]"
+                v-for="item in [
+                  securityCom.average,
+                  securityCom.zengliang,
+                ]"
                 :comData="item"
                 :key="item.id"
                 ref="myButton"
@@ -134,11 +165,17 @@
           </div>
         </el-col>
       </el-row>
-      <el-row style="margin-top: 20px;">
-        <span style="font-size: 14px; margin-right: 10px;">聚合轮次</span>
-        
-        <el-input v-model="num" style="width: 100px;height: 30px !important;"></el-input>
-        
+      <el-row style="margin-top: 10px; font-size: 14px">
+        <el-col :span="18" :offset="3">
+          <p>说明:</p>
+        </el-col>
+      </el-row>
+      <el-row style="margin-top: 20px">
+        <span style="font-size: 14px; margin-right: 10px">聚合轮次</span>
+        <el-input
+          v-model="num"
+          style="width: 100px; height: 30px !important"
+        ></el-input>
       </el-row>
       <el-row style="margin-top: 20px">
         <el-col
@@ -175,20 +212,21 @@ export default {
     //   return data;
     // };
     return {
-      options:[],  // key设计为userId, clientName设计为客户名，department设计为部门，label设计为IP
+      options: [], // key设计为userId, clientName设计为客户名，department设计为部门，label设计为IP
       value: [],
       securityCom: this.$store.state.securityCom,
       token: null,
-      num:null,
-      userId:null
+      num: null,
+      userId: null,
     };
   },
   activated() {},
   mounted() {
-    this.init()
+    this.init();
   },
   methods: {
-    init() {  // 获取服务端的userId以及获取所有同意后的客户端信息
+    init() {
+      // 获取服务端的userId以及获取所有同意后的客户端信息
       // 从cookie中获取id
       this.token = VueCookies.get("token");
       if (this.token) {
@@ -201,16 +239,16 @@ export default {
           timeout: 30000,
         }).then((res) => {
           this.userId = res.data.userId;
-          axios({  // 从connection表中获取所有的已连接的clientId以及客户的一些信息
+          axios({
+            // 从connection表中获取所有的已连接的clientId以及客户的一些信息
             method: "get",
             url: `http://localhost:7000/connect/getClient/${this.userId}`,
             headers: {
               token: this.token,
             },
           }).then((res) => {
-            this.options = res.data.data,
-            console.log(this.options)
-          })
+            (this.options = res.data.data), console.log(this.options);
+          });
         });
       }
     },
@@ -248,40 +286,41 @@ export default {
         for (var i = 0; i < arr.length; i++) {
           methodsArray.push(arr[i].id);
         }
-        var methodsId = methodsArray.join(','); // 使用 join() 方法将数组元素连接成一个用逗号隔开的字符串
-        console.log(methodsId)
-        var clientIdsArray = this.value.join(',')
-        console.log(clientIdsArray)
-        axios({  // 这里将同步方法和发送给的client保存到一张表里
-          method: 'post',
+        var methodsId = methodsArray.join(","); // 使用 join() 方法将数组元素连接成一个用逗号隔开的字符串
+        console.log(methodsId);
+        var clientIdsArray = this.value.join(",");
+        console.log(clientIdsArray);
+        axios({
+          // 这里将同步方法和发送给的client保存到一张表里
+          method: "post",
           url: "http://localhost:8000/async/addAsync",
           data: {
             severId: this.userId,
             clientIds: clientIdsArray,
             methods: methodsId,
-            epochs: this.num
+            epochs: this.num,
           },
           headers: {
-            token: this.token
-          }
+            token: this.token,
+          },
         }).then((res) => {
           axios({
             method: "post",
             url: "http://localhost:8000/Server/pushToGroup",
             data: {
               toUserIds: this.value,
-              message: `2,服务端同步信息已发送;${methodsId},${this.num}`
+              message: `2,服务端同步信息已发送;${methodsId},${this.num}`,
             },
             headers: {
-              token: this.token
-            }
+              token: this.token,
+            },
           }).then((res) => {
             this.$message({
               message: "服务端同步信息发送成功",
               type: "success",
             });
-          })
-        })
+          });
+        });
       }
     },
   },

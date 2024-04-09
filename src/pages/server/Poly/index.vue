@@ -27,7 +27,7 @@
       </el-row>
     </div>
     <!-- 聚合方法 -->
-    <div class="myBox">
+    <!-- <div class="myBox">
       <el-row class="menu" style="margin-bottom: 20px">
         <el-col :span="8" :offset="8">
           <div class="title" style="font-size: 20px">聚合方法</div>
@@ -44,7 +44,7 @@
           <MethCard :myMeth="methCard[2]"></MethCard>
         </el-col>
       </el-row>
-    </div>
+    </div> -->
     <!-- 聚合轮次 -->
     <div class="myBox">
       <el-row class="menu" style="margin-bottom: 20px">
@@ -88,7 +88,7 @@
         </el-col>
         <el-col :span="14">
           <div class="title" style="font-size: 16px; margin-bottom: 10px">
-            验证正确率
+            验证准确率
           </div>
           <el-descriptions direction="vertical" :column="6" border>
             <el-descriptions-item label="类1"
@@ -192,7 +192,7 @@ export default {
       allRound: 2000,
       // 目前轮次
       nowRound: 10,
-      // 正确率
+      // 准确率
       rightRate: [85.8, 92.5, 87.6, 96.4, 95.2, 97.8, 95.4],
       // 选择客户端的数据
       allClient: [
@@ -257,7 +257,7 @@ export default {
 
       option = {
         title: {
-          text: "正确率变化",
+          text: "准确率变化",
         },
         tooltip: {
           trigger: "axis",
@@ -388,7 +388,7 @@ export default {
           // },
         ];
 
-        // 获取第一个对象的正确率数组长度
+        // 获取第一个对象的准确率数组长度
         const accuracyLength = lineChartData[0].accuracy.length;
         // 生成从1开始，长度与accuracy相同的数组
         const xdata = Array.from(

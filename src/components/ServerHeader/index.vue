@@ -80,7 +80,7 @@
             <span slot="title">模型聚合</span>
           </el-menu-item>
           <el-menu-item index="/server/ServerCp">
-            <span slot="title">模型对比</span>
+            <span slot="title">数据对比</span>
           </el-menu-item>
           <el-menu-item index="/server/Log">
             <span slot="title">日志</span>
@@ -131,7 +131,7 @@ export default {
 };
 </script>
   
-  <style lang="less" scoped>
+<style lang="less" scoped>
 .el-row {
   background-color: #fff;
   &:last-child {

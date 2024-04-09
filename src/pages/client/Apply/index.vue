@@ -41,7 +41,7 @@
           :header-cell-style="{ 'text-align': 'center' }"
           :cell-style="{ 'text-align': 'center' }"
         >
-          <el-table-column prop="algori" label="正确率" width="180">
+          <el-table-column prop="algori" label="准确率" width="180">
           </el-table-column>
           <el-table-column prop="compress" label="准确率" width="180">
           </el-table-column>

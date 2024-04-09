@@ -625,9 +625,9 @@
   "accuracy": {
     "step": 7,
     "id": 45,
-    "name": "正确率",
+    "name": "准确率",
     "type": "Accuracy",
-    "content": "测试正确率"
+    "content": "测试准确率"
   },
   "precision": {
     "step": 7,

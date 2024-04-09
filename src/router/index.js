@@ -64,7 +64,7 @@ const router = new VueRouter({
       component: ClientCp,
       meta: {
         requireAuth: true,
-        title: '模型对比',
+        title: '数据对比',
       },
     },
     {
@@ -143,7 +143,7 @@ const router = new VueRouter({
       component: ServerCp,
       meta: {
         requireAuth: true,
-        title: '模型对比',
+        title: '数据对比',
       },
     },
     {

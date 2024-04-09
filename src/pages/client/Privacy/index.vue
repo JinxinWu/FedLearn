@@ -63,11 +63,8 @@
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="12">
+        <el-col :span="16" :offset="4">
           <DrawLine chartId="drwaLine1"></DrawLine>
-        </el-col>
-        <el-col :span="12">
-          <DrawLine chartId="drwaLine2"></DrawLine>
         </el-col>
       </el-row>
     </div>

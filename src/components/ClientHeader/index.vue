@@ -59,14 +59,17 @@
           <el-menu-item index="/client/Privacy">
             <span slot="title">模型训练</span>
           </el-menu-item>
-          <el-menu-item index="/client/ClientCp">
-            <span slot="title">模型对比</span>
-          </el-menu-item>
+          <!-- <el-menu-item index="/client/ClientCp">
+            <span slot="title">数据对比</span>
+          </el-menu-item> -->
           <el-menu-item index="/client/Chat">
             <span slot="title">智慧聊天</span>
           </el-menu-item>
           <el-menu-item index="/client/Apply">
             <span slot="title">模型应用</span>
+          </el-menu-item>
+          <el-menu-item index="">
+            <span slot="title">日志</span>
           </el-menu-item>
           <el-menu-item index="/login" v-if="!hasToken()"
             >登录/个人信息</el-menu-item

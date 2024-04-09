@@ -24,7 +24,7 @@ export default {
 
       option = {
         title: {
-          text: "正确率变化",
+          text: "准确率变化",
         },
         tooltip: {
           trigger: "axis",
@@ -111,7 +111,7 @@ export default {
           },
         ];
 
-        // 获取第一个对象的正确率数组长度
+        // 获取第一个对象的准确率数组长度
         const accuracyLength = lineChartData[0].accuracy.length;
         // 生成从1开始，长度与accuracy相同的数组
         const xdata = Array.from(

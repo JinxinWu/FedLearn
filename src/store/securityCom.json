@@ -1,100 +1,94 @@
 {
-  "csvImport": {
-    "isChange": true,
+  "gauss1": {
+    "isChange": false,
     "step": 1,
     "id": 1,
-    "name": "csv文件",
-    "type": "csvImport",
-    "content": "拖入即可导入csv文件"
+    "name": "高斯噪声",
+    "type": "gauss",
+    "content": "高斯噪声"
   },
-  "ExcelImport": {
+  "laplace1": {
     "isChange": false,
     "step": 1,
     "id": 2,
-    "name": "Excel文件",
-    "type": "ExcelImport",
-    "content": "拖入即可导入Excel文件"
+    "name": "拉普拉斯噪声",
+    "type": "laplace",
+    "content": "拉普拉斯噪声"
   },
-  "DBImport": {
+  "index1": {
     "isChange": false,
     "step": 1,
     "id": 3,
-    "name": "DB文件",
-    "type": "DBImport",
-    "content": "拖入即可导入db文件"
+    "name": "指数噪声",
+    "type": "index",
+    "content": "指数噪声"
   },
-  "unstructuredImport": {
+  "gauss2": {
     "isChange": false,
     "step": 1,
     "id": 4,
-    "name": "非结构化数据",
-    "type": "unstructuredImport",
-    "content": "拖入即可导入非结构化数据"
+    "name": "高斯噪声",
+    "type": "gauss",
+    "content": "高斯噪声"
   },
-  "delMisCol": {
+  "laplace2": {
     "isChange": false,
-    "step": 2,
+    "step": 1,
     "id": 5,
-    "name": "删除缺失列",
-    "type": "DeleteMissingColumns",
-    "content": "删除数据集中某一部分或全部的数据缺失的列，以减少噪音和不完整信息"
+    "name": "拉普拉斯噪声",
+    "type": "laplace",
+    "content": "拉普拉斯噪声"
   },
-  "zeroCom": {
+  "index2": {
     "isChange": false,
-    "step": 2,
+    "step": 1,
     "id": 6,
-    "name": "0补全",
-    "type": "ZeroCompletion",
-    "content": "对于数据中的缺失值，使用0来填充"
+    "name": "指数噪声",
+    "type": "index",
+    "content": "指数噪声"
   },
-  "meanCom": {
+  "ckks": {
     "isChange": false,
     "step": 2,
     "id": 7,
-    "name": "均值补全",
-    "type": "MeanCompletion",
-    "content": "对于数据中的缺失值，使用该列的平均值来填充"
+    "name": "ckks",
+    "type": "ckks",
+    "content": "ckks"
   },
-  "delError": {
+  "ElGamal": {
+    "isChange": false,
+    "step": 2,
+    "id": 8,
+    "name": "ElGamal",
+    "type": "ElGamal",
+    "content": "ElGamal"
+  },
+  "textcom": {
     "step": 3,
     "id": 10,
-    "name": "删除异常样本",
-    "type": "DeleteAbnormalSample",
-    "content": "删除数据集中存在的可能对模型产生不良影响的异常值，异常样本是指与数据集中的大多数样本明显不同或者偏离正常模式的样本"
+    "name": "文本压缩",
+    "type": "textcom",
+    "content": "文本压缩"
   },
-  "bcTrans": {
+  "Huffman": {
     "step": 3,
     "id": 11,
-    "name": "Box-Cox变换",
-    "type": "BCTransformation",
-    "content": "调整数据分布以满足正态性假设"
+    "name": "Huffman量化压缩",
+    "type": "Huffman",
+    "content": "Huffman量化压缩"
   },
-  "Model_Parameter_Averaging": {
+  "average": {
     "step": 8,
     "id": 54,
-    "name": "模型参数平均",
-    "type": "Model_Parameter_Averaging",
-    "content": "模型参数平均"
+    "name": "平均联邦",
+    "type": "average",
+    "content": "平均联邦"
   },
-  "Gradient_Averaging": {
+  "zengliang": {
     "step": 8,
     "id": 55,
-    "name": "梯度平均",
-    "type": "Gradient_Averaging",
-    "content": "梯度平均"
-  },
-  "Election_based_Aggregation": {
-    "step": 8,
-    "id": 56,
-    "name": "选举式聚合",
-    "type": "Election_based_Aggregation",
-    "content": "选举式聚合"
-  },
-  "Hierarchical_Aggregation": {
-    "step": 8,
-    "id": 57,
-    "name": "分层聚合",
-    "type": "Hierarchical_Aggregation",
-    "content": "分层聚合"
+    "name": "增量联邦",
+    "type": "zengliang",
+    "content": "增量联邦"
   }
 }

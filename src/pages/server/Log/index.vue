@@ -2,70 +2,45 @@
   <div>
     <el-row>
       <el-col :span="18" :offset="3">
-        <div class="message-box" style="min-height: 653.28px">
-          <p class="title">客户端管理</p>
-          <div style="margin: 10px 0px; text-align: left;">
-            <span style="margin-right: 10px; margin-left: 10px"
-              >已选中{{ checkedNum }}项</span
-            >
-            <el-button size="small" @click="manyHadRead()"
-              >批量标为已读</el-button
-            >
-            <el-button size="small" @click="toggleSelection()"
-              >取消选择</el-button
-            >
-          </div>
-          <el-table
-            ref="multipleTable"
-            border
-            :header-cell-style="{
-              background: '#f5f7fa',
-              color: '#909399',
-              padding: '8px 0px',
-            }"
-            :cell-style="{ padding: '8px 0px' }"
-            :data="currentMessage"
-            tooltip-effect="dark"
-            style="width: 100%"
-            @selection-change="handleSelectionChange"
-          >
-            <el-table-column type="selection" width="40"> </el-table-column>
-            <el-table-column
-              prop="client"
-              label="客户端名称"
-              show-overflow-tooltip
-            >
-            </el-table-column>
-            <el-table-column prop="area" label="部门"> </el-table-column>
-            <el-table-column prop="ip" label="IP"> </el-table-column>
-            <el-table-column prop="gpu" label="GPU"> </el-table-column>
-            <el-table-column prop="cpu" label="CPU"> </el-table-column>
-            <el-table-column prop="memory" label="内存" width="60">
-            </el-table-column>
-            <el-table-column prop="alive" label="是否在线" width="80">
-            </el-table-column>
-            <el-table-column label="操作" width="80">
-              <template slot-scope="scope">
-                <a
-                  style="color: #409eff"
-                  @click="handleDelete(scope.$index, scope.row)"
-                  >断开连接</a
+        <div class="message-box" style="margin-top: 5%">
+          <el-tabs v-model="activeName" @tab-click="handleClick">
+            <el-tab-pane name="first">
+              <div slot="label">
+                客户端连接日志
+                <span :style="{ color: messages.length > 10 ? 'red' : '' }"
+                  >({{ messages.length }})</span
                 >
-              </template>
-            </el-table-column>
-          </el-table>
-          <div class="block" style="margin: 20px 0px 0px 0px">
-            <el-pagination
-              @size-change="handleSizeChange"
-              @current-change="handleCurrentChange"
-              :current-page="currentPage"
-              :page-sizes="[10, 20, 30, 40]"
-              :page-size="pagesize"
-              layout="total, sizes, prev, pager, next, jumper"
-              :total="allMessage.length"
-            >
-            </el-pagination>
-          </div>
+              </div>
+              <Messages which="ask" :getMessage="messages" @getConnectMessage="getConnectMessage"></Messages>
+            </el-tab-pane>
+            <el-tab-pane label="其他消息" name="second">
+              <div slot="label">
+                模型聚合日志
+                <span :style="{ color: messages.length > 10 ? 'red' : '' }"
+                  >({{ messages.length }})</span
+                >
+              </div>
+              <Messages which="other" :getMessage="messages" @getConnectMessage="getConnectMessage"></Messages>
+            </el-tab-pane>
+            <el-tab-pane label="其他消息" name="thrid">
+              <div slot="label">
+                服务端参数同步
+                <span :style="{ color: messages.length > 10 ? 'red' : '' }"
+                  >({{ messages.length }})</span
+                >
+              </div>
+              <Messages which="other" :getMessage="messages" @getConnectMessage="getConnectMessage"></Messages>
+            </el-tab-pane>
+            <el-tab-pane label="其他消息" name="forth">
+              <div slot="label">
+                客户端参数同步
+                <span :style="{ color: messages.length > 10 ? 'red' : '' }"
+                  >({{ messages.length }})</span
+                >
+              </div>
+              <Messages which="other" :getMessage="messages" @getConnectMessage="getConnectMessage"></Messages>
+            </el-tab-pane>
+          </el-tabs>
         </div>
       </el-col>
     </el-row>
@@ -75,6 +50,7 @@
 <script>
 import Messages from "@/components/Messages";
 import axios from "axios";
+import VueCookies from "vue-cookies";
 
 export default {
   components: {
@@ -82,590 +58,95 @@ export default {
   },
   data() {
     return {
-      // 全部消息的数据
-      allMessage: [
+      // 上面选择全部消息/未读消息/已读消息的数据
+      activeName: "first",
+      // 从服务端接收到的全部数据
+      messages: [
         {
-          client: "王五",
-          manager: "王小虎",
-          area: "计算机学院",
-          ip: "192.168.1.1",
-          gpu: "NVIDIA GeForce GTX 1080",
-          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
-          memory: "16GB",
-          alive: "是",
-        },
-        {
-          client: "王五",
-          manager: "王小虎",
-          area: "计算机学院",
-          ip: "192.168.1.1",
-          gpu: "NVIDIA GeForce GTX 1080",
-          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
-          memory: "16GB",
-          alive: "是",
-        },
-        {
-          client: "王五",
-          manager: "王小虎",
-          area: "计算机学院",
-          ip: "192.168.1.1",
-          gpu: "NVIDIA GeForce GTX 1080",
-          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
-          memory: "16GB",
-          alive: "是",
-        },
-        {
-          client: "王五",
-          manager: "王小虎",
-          area: "计算机学院",
-          ip: "192.168.1.1",
-          gpu: "NVIDIA GeForce GTX 1080",
-          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
-          memory: "16GB",
-          alive: "是",
-        },
-        {
-          client: "王五",
-          manager: "王小虎",
-          area: "计算机学院",
-          ip: "192.168.1.1",
-          gpu: "NVIDIA GeForce GTX 1080",
-          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
-          memory: "16GB",
-          alive: "是",
-        },
-        {
-          client: "王五",
-          manager: "王小虎",
-          area: "计算机学院",
-          ip: "192.168.1.1",
-          gpu: "NVIDIA GeForce GTX 1080",
-          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
-          memory: "16GB",
-          alive: "是",
-        },
-        {
-          client: "王五",
-          manager: "王小虎",
-          area: "计算机学院",
-          ip: "192.168.1.1",
-          gpu: "NVIDIA GeForce GTX 1080",
-          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
-          memory: "16GB",
-          alive: "是",
-        },
-        {
-          client: "王五",
-          manager: "王小虎",
-          area: "计算机学院",
-          ip: "192.168.1.1",
-          gpu: "NVIDIA GeForce GTX 1080",
-          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
-          memory: "16GB",
-          alive: "是",
-        },
-        {
-          client: "王五",
-          manager: "王小虎",
-          area: "计算机学院",
-          ip: "192.168.1.1",
-          gpu: "NVIDIA GeForce GTX 1080",
-          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
-          memory: "16GB",
-          alive: "是",
-        },
-        {
-          client: "王五",
-          manager: "王小虎",
-          area: "计算机学院",
-          ip: "192.168.1.1",
-          gpu: "NVIDIA GeForce GTX 1080",
-          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
-          memory: "16GB",
-          alive: "是",
-        },
-        {
-          client: "王五",
-          manager: "王小虎",
-          area: "计算机学院",
-          ip: "192.168.1.1",
-          gpu: "NVIDIA GeForce GTX 1080",
-          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
-          memory: "16GB",
-          alive: "是",
-        },
-        {
-          client: "王五",
-          manager: "王小虎",
-          area: "计算机学院",
-          ip: "192.168.1.1",
-          gpu: "NVIDIA GeForce GTX 1080",
-          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
-          memory: "16GB",
-          alive: "是",
-        },
-        {
-          client: "王五",
-          manager: "王小虎",
-          area: "计算机学院",
-          ip: "192.168.1.1",
-          gpu: "NVIDIA GeForce GTX 1080",
-          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
-          memory: "16GB",
-          alive: "是",
-        },
-        {
-          client: "王五",
-          manager: "王小虎",
-          area: "计算机学院",
-          ip: "192.168.1.1",
-          gpu: "NVIDIA GeForce GTX 1080",
-          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
-          memory: "16GB",
-          alive: "是",
-        },
-        {
-          client: "王五",
-          manager: "王小虎",
-          area: "计算机学院",
-          ip: "192.168.1.1",
-          gpu: "NVIDIA GeForce GTX 1080",
-          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
-          memory: "16GB",
-          alive: "是",
-        },
-        {
-          client: "王五",
-          manager: "王小虎",
-          area: "计算机学院",
-          ip: "192.168.1.1",
-          gpu: "NVIDIA GeForce GTX 1080",
-          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
-          memory: "16GB",
-          alive: "是",
-        },
-        {
-          client: "王五",
-          manager: "王小虎",
-          area: "计算机学院",
-          ip: "192.168.1.1",
-          gpu: "NVIDIA GeForce GTX 1080",
-          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
-          memory: "16GB",
-          alive: "是",
-        },
-        {
-          client: "王五",
-          manager: "王小虎",
-          area: "计算机学院",
-          ip: "192.168.1.1",
-          gpu: "NVIDIA GeForce GTX 1080",
-          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
-          memory: "16GB",
-          alive: "是",
-        },
-        {
-          client: "王五",
-          manager: "王小虎",
-          area: "计算机学院",
-          ip: "192.168.1.1",
-          gpu: "NVIDIA GeForce GTX 1080",
-          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
-          memory: "16GB",
-          alive: "是",
-        },
-        {
-          client: "王五",
-          manager: "王小虎",
-          area: "计算机学院",
-          ip: "192.168.1.1",
-          gpu: "NVIDIA GeForce GTX 1080",
-          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
-          memory: "16GB",
-          alive: "是",
-        },
-        {
-          client: "王五",
-          manager: "王小虎",
-          area: "计算机学院",
-          ip: "192.168.1.1",
-          gpu: "NVIDIA GeForce GTX 1080",
-          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
-          memory: "16GB",
-          alive: "是",
-        },
-        {
-          client: "王五",
-          manager: "王小虎",
-          area: "计算机学院",
-          ip: "192.168.1.1",
-          gpu: "NVIDIA GeForce GTX 1080",
-          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
-          memory: "16GB",
-          alive: "是",
-        },
-        {
-          client: "王五",
-          manager: "王小虎",
-          area: "计算机学院",
-          ip: "192.168.1.1",
-          gpu: "NVIDIA GeForce GTX 1080",
-          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
-          memory: "16GB",
-          alive: "是",
-        },
-        {
-          client: "王五",
-          manager: "王小虎",
-          area: "计算机学院",
-          ip: "192.168.1.1",
-          gpu: "NVIDIA GeForce GTX 1080",
-          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
-          memory: "16GB",
-          alive: "是",
-        },
-        {
-          client: "王五",
-          manager: "王小虎",
-          area: "计算机学院",
-          ip: "192.168.1.1",
-          gpu: "NVIDIA GeForce GTX 1080",
-          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
-          memory: "16GB",
-          alive: "是",
-        },
-        {
-          client: "王五",
-          manager: "王小虎",
-          area: "计算机学院",
-          ip: "192.168.1.1",
-          gpu: "NVIDIA GeForce GTX 1080",
-          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
-          memory: "16GB",
-          alive: "是",
-        },
-        {
-          client: "王五",
-          manager: "王小虎",
-          area: "计算机学院",
-          ip: "192.168.1.1",
-          gpu: "NVIDIA GeForce GTX 1080",
-          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
-          memory: "16GB",
-          alive: "是",
-        },
-        {
-          client: "王五",
-          manager: "王小虎",
-          area: "计算机学院",
-          ip: "192.168.1.1",
-          gpu: "NVIDIA GeForce GTX 1080",
-          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
-          memory: "16GB",
-          alive: "是",
-        },
-        {
-          client: "王五",
-          manager: "王小虎",
-          area: "计算机学院",
-          ip: "192.168.1.1",
-          gpu: "NVIDIA GeForce GTX 1080",
-          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
-          memory: "16GB",
-          alive: "是",
-        },
-        {
-          client: "王五",
-          manager: "王小虎",
-          area: "计算机学院",
-          ip: "192.168.1.1",
-          gpu: "NVIDIA GeForce GTX 1080",
-          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
-          memory: "16GB",
-          alive: "是",
-        },
-        {
-          client: "王五",
-          manager: "王小虎",
-          area: "计算机学院",
-          ip: "192.168.1.1",
-          gpu: "NVIDIA GeForce GTX 1080",
-          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
-          memory: "16GB",
-          alive: "是",
-        },
-        {
-          client: "王五",
-          manager: "王小虎",
-          area: "计算机学院",
-          ip: "192.168.1.1",
-          gpu: "NVIDIA GeForce GTX 1080",
-          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
-          memory: "16GB",
-          alive: "是",
-        },
-        {
-          client: "王五",
-          manager: "王小虎",
-          area: "计算机学院",
-          ip: "192.168.1.1",
-          gpu: "NVIDIA GeForce GTX 1080",
-          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
-          memory: "16GB",
-          alive: "是",
-        },
-        {
-          client: "王五",
-          manager: "王小虎",
-          area: "计算机学院",
-          ip: "192.168.1.1",
-          gpu: "NVIDIA GeForce GTX 1080",
-          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
-          memory: "16GB",
-          alive: "是",
-        },
-        {
-          client: "王五",
-          manager: "王小虎",
-          area: "计算机学院",
-          ip: "192.168.1.1",
-          gpu: "NVIDIA GeForce GTX 1080",
-          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
-          memory: "16GB",
-          alive: "是",
-        },
-        {
-          client: "王五",
-          manager: "王小虎",
-          area: "计算机学院",
-          ip: "192.168.1.1",
-          gpu: "NVIDIA GeForce GTX 1080",
-          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
-          memory: "16GB",
-          alive: "是",
-        },
-        {
-          client: "王五",
-          manager: "王小虎",
-          area: "计算机学院",
-          ip: "192.168.1.1",
-          gpu: "NVIDIA GeForce GTX 1080",
-          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
-          memory: "16GB",
-          alive: "是",
-        },
-        {
-          client: "王五",
-          manager: "王小虎",
-          area: "计算机学院",
-          ip: "192.168.1.1",
-          gpu: "NVIDIA GeForce GTX 1080",
-          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
-          memory: "16GB",
-          alive: "是",
-        },
-        {
-          client: "王五",
-          manager: "王小虎",
-          area: "计算机学院",
-          ip: "192.168.1.1",
-          gpu: "NVIDIA GeForce GTX 1080",
-          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
-          memory: "16GB",
-          alive: "是",
-        },
-        {
-          client: "王五",
-          manager: "王小虎",
-          area: "计算机学院",
-          ip: "192.168.1.1",
-          gpu: "NVIDIA GeForce GTX 1080",
-          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
-          memory: "16GB",
-          alive: "是",
-        },
-        {
-          client: "王五",
-          manager: "王小虎",
-          area: "计算机学院",
-          ip: "192.168.1.1",
-          gpu: "NVIDIA GeForce GTX 1080",
-          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
-          memory: "16GB",
-          alive: "是",
-        },
-        {
-          client: "王五",
-          manager: "王小虎",
-          area: "计算机学院",
-          ip: "192.168.1.1",
-          gpu: "NVIDIA GeForce GTX 1080",
-          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
-          memory: "16GB",
-          alive: "是",
-        },
-        {
-          client: "王五",
-          manager: "王小虎",
-          area: "计算机学院",
-          ip: "192.168.1.1",
-          gpu: "NVIDIA GeForce GTX 1080",
-          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
-          memory: "16GB",
-          alive: "是",
-        },
-        {
-          client: "王五",
-          manager: "王小虎",
-          area: "计算机学院",
-          ip: "192.168.1.1",
-          gpu: "NVIDIA GeForce GTX 1080",
-          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
-          memory: "16GB",
-          alive: "是",
-        },
-        {
-          client: "王五",
-          manager: "王小虎",
-          area: "计算机学院",
-          ip: "192.168.1.1",
-          gpu: "NVIDIA GeForce GTX 1080",
-          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
-          memory: "16GB",
-          alive: "是",
-        },
-        {
-          client: "王五",
-          manager: "王小虎",
-          area: "计算机学院",
-          ip: "192.168.1.1",
-          gpu: "NVIDIA GeForce GTX 1080",
-          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
-          memory: "16GB",
-          alive: "是",
-        },
-        {
-          client: "王五",
-          manager: "王小虎",
-          area: "计算机学院",
-          ip: "192.168.1.1",
-          gpu: "NVIDIA GeForce GTX 1080",
-          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
-          memory: "16GB",
-          alive: "是",
-        },
-        {
-          client: "王五",
-          manager: "王小虎",
-          area: "计算机学院",
-          ip: "192.168.1.1",
-          gpu: "NVIDIA GeForce GTX 1080",
-          cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
-          memory: "16GB",
-          alive: "是",
-        },
+          date: "1",
+          name: "王小虎",
+          content: "上海市普陀区金沙江路 1518 弄",
+          type: 1,
+        }
       ],
-      // checkbox选中的数据
-      multipleSelection: [],
-      // checkbox为true的数量
-      checkedNum: 0,
-      // 当前页面的消息
-      currentMessage: [],
-      // 分页的数据
-      currentPage: 1,
-      pagesize: 10,
+      // 未读消息的数据
+      unreadMessage: [],
+      // 已读消息的数据
+      readMessage: [],
+      token: null
     };
   },
   activated() {},
+  created() {
+    this.getConnectMessage()
+  },
   methods: {
-    // 批量标为已读
-    manyHadRead() {
-      console.log(this.multipleSelection);
-    },
-    // 全部消息的方法
-    toggleSelection(rows) {
-      if (rows) {
-        rows.forEach((row) => {
-          this.$refs.multipleTable.toggleRowSelection(row);
-        });
-      } else {
-        this.$refs.multipleTable.clearSelection();
-      }
-    },
-    handleSelectionChange(val) {
-      this.checkedNum = val.length;
-      this.multipleSelection = val;
-    },
-    // 操作的方法
-    handleDelete(index, row) {
-      this.$confirm("是否确认删除此项？", "删除信息", {
-        distinguishCancelAndClose: true,
-        confirmButtonText: "确认",
-        cancelButtonText: "放弃",
+    getConnectMessage(){
+      this.token = VueCookies.get("token");
+      console.log(this.token)
+      axios({
+        method: "get",
+        url: "http://localhost:7000/connect/getConnectionMessage",
+        headers:{ token: this.token, }
+      }).then((res) => {
+        console.log(res)
+        this.messages = res.data.message
+      }).catch((action) => {
+        return
       })
-        .then(() => {
-          // 这里发送axios请求，将数据删除，然后重新获取数据
-          this.$message({
-            type: "info",
-            message: "删除成功",
-          });
-        })
-        .catch((action) => {
-          this.$message({
-            type: "info",
-            message: action === "cancel" ? "放弃删除此项" : "放弃删除此项目",
-          });
-        });
-      console.log(index, row);
     },
-    // 分页的方法
-    // 获取当前页的数据信息
-    getPageInfo() {
-      //清空currentMessage中的数据
-      this.currentMessage = [];
-      // 获取当前页的数据
-      for (
-        let i = (this.currentPage - 1) * this.pagesize;
-        i < this.allMessage.length;
-        i++
-      ) {
-        //把遍历的数据添加到currentMessage里面
-        this.currentMessage.push(this.allMessage[i]);
-        //判断是否达到一页的要求
-        if (this.currentMessage.length === this.pagesize) break;
+    getUserId() {
+      // 从cookie中获取id
+      this.token = VueCookies.get("token");
+      if (this.token) {
+        axios({
+          method: "get",
+          url: `http://localhost:7000/User/user/getUserId`,
+          headers: {
+            token: this.token,
+          },
+          timeout: 30000,
+        }).then((res) => {
+          this.userId = res.data.userId;
+          console.log(this.userId);
+        });
       }
     },
-    handleSizeChange(val) {
-      this.currentMessage = this.allMessage.slice(0, val);
-      console.log(`每页 ${val} 条`);
+    // 上面选择全部消息/未读消息/已读消息的方法
+    handleClick(tab, event) {
+      // console.log(tab, event);
     },
-    handleCurrentChange(val) {
-      //修改当前的页码
-      this.currentPage = val;
-      //数据重新分页
-      this.getPageInfo();
-    },
-  },
-  mounted() {
-    // 初始化数据
-    this.getPageInfo();
-  },
+    // 获取页面的表格所有数据
+    // 还未修改的代码
+    // getTicket() {
+    //   let that = this;
+    //   that.$axios
+    //     .get(that.baseURL + "PROD/ticket/documents/")
+    //     .then(function (res) {
+    //       if (res.data.code === 1) {
+    //         that.ticket = res.data.data;
+    //         //获取返回记录的总行数
+    //         that.total = res.data.data.length;
+    //         //获取当前页的数据
+    //         that.getPageInfo(); //在这里调用获取当前页的数据信息方法
+    //         that.$message({
+    //           message: "数据加载成功!",
+    //           type: "success",
+    //         });
+    //       } else {
+    //         // 失败的提示
+    //         that.$message.error(res.data.msg);
+    //       }
+    //     })
+    //     .catch(function (err) {
+    //       console.log(err);
+    //     });
+    // },
+  }
 };
 </script>
 
 <style lang='less' scoped>
-.title {
-  margin-top: 0px;
-  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
-    "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
-  font-size: 1.5em;
-  text-align: center;
-}
-
-label {
-  margin-bottom: 0px !important;
-}
-
 .el-autocomplete {
   padding: 0;
   height: 30px;

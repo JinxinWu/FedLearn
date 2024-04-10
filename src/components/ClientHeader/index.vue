@@ -111,7 +111,7 @@ export default {
       if (token) {
         axios({
           method: "get",
-          url: `http://localhost:7000/User/user/getAvatar`,
+          url: `http://192.168.43.34:7000/User/user/getAvatar`,
           headers: {
             token: token,
           },

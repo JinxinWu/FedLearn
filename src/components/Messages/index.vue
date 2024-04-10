@@ -111,7 +111,7 @@ export default {
       if (this.token) {
         axios({
           method: "get",
-          url: `http://localhost:7000/User/user/getUserId`,
+          url: `http://192.168.43.34:7000/User/user/getUserId`,
           headers: {
             token: this.token,
           },
@@ -153,7 +153,7 @@ export default {
 
           axios({
             method: "post",
-            url: "http://localhost:7000/connect/confirmConnection",
+            url: "http://192.168.43.34:7000/connect/confirmConnection",
             data: {
               serverId: this.userId,
               userId: row.userId,
@@ -172,7 +172,7 @@ export default {
             // 这里向客户端发送信息表明已经同意加入
             axios({
               method: "post",
-              url: "http://localhost:8000/Server/push/" + row.userId,
+              url: "http://192.168.43.34:8000/Server/push/" + row.userId,
               data: {
                 message: "1,服务端已经同意加入联邦"
               },

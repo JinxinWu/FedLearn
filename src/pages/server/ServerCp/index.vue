@@ -140,7 +140,7 @@ export default {
   data() {
     return {
       // 选择查看类别
-      options: [
+      initOptions: [
         {
           value: 0,
           label: "总体",
@@ -166,6 +166,7 @@ export default {
           label: "类别5",
         },
       ],
+      options: [],
       initValue: 0,
       // 准确率图表数据
       accuracyData: [],
@@ -188,31 +189,31 @@ export default {
           data: [
             {
               turn: 1,
-              accuracy: 81.5,
+              accuracy: [81.5, 82.5],
               loss: 0.15,
               time: 13,
             },
             {
               turn: 2,
-              accuracy: 83.6,
+              accuracy: [83.6, 83.6],
               loss: 0.15,
               time: 13,
             },
             {
               turn: 3,
-              accuracy: 90.1,
+              accuracy: [90.1, 90.1],
               loss: 0.15,
               time: 13,
             },
             {
               turn: 4,
-              accuracy: 92.7,
+              accuracy: [92.7, 92.7],
               loss: 0.15,
               time: 13,
             },
             {
               turn: 5,
-              accuracy: 95.8,
+              accuracy: [95.8, 95.8],
               loss: 0.15,
               time: 13,
             },
@@ -231,31 +232,31 @@ export default {
           data: [
             {
               turn: 1,
-              accuracy: 81.2,
+              accuracy: [81.2, 81.2],
               loss: 0.15,
               time: 13,
             },
             {
               turn: 2,
-              accuracy: 86.6,
+              accuracy: [86.6, 86.6],
               loss: 0.15,
               time: 13,
             },
             {
               turn: 3,
-              accuracy: 89.9,
+              accuracy: [89.9, 89.9],
               loss: 0.15,
               time: 13,
             },
             {
               turn: 4,
-              accuracy: 92.2,
+              accuracy: [92.2, 92.2],
               loss: 0.15,
               time: 13,
             },
             {
               turn: 5,
-              accuracy: 98.8,
+              accuracy: [98.8, 98.8],
               loss: 0.15,
               time: 13,
             },
@@ -277,6 +278,8 @@ export default {
   methods: {
     // 批量选择后作图
     manyHadRead() {
+      // 数据类别选项
+      this.options = this.initOptions.slice(0, this.allMessage[0].accuracy.length - 1);
       // console.log(this.multipleSelection);
       // 画图的总数据
       var accuracyLineData = [];
@@ -299,7 +302,7 @@ export default {
         // 遍历item.data
         item.data.forEach((item2) => {
           // 获取item2.accuracy
-          accuracyArray.push(item2.accuracy);
+          accuracyArray.push(item2.accuracy[this.initValue]);
           lossArray.push(item2.loss);
           timeArray.push(item2.time);
         });
@@ -388,6 +391,12 @@ export default {
       this.currentPage = val;
       //数据重新分页
       this.getPageInfo();
+    },
+  },
+  watch: {
+    initValue(val) {
+      // 重新获取数据
+      this.manyHadRead();
     },
   },
   mounted() {

@@ -86,7 +86,7 @@ export default {
       console.log(this.token)
       axios({
         method: "get",
-        url: "http://localhost:7000/connect/getConnectionMessage",
+        url: "http://192.168.43.34:7000/connect/getConnectionMessage",
         headers:{ token: this.token, }
       }).then((res) => {
         console.log(res)
@@ -101,7 +101,7 @@ export default {
       if (this.token) {
         axios({
           method: "get",
-          url: `http://localhost:7000/User/user/getUserId`,
+          url: `http://192.168.43.34:7000/User/user/getUserId`,
           headers: {
             token: this.token,
           },

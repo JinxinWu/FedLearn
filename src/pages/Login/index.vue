@@ -81,7 +81,7 @@ import VueCookies from "vue-cookies";
 export default {
   data() {
     return {
-      BaseUrl: "http://localhost:7000/",
+      BaseUrl: "http://192.168.43.34:7000/",
       loginApi: {
         login: "User/user/login",
         captcha: "User/captcha.jpg",

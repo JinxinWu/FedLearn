@@ -232,7 +232,7 @@ export default {
       if (this.token) {
         axios({
           method: "get",
-          url: `http://localhost:7000/User/user/getUserId`,
+          url: `http://192.168.43.34:7000/User/user/getUserId`,
           headers: {
             token: this.token,
           },
@@ -242,7 +242,7 @@ export default {
           axios({
             // 从connection表中获取所有的已连接的clientId以及客户的一些信息
             method: "get",
-            url: `http://localhost:7000/connect/getClient/${this.userId}`,
+            url: `http://192.168.43.34:7000/connect/getClient/${this.userId}`,
             headers: {
               token: this.token,
             },
@@ -293,7 +293,7 @@ export default {
         axios({
           // 这里将同步方法和发送给的client保存到一张表里
           method: "post",
-          url: "http://localhost:8000/async/addAsync",
+          url: "http://192.168.43.34:8000/async/addAsync",
           data: {
             severId: this.userId,
             clientIds: clientIdsArray,
@@ -306,7 +306,7 @@ export default {
         }).then((res) => {
           axios({
             method: "post",
-            url: "http://localhost:8000/Server/pushToGroup",
+            url: "http://192.168.43.34:8000/Server/pushToGroup",
             data: {
               toUserIds: this.value,
               message: `2,服务端同步信息已发送;${methodsId},${this.num}`,

@@ -120,7 +120,6 @@ export default {
   watch: {
     // 监视props中LineData的变化
     Linedata(newValue, oldValue) {
-      console.log(newValue);
       this.drawLine();
     },
   },

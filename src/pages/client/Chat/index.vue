@@ -114,7 +114,7 @@ export default {
         this.id = this.id + 1;
         this.textareaData = "";
         axios
-          .post("http://localhost:9000/chat/message", {
+          .post("http://192.168.43.34:9000/chat/message", {
             message: message,
           },
           {

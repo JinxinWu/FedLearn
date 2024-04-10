@@ -143,7 +143,7 @@ export default {
   },
   methods: {
     onOpen(event) {
-      // 向服务端发送请求连接信息http://localhost:7000/connect/getConnection
+      // 向服务端发送请求连接信息http://192.168.43.34:7000/connect/getConnection
       console.log("onopen----------------");
       console.log(this.ip);
       console.log(this.userId);
@@ -152,7 +152,7 @@ export default {
       console.log("-----------------------");
       axios({
         method: "post",
-        url: `http://localhost:7000/connect/getConnection`,
+        url: `http://192.168.43.34:7000/connect/getConnection`,
         headers: {
           token: this.token,
         },
@@ -220,7 +220,7 @@ export default {
         ];
         axios({
           method: "get",
-          url: `http://localhost:7000/component/getMethodName/${trans_dataArray[0]}`,
+          url: `http://192.168.43.34:7000/component/getMethodName/${trans_dataArray[0]}`,
           headers: {
             token: this.token,
           },
@@ -230,7 +230,7 @@ export default {
         });
         axios({
           method: "get",
-          url: `http://localhost:7000/component/getMethodName/${trans_dataArray[1]}`,
+          url: `http://192.168.43.34:7000/component/getMethodName/${trans_dataArray[1]}`,
           headers: {
             token: this.token,
           },
@@ -240,7 +240,7 @@ export default {
         });
         axios({
           method: "get",
-          url: `http://localhost:7000/component/getMethodName/${trans_dataArray[2]}`,
+          url: `http://192.168.43.34:7000/component/getMethodName/${trans_dataArray[2]}`,
           headers: {
             token: this.token,
           },
@@ -250,7 +250,7 @@ export default {
         });
         axios({
           method: "get",
-          url: `http://localhost:7000/component/getMethodName/${trans_dataArray[3]}`,
+          url: `http://192.168.43.34:7000/component/getMethodName/${trans_dataArray[3]}`,
           headers: {
             token: this.token,
           },
@@ -275,7 +275,7 @@ export default {
       console.log("close....");
       axios({
         method: "post",
-        url: `http://localhost:7000/connect/deleteConnection`,
+        url: `http://192.168.43.34:7000/connect/deleteConnection`,
         headers: {
           token: this.token,
         },
@@ -292,7 +292,7 @@ export default {
       console.error("WebSocket error: " + event);
       axios({
         method: "post",
-        url: `http://localhost:7000/connect/deleteConnection`,
+        url: `http://192.168.43.34:7000/connect/deleteConnection`,
         headers: {
           token: this.token,
         },
@@ -319,7 +319,7 @@ export default {
       if (this.token) {
         axios({
           method: "get",
-          url: `http://localhost:7000/User/user/getUserId`,
+          url: `http://192.168.43.34:7000/User/user/getUserId`,
           headers: {
             token: this.token,
           },
@@ -388,9 +388,9 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let url = "http://" + this.ruleForm.ip + "/server/" + this.userId;
-          // var url="http://localhost:8000/server/"+$("#userId").val();
+          // var url="http://192.168.43.34:8000/server/"+$("#userId").val();
           // 实现化WebSocket对象，指定要连接的服务器地址与端口  建立连接
-          // 等同于socket = new WebSocket("ws://localhost:8000/server");
+          // 等同于socket = new WebSocket("ws://192.168.43.34:8000/server");
           let socketUrl = url.replace("https", "ws").replace("http", "ws");
           this.$store.dispatch("createWebSocket", socketUrl);
           console.log(socketUrl);

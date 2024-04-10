@@ -653,7 +653,7 @@ export default {
       if (this.token) {
         axios({
           method: "get",
-          url: `http://localhost:7000/User/user/getUserId`,
+          url: `http://192.168.43.34:7000/User/user/getUserId`,
           headers: {
             token: this.token,
           },
@@ -1384,7 +1384,7 @@ export default {
       FormDatas.append("file", item.file);
       axios({
         method: "post",
-        url: `http://localhost:9000/file/upload?user_id=${this.userId}&data_name=${dataName}`,
+        url: `http://192.168.43.34:9000/file/upload?user_id=${this.userId}&data_name=${dataName}`,
         headers: this.headers,
         timeout: 30000,
         data: FormDatas,
@@ -1399,7 +1399,7 @@ export default {
           this.visible = true;
           axios({
             method: "get",
-            url: `http://localhost:9000/file/showDetail1?url=${this.data_url}&type=${this.type}`,
+            url: `http://192.168.43.34:9000/file/showDetail1?url=${this.data_url}&type=${this.type}`,
             headers: this.headers,
           })
             .then((res) => {
@@ -1481,7 +1481,7 @@ export default {
       const idString = idArray.join(",");
       axios({
         method: "get",
-        url: `http://localhost:9000/process/train?trainId=${this.trainId}&idString=${idString}`,
+        url: `http://192.168.43.34:9000/process/train?trainId=${this.trainId}&idString=${idString}`,
         headers: this.headers,
       })
         .then((res) => {
@@ -1492,7 +1492,7 @@ export default {
           // 感觉这里应该是要请求数据
           axios({
             method: "get",
-            url: `http://localhost:9000/file/showDetail2?url=${res.data.retInfo}&type=${this.type}`,
+            url: `http://192.168.43.34:9000/file/showDetail2?url=${res.data.retInfo}&type=${this.type}`,
             headers: this.headers,
           })
             .then((res) => {
@@ -1546,7 +1546,7 @@ export default {
       if (this.trainId) {
         axios({
           method: "get",
-          url: `http://localhost:9000/file/getModelUrlByTrainId?trainId=${this.trainId}`,
+          url: `http://192.168.43.34:9000/file/getModelUrlByTrainId?trainId=${this.trainId}`,
           // url: "/guo/test/modelDownload?trainId=4a432dddeb77f581be8d250380ab49b9",
           headers: this.headers,
         })

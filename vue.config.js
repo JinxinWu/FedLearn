@@ -7,7 +7,7 @@ module.exports = defineConfig({
   devServer: {
     proxy: {
       '/guo': {
-        target: 'http://localhost:8000',
+        target: 'http://192.168.43.34:8000',
         pathRewrite: {'^/guo': ''}, // 将/api开头的请求地址重写
         changeOrigin: true,
         ws: true,

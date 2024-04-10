@@ -149,7 +149,7 @@ const state = {
     ip:null,
     show: true,
     ruleForm: {
-        ip: "localhost:8000",
+        ip: "192.168.43.34:8000",
         name: "",
         department: "",
     },

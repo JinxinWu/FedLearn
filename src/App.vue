@@ -52,14 +52,24 @@ export default {
   updated() {
     this.urlCheck();
   },
+  watch: {
+    $route(to, from) {
+      if (to.path.includes("client")) {
+        import("@/assets/css/client.less");
+      } else if (to.path.includes("server")) {
+        import("@/assets/css/server.less");
+      }
+      this.$forceUpdate();
+    },
+  },
   created() {
-    if (this.$route.path.includes("client")) {
-      console.log("client");
-      import("@/assets/css/client.less");
-    } else if (this.$route.path.includes("server")) {
-      console.log("server");
-      import("@/assets/css/server.less");
-    }
+    // if (this.$route.path.includes("client")) {
+    //   console.log("client");
+    //   import("@/assets/css/client.less");
+    // } else if (this.$route.path.includes("server")) {
+    //   console.log("server");
+    //   import("@/assets/css/server.less");
+    // }
   },
 };
 </script>

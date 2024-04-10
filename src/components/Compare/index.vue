@@ -114,12 +114,13 @@ export default {
         series: formattedData,
       };
 
-      option && myChart.setOption(option);
+      option && myChart.setOption(option, true);
     },
   },
   watch: {
     // 监视props中LineData的变化
     Linedata(newValue, oldValue) {
+      console.log(newValue);
       this.drawLine();
     },
   },

@@ -13,13 +13,13 @@
           :header-cell-style="{ 'text-align': 'center' }"
           :cell-style="{ 'text-align': 'center' }"
         >
-          <el-table-column prop="algori" label="算法" width="180">
+          <el-table-column prop="algori" label="差分隐私" width="180">
           </el-table-column>
-          <el-table-column prop="compress" label="压缩算法" width="180">
+          <el-table-column prop="compress" label="同态加密" width="180">
           </el-table-column>
-          <el-table-column prop="chafen" label="差分隐私算法" width="180">
+          <el-table-column prop="chafen" label="压缩方法" width="180">
           </el-table-column>
-          <el-table-column prop="jiami" label="加密算法" width="180">
+          <el-table-column prop="jiami" label="联邦方法" width="180">
           </el-table-column>
         </el-table>
       </el-col>

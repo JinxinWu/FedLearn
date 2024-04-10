@@ -1,23 +1,23 @@
 {
   "gauss1": {
     "isChange": false,
-    "step": 1,
-    "id": 1,
+    "step": 8,
+    "id": 54,
     "name": "高斯噪声",
     "type": "gauss",
     "content": "高斯噪声"
   },
   "laplace1": {
     "isChange": false,
-    "step": 1,
-    "id": 2,
+    "step": 8,
+    "id": 55,
     "name": "拉普拉斯噪声",
     "type": "laplace",
     "content": "拉普拉斯噪声"
   },
   "index1": {
     "isChange": false,
-    "step": 1,
+    "step": 56,
     "id": 3,
     "name": "指数噪声",
     "type": "index",
@@ -25,68 +25,68 @@
   },
   "gauss2": {
     "isChange": false,
-    "step": 1,
-    "id": 4,
+    "step": 8,
+    "id": 57,
     "name": "高斯噪声",
     "type": "gauss",
     "content": "高斯噪声"
   },
   "laplace2": {
     "isChange": false,
-    "step": 1,
-    "id": 5,
+    "step": 8,
+    "id": 58,
     "name": "拉普拉斯噪声",
     "type": "laplace",
     "content": "拉普拉斯噪声"
   },
   "index2": {
     "isChange": false,
-    "step": 1,
-    "id": 6,
+    "step": 8,
+    "id": 59,
     "name": "指数噪声",
     "type": "index",
     "content": "指数噪声"
   },
   "ckks": {
     "isChange": false,
-    "step": 2,
-    "id": 7,
+    "step": 9,
+    "id": 60,
     "name": "ckks",
     "type": "ckks",
     "content": "ckks"
   },
   "ElGamal": {
     "isChange": false,
-    "step": 2,
-    "id": 8,
+    "step": 9,
+    "id": 61,
     "name": "ElGamal",
     "type": "ElGamal",
     "content": "ElGamal"
   },
   "textcom": {
-    "step": 3,
-    "id": 10,
+    "step": 10,
+    "id": 62,
     "name": "文本压缩",
     "type": "textcom",
     "content": "文本压缩"
   },
   "Huffman": {
-    "step": 3,
-    "id": 11,
+    "step": 10,
+    "id": 63,
     "name": "Huffman量化压缩",
     "type": "Huffman",
     "content": "Huffman量化压缩"
   },
   "average": {
-    "step": 8,
-    "id": 54,
+    "step": 11,
+    "id": 64,
     "name": "平均联邦",
     "type": "average",
     "content": "平均联邦"
   },
   "zengliang": {
-    "step": 8,
-    "id": 55,
+    "step": 11,
+    "id": 65,
     "name": "增量联邦",
     "type": "zengliang",
     "content": "增量联邦"

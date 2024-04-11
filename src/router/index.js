@@ -6,7 +6,7 @@ import Login from "@/pages/Login";
 // 客户端界面
 import Connect from "@/pages/client/Connect"; // 连接中央服务器
 import Apply from "@/pages/client/Apply"; // 模型应用
-import Privacy from "@/pages/client/Privacy"; // 隐私保护
+import ModelTrain from "@/pages/client/ModelTrain"; // 隐私保护
 import Preprocess from "@/pages/client/Preprocess"; // 数据预处理
 import ClientCp from "@/pages/client/ClientCp"; // 客户端对比
 import Chat from "@/pages/client/Chat" // 智慧聊天
@@ -41,9 +41,9 @@ const router = new VueRouter({
       },
     },
     {
-      path: '/client/Privacy',
-      name: 'Privacy',
-      component: Privacy,
+      path: '/client/ModelTrain',
+      name: 'ModelTrain',
+      component: ModelTrain,
       meta: {
         requireAuth: true,
         title: '隐私保护',

@@ -104,38 +104,38 @@
           </el-option>
         </el-select>
       </div>
-      <Compare
+      <DrawLine
         chartId="accuracyChart"
         :Linedata="accuracyData"
         textContent="准确率变化"
         yAxisAdd="%"
-      ></Compare>
-      <Compare
+      ></DrawLine>
+      <DrawLine
         chartId="lossChart"
         :Linedata="lossData"
         textContent="loss变化"
         yAxisAdd=""
-      ></Compare>
-      <Compare
+      ></DrawLine>
+      <DrawLine
         chartId="timeChart"
         :Linedata="timeData"
         textContent="通信时间变化"
         yAxisAdd="s"
-      ></Compare>
+      ></DrawLine>
     </el-dialog>
   </div>
 </template>
 
 <script>
 import Messages from "@/components/Messages";
-import Compare from "@/components/Compare";
+import DrawLine from "@/components/DrawLine";
 import axios from "axios";
 
 export default {
   name: "ServerCp",
   components: {
     Messages,
-    Compare,
+    DrawLine,
   },
   data() {
     return {

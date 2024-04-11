@@ -6,7 +6,7 @@
 import * as echarts from "echarts";
 
 export default {
-  name: "DrawLine",
+  name: "Compare",
   props: {
     chartId: {
       type: String,

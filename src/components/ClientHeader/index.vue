@@ -56,7 +56,7 @@
           <el-menu-item index="/client/Preprocess">
             <span slot="title">数据预处理</span>
           </el-menu-item>
-          <el-menu-item index="/client/Privacy">
+          <el-menu-item index="/client/ModelTrain">
             <span slot="title">模型训练</span>
           </el-menu-item>
           <!-- <el-menu-item index="/client/ClientCp">

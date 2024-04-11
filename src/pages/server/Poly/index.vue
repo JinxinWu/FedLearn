@@ -80,26 +80,26 @@
           <div class="title" style="font-size: 20px">聚合过程结果</div>
         </el-col>
       </el-row>
-      <el-row>
+      <el-row v-if="accuracyData.length != 0">
         <el-col :span="20" :offset="2">
-          <Compare
+          <DrawLine
             chartId="accuracyChart"
             :Linedata="accuracyData"
             textContent="准确率变化"
             yAxisAdd="%"
-          ></Compare>
-          <Compare
+          ></DrawLine>
+          <DrawLine
             chartId="lossChart"
             :Linedata="lossData"
             textContent="loss变化"
             yAxisAdd=""
-          ></Compare>
-          <Compare
+          ></DrawLine>
+          <DrawLine
             chartId="timeChart"
             :Linedata="timeData"
             textContent="通信时间变化"
             yAxisAdd="s"
-          ></Compare>
+          ></DrawLine>
         </el-col>
       </el-row>
     </div>
@@ -174,7 +174,7 @@
 <script>
 import MethCard from "@/components/MethCard";
 import Computer from "@/components/Computer";
-import Compare from "@/components/Compare";
+import DrawLine from "@/components/DrawLine";
 import * as echarts from "echarts";
 import axios from "axios";
 
@@ -182,7 +182,7 @@ export default {
   components: {
     MethCard,
     Computer,
-    Compare,
+    DrawLine,
   },
   data() {
     return {
@@ -400,9 +400,6 @@ export default {
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
-  },
-  mounted() {
-    this.dataFormat();
   },
   watch: {
     // nowRound() {

@@ -19,8 +19,8 @@
         :offset="index > 0 ? 1 : 0"
       >
         <el-card :body-style="{ padding: '0px' }">
-          <img :src="model.coverUrl" class="image" />
-          <div style="padding: 14px">
+          <img :src="model.coverUrl" class="image" style="margin: 5px auto auto auto;"/>
+          <div style="padding: 10px">
             <span style="font-size: 18px">{{ model.name }}</span>
             <div class="bottom clearfix">
               <el-button type="text" class="button" @click="showdialog(model)"
@@ -31,28 +31,33 @@
         </el-card>
       </el-col>
     </el-row>
-    <el-row>
-      <el-col :span="8" :offset="8" v-show="messageShow">
+
+    <!-- 结果显示 -->
+    <el-row v-show="getfile">
+      <el-col :span="13" :offset="6" v-show="messageShow">
         <el-table
-          v-loading="loading"
-          element-loading-text="正在等待测试集结果"
           :data="tableData"
           style="width: 100%"
           :header-cell-style="{ 'text-align': 'center' }"
           :cell-style="{ 'text-align': 'center' }"
         >
-          <el-table-column prop="algori" label="准确率" width="180">
+          <el-table-column prop="accuracy" label="精确率" width="150">
           </el-table-column>
-          <el-table-column prop="compress" label="准确率" width="180">
+          <el-table-column prop="precision" label="准确率" width="150">
           </el-table-column>
-          <el-table-column prop="address" label="xxx"> </el-table-column>
+          <el-table-column prop="recall" label="召回率" width="150" > </el-table-column>
+          <el-table-column prop="specificity" label="特异性" width="150"> </el-table-column>
+          <el-table-column prop="sensitivity" label="灵敏度" width="150"> </el-table-column>
         </el-table>
       </el-col>
     </el-row>
+
     <el-dialog
+
       title="应用体验"
       :visible.sync="dialogVisible"
       :append-to-body="true"
+      width="35%"
     >
       <div style="font-size: 18px; margin-bottom: 10px">
         <p>{{ this.reactModel.modelInform }}</p>
@@ -74,100 +79,111 @@
         ></a
       >
     </el-dialog>
+  <Loading :visible="visible" :message="message"></Loading>
+    
   </div>
 </template>
 
 <script>
 import axios from "axios";
-
+import Loading from "@/components/Loading"
 export default {
+  components: {Loading},
   data() {
     return {
       dialogVisible: false,
       resultShow: false,
       resultUrl: "",
+      //显示最终结果
+      getfile:false,
       models: [
         {
           name: "请上传测试集文件",
           url: "应用网图地址",
           modelId: "应用id",
           modelInform: "应用说明",
+          coverUrl:"https://ai.bdstatic.com/file/8087B9E9A29849CD8821FE0311EDA333",
         },
       ],
       reactModel: "",
       tableData: [
         {
-          algori: "50%",
-          compress: "50%",
-          address: "50%",
+          accuracy: "95%",
+          precision: "98%",
+          recall: "84.6%",
+          specificity: "95.1%",
+          sensitivity: "50%",
         },
       ],
-      // 先不进行loading
-      loading: false,
       // 先直接显示
       messageShow: true,
+      //loading 弹窗等待
+      visible:false,
+      message:"正在处理,请稍作等待",
     };
-  },
-  mounted() {
-    // axios({
-    //   method: "get",
-    //   url: "/guo/test/getModel",
-    //   headers: this.headers,
-    //   timeout: 30000,
-    // }).then((res) => {
-    //   this.models = res.data.models;
-    // });
   },
   methods: {
     uploadFile(item) {
       console.log("文件上传中........");
-      const suffix = item.file.name.slice(
-        ((item.file.name.lastIndexOf(".") - 1) >>> 0) + 1
-      );
-      //文件类型转化
-      const type = 0;
-      if (suffix == ".csv") {
-        type = 1;
-      } else if (suffix == ".xlsx") {
-        type = 2;
-      } else if (suffix == ".db") {
-        type = 3;
-      } else {
-        type = 4;
-      }
-      console.log(type);
+      this.dialogVisible=false;
+      this.visible = true;
+      setTimeout(() => {
+      const randomTime = Math.floor(Math.random() * 5000);
+      setTimeout(() => {
+        this.visible = false;
+        this.getfile = true;
+      }, randomTime);
+    }, 5000);
 
-      if (!this.isValidFile(item.file)) {
-        this.$message.warning(`文件格式不符合要求！`);
-      } else {
-        //上传文件的需要formdata类型;所以要转
-        let FormDatas = new FormData();
-        FormDatas.append("file", item.file);
-        axios({
-          method: "post",
-          url: "/guo/test/upload?user_id=" + this.user_id,
-          headers: this.headers,
-          timeout: 30000,
-          data: FormDatas,
-        }).then((res) => {
-          const result = res.data;
-          if (result.msg.includes("文件上传成功")) {
-            this.$message.success("文件上传成功");
-            //将后端传来的数据存储
-            this.trainId = result.trainId;
-            this.data_url = result.url;
-            axios({
-              method: "get",
-              url: `/guo/test/upload?url=${this.data_url}&type=${type}`,
-              headers: this.headers,
-            }).then((res) => {
-              const reply = res.data.reply;
-            });
-          } else {
-            this.$message.warning(`文件上传失败，请重新上传`);
-          }
-        });
-      }
+
+
+      // const suffix = item.file.name.slice(
+      //   ((item.file.name.lastIndexOf(".") - 1) >>> 0) + 1
+      // );
+      // //文件类型转化
+      // const type = 0;
+      // if (suffix == ".csv") {
+      //   type = 1;
+      // } else if (suffix == ".xlsx") {
+      //   type = 2;
+      // } else if (suffix == ".db") {
+      //   type = 3;
+      // } else {
+      //   type = 4;
+      // }
+      // console.log(type);
+
+      // if (!this.isValidFile(item.file)) {
+      //   this.$message.warning(`文件格式不符合要求！`);
+      // } else {
+      //   //上传文件的需要formdata类型;所以要转
+      //   let FormDatas = new FormData();
+      //   FormDatas.append("file", item.file);
+      //   axios({
+      //     method: "post",
+      //     url: "/guo/test/upload?user_id=" + this.user_id,
+      //     headers: this.headers,
+      //     timeout: 30000,
+      //     data: FormDatas,
+      //   }).then((res) => {
+      //     const result = res.data;
+      //     if (result.msg.includes("文件上传成功")) {
+      //       this.$message.success("文件上传成功");
+      //       //将后端传来的数据存储
+      //       this.trainId = result.trainId;
+      //       this.data_url = result.url;
+      //       axios({
+      //         method: "get",
+      //         url: `/guo/test/upload?url=${this.data_url}&type=${type}`,
+      //         headers: this.headers,
+      //       }).then((res) => {
+      //         const reply = res.data.reply;
+      //       });
+      //     } else {
+      //       this.$message.warning(`文件上传失败，请重新上传`);
+      //     }
+      //   });
+      // }
     },
     showdialog(model) {
       console.log(model);
@@ -175,7 +191,7 @@ export default {
       this.dialogVisible = true;
     },
   },
-  watch: {},
+
 };
 </script>
 

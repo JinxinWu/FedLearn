@@ -80,7 +80,7 @@
           <div class="title" style="font-size: 20px">聚合过程结果</div>
         </el-col>
       </el-row>
-      <el-row>
+      <el-row v-if="accuracyData.length != 0">
         <el-col :span="20" :offset="2">
           <DrawLine
             chartId="accuracyChart"

@@ -62,7 +62,7 @@
           <div class="title" style="font-size: 20px">训练过程结果</div>
         </el-col>
       </el-row>
-      <el-row>
+      <el-row v-if="accuracyData.length != 0">
         <el-col :span="16" :offset="4">
           <DrawLine
             chartId="accuracyChart"

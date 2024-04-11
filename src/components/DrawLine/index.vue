@@ -1,5 +1,5 @@
 <template>
-  <div :id="chartId" style="width: 100%; height: 300px; margin-top: 20px;"></div>
+  <div :id="chartId" style="width: 100%; height: 300px; margin-top: 20px"></div>
 </template>
 
 <script>
@@ -40,6 +40,7 @@ export default {
       // 这里是可以参考的后端传过来的数据格式
       var lineChartData = this.Linedata;
       var yAxisAdd = this.yAxisAdd;
+      var textContent = this.textContent;
       // 获取第一个对象的准确率数组长度
       const mydataLength = lineChartData[0].mydata.length;
       // 生成从1开始，长度与mydata相同的数组
@@ -71,13 +72,25 @@ export default {
           formatter: function (params) {
             var result = "第" + params[0].axisValue + "轮";
             // 遍历params数组，拼接出提示框内容
-            for (var i = 0; i < params.length; i++) {
-              result +=
-                "</br>" +
-                params[i].marker +
-                params[i].seriesName +
-                " : " +
-                params[i].value;
+            if (textContent == "准确率变化") {
+              for (var i = 0; i < params.length; i++) {
+                result +=
+                  "</br>" +
+                  params[i].marker +
+                  params[i].seriesName +
+                  " : " +
+                  params[i].value + yAxisAdd;
+              }
+            }
+            else {
+              for (var i = 0; i < params.length; i++) {
+                result +=
+                  "</br>" +
+                  params[i].marker +
+                  textContent.slice(0, -2) +
+                  " : " +
+                  params[i].value + yAxisAdd;
+              }
             }
             return result;
           },

@@ -119,7 +119,7 @@ export default {
       show: this.$store.state.show, //显示哪个弹出框
 
       // 总轮次
-      allRound: 100,
+      allRound: 1000,
       // 目前轮次
       nowRound: 1,
       // 图表的数据
@@ -136,32 +136,8 @@ export default {
         data: [
           {
             turn: 1,
-            accuracy: [81.5, 82.5],
-            loss: 0.15,
-            time: 13,
-          },
-          {
-            turn: 2,
-            accuracy: [83.6, 83.6],
-            loss: 0.15,
-            time: 13,
-          },
-          {
-            turn: 3,
-            accuracy: [90.1, 90.1],
-            loss: 0.15,
-            time: 13,
-          },
-          {
-            turn: 4,
-            accuracy: [92.7, 92.7],
-            loss: 0.15,
-            time: 13,
-          },
-          {
-            turn: 5,
-            accuracy: [95.8, 95.8],
-            loss: 0.15,
+            accuracy: [81.5, 82.5, 76.4, 78.9, 85.6, 83.2],
+            loss: 5.13,
             time: 13,
           },
         ],
@@ -185,7 +161,7 @@ export default {
     };
   },
   created() {
-    this.timer();
+    this.init()
   },
   mounted() {
   },
@@ -201,6 +177,48 @@ export default {
     clearTimeout(this.timer);
   },
   methods: {
+    init() {
+      this.addData()
+      this.timer()
+    },
+    addData() {
+      for (let i = 0; i < 1000; i++) {
+        const lastTurn = this.tempMessage.data[this.tempMessage.data.length - 1].turn;
+        const newTurn = lastTurn + 1;
+        const lastAccuracy = this.tempMessage.data[this.tempMessage.data.length - 1].accuracy;
+        const newAccuracy = lastAccuracy.map(acc => {
+          const distanceTo100 = 100 - acc;
+          const incrementFactor = 1 + Math.log(distanceTo100); // 距离 100 越远，增长速度越快
+          const increment = Math.random() * (incrementFactor / newTurn); // 增长速度
+          const fluctuation = Math.random() * 2 - 1; // 随机浮动
+          return Math.min(acc + increment + fluctuation, 100); // 确保准确率不超过100%
+        });
+        
+        const lastLoss = this.tempMessage.data[this.tempMessage.data.length - 1].loss;
+        let newLoss;
+        if (lastLoss > 1) {
+          const distanceTo0 = lastLoss;
+          let decrement;
+          if (newTurn < 50) {
+            decrement = Math.random() * (distanceTo0 / newTurn) * (1 + Math.random()); // 前期快速不稳定下降
+          } else {
+            decrement = Math.random() * (distanceTo0 / newTurn / 10); // 后期缓慢稳定下降
+          }
+          const decrementDirection = Math.random() < 0.8 ? 1 : -1; // 70% 的概率往下浮动，30% 的概率往上浮动
+          newLoss = Math.max(lastLoss - decrement * decrementDirection, 0.2); // 确保损失不低于0
+        } else {
+          newLoss = Math.max(lastLoss - 0.01, 0.2); // 当损失小于1时，稍微快一点地减小
+        }
+
+        const newTime = 10 + Math.random() * 6;
+        this.tempMessage.data.push({
+          turn: newTurn,
+          accuracy: newAccuracy,
+          loss: newLoss,
+          time: newTime
+        });
+      }
+    },
     // 这是获取当前轮次的函数
     getData() {
       // 这里发送请求之类的
@@ -213,7 +231,7 @@ export default {
           this.nowRound += 1;
         }
         this.getData();
-      }, 5000);
+      }, 500);
     },
     // 分割获取到的图表数据变为折线图数据
     dataFormat() {

@@ -26,8 +26,11 @@
               placeholder="请选择部门"
               style="width: 100%"
             >
-              <el-option label="一号车间" value="一号车间"></el-option>
-              <el-option label="二号车间" value="二号车间"></el-option>
+              <el-option label="车间1" value="车间1"></el-option>
+              <el-option label="车间2" value="车间2"></el-option>
+              <el-option label="车间3" value="车间3"></el-option>
+              <el-option label="车间4" value="车间4"></el-option>
+              <el-option label="车间5" value="车间5"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item>

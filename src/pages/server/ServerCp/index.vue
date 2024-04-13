@@ -178,88 +178,116 @@ export default {
       allMessage: [
         {
           id: 1,
-          chafen: "本地高斯噪声",
+          chafen: "/",
           jiami: "/",
-          yasuo: "文本压缩",
+          yasuo: "/",
           method: "平均联邦",
-          accuracy: "90%",
-          duration: "1.2h",
-          start_time: "2021-06-01 12:00:00",
-          end_time: "2021-06-01 12:00:00",
+          accuracy: "96.64%",
+          duration: "4.16h",
+          start_time: "2024-03-21 12:19:21",
+          end_time: "2024-03-21 16:31:57",
           data: [
             {
               turn: 1,
-              accuracy: [81.5, 82.5],
-              loss: 0.15,
+              accuracy: [84.5, 82.7, 91.4, 84.2, 86.2, 81.2, 92.3, 90.2, 87.4, 88.6, 83.8],
+              loss: 12.25,
               time: 13,
-            },
-            {
-              turn: 2,
-              accuracy: [83.6, 83.6],
-              loss: 0.15,
-              time: 13,
-            },
-            {
-              turn: 3,
-              accuracy: [90.1, 90.1],
-              loss: 0.15,
-              time: 13,
-            },
-            {
-              turn: 4,
-              accuracy: [92.7, 92.7],
-              loss: 0.15,
-              time: 13,
-            },
-            {
-              turn: 5,
-              accuracy: [95.8, 95.8],
-              loss: 0.15,
-              time: 13,
-            },
+            }
           ],
         },
         {
           id: 2,
-          chafen: "指数噪声",
+          chafen: "本地高斯噪声",
           jiami: "/",
-          yasuo: "Huffman量化压缩",
+          yasuo: "/",
           method: "平均联邦",
-          accuracy: "90%",
-          duration: "1.2h",
-          start_time: "2021-06-01 12:00:00",
-          end_time: "2021-06-01 12:00:00",
+          accuracy: "96.29%",
+          duration: "4.22h",
+          start_time: "2024-03-22 23:36:42",
+          end_time: "2024-03-23 3:48:51",
           data: [
             {
               turn: 1,
-              accuracy: [81.2, 81.2],
-              loss: 0.15,
+              accuracy: [84.5, 82.7, 91.4, 84.2, 86.2, 81.2, 92.3, 90.2, 87.4, 88.6, 83.8],
+              loss: 16.24,
               time: 13,
-            },
+            }
+          ],
+        },
+        {
+          id: 3,
+          chafen: "本地高斯噪声",
+          jiami: "/",
+          yasuo: "Huffman压缩",
+          method: "平均联邦",
+          accuracy: "96.16%",
+          duration: "4.12h",
+          start_time: "2024-03-23 13:12:21",
+          end_time: "2024-03-23 17:24:32",
+          data: [
             {
-              turn: 2,
-              accuracy: [86.6, 86.6],
-              loss: 0.15,
+              turn: 1,
+              accuracy: [84.5, 82.7, 91.4, 84.2, 86.2, 81.2, 92.3, 90.2, 87.4, 88.6, 83.8],
+              loss: 15.27,
               time: 13,
-            },
+            }
+          ],
+        },
+        {
+          id: 4,
+          chafen: "/",
+          jiami: "CKKS",
+          yasuo: "/",
+          method: "平均联邦",
+          accuracy: "96.47%",
+          duration: "4.32h",
+          start_time: "2024-03-23 18:08:12",
+          end_time: "2024-03-23 22:20:38",
+          data: [
             {
-              turn: 3,
-              accuracy: [89.9, 89.9],
-              loss: 0.15,
+              turn: 1,
+              accuracy: [84.5, 82.7, 91.4, 84.2, 86.2, 81.2, 92.3, 90.2, 87.4, 88.6, 83.8],
+              loss: 16.42,
               time: 13,
-            },
+            }
+          ],
+        },
+        {
+          id: 5,
+          chafen: "/",
+          jiami: "CKKS",
+          yasuo: "Huffman压缩",
+          method: "平均联邦",
+          accuracy: "96.42%",
+          duration: "4.17h",
+          start_time: "2024-03-23 22:18:38",
+          end_time: "2024-03-24 2:31:26",
+          data: [
             {
-              turn: 4,
-              accuracy: [92.2, 92.2],
-              loss: 0.15,
+              turn: 1,
+              accuracy: [84.5, 82.7, 91.4, 84.2, 86.2, 81.2, 92.3, 90.2, 87.4, 88.6, 83.8],
+              loss: 17.38,
               time: 13,
-            },
+            }
+          ],
+        },
+        {
+          id: 5,
+          chafen: "/",
+          jiami: "/",
+          yasuo: "Huffman压缩",
+          method: "平均联邦",
+          accuracy: "96.08%",
+          duration: "3.98h",
+          start_time: "2024-03-24 14:25:32",
+          end_time: "2024-03-24 18:24:26",
+          data: [
             {
-              turn: 5,
-              accuracy: [98.8, 98.8],
-              loss: 0.15,
+              turn: 1,
+              accuracy: [84.5, 82.7, 91.4, 84.2, 86.2, 81.2, 92.3, 90.2, 87.4, 88.6, 83.8],
+              loss: 17.38,
               time: 13,
-            },
+            }
           ],
         },
       ],
@@ -275,7 +303,103 @@ export default {
     };
   },
   activated() {},
+  mounted() {
+    this.generateData()
+    // 初始化数据
+    this.getPageInfo();
+  },
   methods: {
+    generateData() {
+      for (let i = 0; i < 100; i++) {  // 第一个基准数据集的产生
+        const lastTurn = this.allMessage[0].data[this.allMessage[0].data.length - 1].turn;
+        const newTurn = lastTurn + 10;
+        const lastAccuracy = this.allMessage[0].data[this.allMessage[0].data.length - 1].accuracy;
+
+        let newAccuracy;
+        if (newTurn < 900) { // 前几十轮整体向上增长，内部有小的起伏
+            newAccuracy = lastAccuracy.map(acc => {
+                const distanceTo100 = 400 - acc;
+                const incrementFactor = 1 + Math.log(distanceTo100); // 距离 100 越远，增长速度越快
+                const increment = Math.random() * (incrementFactor / (newTurn * 2)); // 增长速度
+                const fluctuation = Math.random() * 2 - 0.7; // 随机浮动
+                return Math.min(acc + increment + fluctuation, 96.64); // 向上增长，但不超过 96.6
+            });
+        } else { // 后期稳定上涨
+            newAccuracy = lastAccuracy.map(acc => {
+                const distanceTo100 = 400 - acc;
+                const incrementFactor = 1 + Math.log(distanceTo100) / 10; // 后期增长速度变慢
+                const increment = Math.random() * (incrementFactor / newTurn); // 增长速度
+                const fluctuation = Math.random() * 0.5; // 随机浮动
+                return Math.min(acc + increment + fluctuation, 96.64); // 向上增长，但不超过 96.6
+            });
+        }
+
+        const lastLoss = this.allMessage[0].data[this.allMessage[0].data.length - 1].loss;
+        let newLoss;
+        let decrement;
+        if (newTurn < 1000) {
+          const decrementDirection = Math.random() < 0.9 ? 1 : -1; // 80% 的概率往下浮动，20% 的概率往上浮动
+          decrement = Math.random() * lastLoss * (1 + Math.random()) * (7 / newTurn); // 前期快速下降
+          decrement = decrement * decrementDirection
+        } else {  
+          decrement = Math.random() * lastLoss * 500 / newTurn; // 后期缓慢下降
+        }
+        newLoss = Math.max(lastLoss - decrement, 0.2); // 确保损失不低于1
+
+        
+        const newTime = 10 + Math.random() * 6;
+        this.allMessage[0].data.push({
+          turn: newTurn,
+          accuracy: newAccuracy,
+          loss: newLoss,
+          time: newTime
+        });
+      }
+
+      // 比基准数据集高一点的产生
+      for (let j = 1; j < 3; j++) {
+        for (let i = 0; i < 100; i++) {
+            const existingData = this.allMessage[0].data;
+            const lastTurn = existingData[i].turn;
+            const newTurn = lastTurn + 10;
+
+            const lastAccuracy = existingData[i].accuracy;
+            let newAccuracy;
+            if (newTurn < 600) {
+                newAccuracy = lastAccuracy.map(acc => {
+                    const fluctuation = Math.random() * 2;
+                    const diff = Math.random() < 0.1 ? Math.random() : -Math.random();
+                    return Math.min(acc + fluctuation * diff, 100); // 确保准确率不超过100%
+                });
+            } else {
+                const fluctuation = Math.random() * 0.2 - 0.1;
+                newAccuracy = lastAccuracy.map(acc => {
+                  return acc + fluctuation
+                });
+            }
+
+            const lastLoss = existingData[i].loss;
+            let newLoss;
+            if (newTurn < 600) {
+                const fluctuation = Math.random() * 2;
+                const diff = Math.random() < 0.9 ? Math.random() : -Math.random();
+                newLoss = Math.max(lastLoss + fluctuation * diff, 0);
+            } else {
+                const fluctuation = Math.random() * 0.2 - 0.1;
+                newLoss = lastLoss + fluctuation
+            }
+            
+            const newTime = 10 + Math.random() * 6;
+            
+            this.allMessage[j].data.push({
+                turn: newTurn,
+                accuracy: newAccuracy,
+                loss: newLoss,
+                time: newTime
+            });
+        }
+      }
+    },
     // 批量选择后作图
     manyHadRead() {
       // 数据类别选项
@@ -392,16 +516,12 @@ export default {
       //数据重新分页
       this.getPageInfo();
     },
-  },
+  },  
   watch: {
     initValue(val) {
       // 重新获取数据
       this.manyHadRead();
     },
-  },
-  mounted() {
-    // 初始化数据
-    this.getPageInfo();
   },
 };
 </script>

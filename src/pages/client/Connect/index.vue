@@ -387,8 +387,8 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          let url = "http://" + this.ruleForm.ip + "/server/" + this.userId;
-          // var url="http://192.168.43.34:8000/server/"+$("#userId").val();
+          // let url = "http://" + this.ruleForm.ip + "/server/" + this.userId;
+          let url = "http://192.168.43.34:8000/server/" + this.userId;
           // 实现化WebSocket对象，指定要连接的服务器地址与端口  建立连接
           // 等同于socket = new WebSocket("ws://192.168.43.34:8000/server");
           let socketUrl = url.replace("https", "ws").replace("http", "ws");

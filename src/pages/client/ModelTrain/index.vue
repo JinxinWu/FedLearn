@@ -127,7 +127,7 @@ export default {
         id: 1,
         chafen: "本地高斯噪声",
         jiami: "/",
-        yasuo: "文本压缩",
+        yasuo: "Huffman压缩",
         method: "平均联邦",
         accuracy: "90%",
         duration: "1.2h",
@@ -137,7 +137,7 @@ export default {
           {
             turn: 1,
             accuracy: [81.5, 82.5, 76.4, 78.9, 85.6, 83.2],
-            loss: 5.13,
+            loss: 14.13,
             time: 13,
           },
         ],
@@ -146,7 +146,7 @@ export default {
         id: 1,
         chafen: "本地高斯噪声",
         jiami: "/",
-        yasuo: "文本压缩",
+        yasuo: "Huffman",
         method: "平均联邦",
         accuracy: "90%",
         duration: "1.2h",
@@ -193,7 +193,7 @@ export default {
           const fluctuation = Math.random() * 2 - 1; // 随机浮动
           return Math.min(acc + increment + fluctuation, 100); // 确保准确率不超过100%
         });
-        
+
         const lastLoss = this.tempMessage.data[this.tempMessage.data.length - 1].loss;
         let newLoss;
         if (lastLoss > 1) {

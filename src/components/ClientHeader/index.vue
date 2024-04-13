@@ -65,9 +65,9 @@
           <el-menu-item index="/client/Chat">
             <span slot="title">智慧聊天</span>
           </el-menu-item>
-          <el-menu-item index="/client/Apply">
+          <!-- <el-menu-item index="/client/Apply">
             <span slot="title">模型应用</span>
-          </el-menu-item>
+          </el-menu-item> -->
           <el-menu-item index="">
             <span slot="title">日志</span>
           </el-menu-item>

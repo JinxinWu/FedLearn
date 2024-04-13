@@ -51,9 +51,9 @@
     "isChange": false,
     "step": 9,
     "id": 60,
-    "name": "ckks",
-    "type": "ckks",
-    "content": "ckks"
+    "name": "CKKS",
+    "type": "CKKS",
+    "content": "CKKS"
   },
   "ElGamal": {
     "isChange": false,
@@ -66,16 +66,16 @@
   "textcom": {
     "step": 10,
     "id": 62,
-    "name": "文本压缩",
-    "type": "textcom",
-    "content": "文本压缩"
+    "name": "Huffman",
+    "type": "Huffman",
+    "content": "Huffman"
   },
   "Huffman": {
     "step": 10,
     "id": 63,
-    "name": "Huffman量化压缩",
-    "type": "Huffman",
-    "content": "Huffman量化压缩"
+    "name": "量化压缩",
+    "type": "量化压缩",
+    "content": "量化压缩"
   },
   "average": {
     "step": 11,

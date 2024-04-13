@@ -5,6 +5,7 @@ module.exports = defineConfig({
   lintOnSave: false,
   // 开启代理服务器
   devServer: {
+    host: "www.fedlearnwithad.com",
     proxy: {
       '/guo': {
         target: 'http://192.168.43.34:8000',

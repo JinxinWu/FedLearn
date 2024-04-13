@@ -38,7 +38,7 @@
         <div>
           <el-statistic
             group-separator=","
-            :value="parseInt(tableData[0].epochs)"
+            :value="allRound"
             title="总轮次"
           ></el-statistic>
         </div>

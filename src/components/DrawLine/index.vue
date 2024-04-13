@@ -24,6 +24,10 @@ export default {
       type: String,
       required: true,
     },
+    fake: {
+      type: String,
+      require: false,
+    },
   },
   data() {
     return {
@@ -44,10 +48,19 @@ export default {
       // 获取第一个对象的准确率数组长度
       const mydataLength = lineChartData[0].mydata.length;
       // 生成从1开始，每次增加5, 长度与mydata相同的数组 [0,5,10,15,...]
-      const xdata = Array.from(
-        { length: mydataLength },
-        (_, index) => index + 5
-      );
+      var xdata;
+      console.log(this.fake);
+      if (this.fake) {
+        xdata = Array.from(
+          { length: mydataLength },
+          (_, index) => index * 10
+        );
+      } else {
+        xdata = Array.from(
+          { length: mydataLength },
+          (_, index) => (index + 1)
+        );
+      }
 
       // 使用 map 方法转换数据格式
       const formattedData = lineChartData.map((item) => ({
@@ -79,17 +92,18 @@ export default {
                   params[i].marker +
                   params[i].seriesName +
                   " : " +
-                  params[i].value + yAxisAdd;
+                  params[i].value +
+                  yAxisAdd;
               }
-            }
-            else {
+            } else {
               for (var i = 0; i < params.length; i++) {
                 result +=
                   "</br>" +
                   params[i].marker +
                   textContent.slice(0, -2) +
                   " : " +
-                  params[i].value + yAxisAdd;
+                  params[i].value +
+                  yAxisAdd;
               }
             }
             return result;

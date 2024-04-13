@@ -92,7 +92,7 @@
       </el-col>
     </el-row>
     <el-dialog title="数据对比" :visible.sync="dialogTableVisible" width="80%">
-      <div style="font-size: 18px;">
+      <div style="font-size: 18px">
         请选择对比类别：
         <el-select v-model="initValue" placeholder="请选择">
           <el-option
@@ -109,18 +109,21 @@
         :Linedata="accuracyData"
         textContent="准确率变化"
         yAxisAdd="%"
+        fake="1"
       ></DrawLine>
       <DrawLine
         chartId="lossChart"
         :Linedata="lossData"
         textContent="loss变化"
         yAxisAdd=""
+        fake="1"
       ></DrawLine>
       <DrawLine
         chartId="timeChart"
         :Linedata="timeData"
         textContent="通信时间变化"
         yAxisAdd="s"
+        fake="1"
       ></DrawLine>
     </el-dialog>
   </div>
@@ -189,10 +192,13 @@ export default {
           data: [
             {
               turn: 1,
-              accuracy: [84.5, 82.7, 91.4, 84.2, 86.2, 81.2, 92.3, 90.2, 87.4, 88.6, 83.8],
+              accuracy: [
+                84.5, 82.7, 91.4, 84.2, 86.2, 81.2, 92.3, 90.2, 87.4, 88.6,
+                83.8,
+              ],
               loss: 12.25,
               time: 13,
-            }
+            },
           ],
         },
         {
@@ -208,10 +214,13 @@ export default {
           data: [
             {
               turn: 1,
-              accuracy: [84.5, 82.7, 91.4, 84.2, 86.2, 81.2, 92.3, 90.2, 87.4, 88.6, 83.8],
+              accuracy: [
+                84.5, 82.7, 91.4, 84.2, 86.2, 81.2, 92.3, 90.2, 87.4, 88.6,
+                83.8,
+              ],
               loss: 16.24,
               time: 13,
-            }
+            },
           ],
         },
         {
@@ -227,10 +236,13 @@ export default {
           data: [
             {
               turn: 1,
-              accuracy: [84.5, 82.7, 91.4, 84.2, 86.2, 81.2, 92.3, 90.2, 87.4, 88.6, 83.8],
+              accuracy: [
+                84.5, 82.7, 91.4, 84.2, 86.2, 81.2, 92.3, 90.2, 87.4, 88.6,
+                83.8,
+              ],
               loss: 15.27,
               time: 13,
-            }
+            },
           ],
         },
         {
@@ -246,10 +258,13 @@ export default {
           data: [
             {
               turn: 1,
-              accuracy: [84.5, 82.7, 91.4, 84.2, 86.2, 81.2, 92.3, 90.2, 87.4, 88.6, 83.8],
+              accuracy: [
+                84.5, 82.7, 91.4, 84.2, 86.2, 81.2, 92.3, 90.2, 87.4, 88.6,
+                83.8,
+              ],
               loss: 16.42,
               time: 13,
-            }
+            },
           ],
         },
         {
@@ -265,10 +280,13 @@ export default {
           data: [
             {
               turn: 1,
-              accuracy: [84.5, 82.7, 91.4, 84.2, 86.2, 81.2, 92.3, 90.2, 87.4, 88.6, 83.8],
+              accuracy: [
+                84.5, 82.7, 91.4, 84.2, 86.2, 81.2, 92.3, 90.2, 87.4, 88.6,
+                83.8,
+              ],
               loss: 17.38,
               time: 13,
-            }
+            },
           ],
         },
         {
@@ -284,10 +302,13 @@ export default {
           data: [
             {
               turn: 1,
-              accuracy: [84.5, 82.7, 91.4, 84.2, 86.2, 81.2, 92.3, 90.2, 87.4, 88.6, 83.8],
+              accuracy: [
+                84.5, 82.7, 91.4, 84.2, 86.2, 81.2, 92.3, 90.2, 87.4, 88.6,
+                83.8,
+              ],
               loss: 17.38,
               time: 13,
-            }
+            },
           ],
         },
       ],
@@ -304,106 +325,115 @@ export default {
   },
   activated() {},
   mounted() {
-    this.generateData()
+    this.generateData();
     // 初始化数据
     this.getPageInfo();
   },
   methods: {
     generateData() {
-      for (let i = 0; i < 100; i++) {  // 第一个基准数据集的产生
-        const lastTurn = this.allMessage[0].data[this.allMessage[0].data.length - 1].turn;
+      for (let i = 0; i < 100; i++) {
+        // 第一个基准数据集的产生
+        const lastTurn =
+          this.allMessage[0].data[this.allMessage[0].data.length - 1].turn;
         const newTurn = lastTurn + 10;
-        const lastAccuracy = this.allMessage[0].data[this.allMessage[0].data.length - 1].accuracy;
+        const lastAccuracy =
+          this.allMessage[0].data[this.allMessage[0].data.length - 1].accuracy;
 
         let newAccuracy;
-        if (newTurn < 900) { // 前几十轮整体向上增长，内部有小的起伏
-            newAccuracy = lastAccuracy.map(acc => {
-                const distanceTo100 = 400 - acc;
-                const incrementFactor = 1 + Math.log(distanceTo100); // 距离 100 越远，增长速度越快
-                const increment = Math.random() * (incrementFactor / (newTurn * 2)); // 增长速度
-                const fluctuation = Math.random() * 2 - 0.7; // 随机浮动
-                return Math.min(acc + increment + fluctuation, 96.64); // 向上增长，但不超过 96.6
-            });
-        } else { // 后期稳定上涨
-            newAccuracy = lastAccuracy.map(acc => {
-                const distanceTo100 = 400 - acc;
-                const incrementFactor = 1 + Math.log(distanceTo100) / 10; // 后期增长速度变慢
-                const increment = Math.random() * (incrementFactor / newTurn); // 增长速度
-                const fluctuation = Math.random() * 0.5; // 随机浮动
-                return Math.min(acc + increment + fluctuation, 96.64); // 向上增长，但不超过 96.6
-            });
+        if (newTurn < 900) {
+          // 前几十轮整体向上增长，内部有小的起伏
+          newAccuracy = lastAccuracy.map((acc) => {
+            const distanceTo100 = 400 - acc;
+            const incrementFactor = 1 + Math.log(distanceTo100); // 距离 100 越远，增长速度越快
+            const increment = Math.random() * (incrementFactor / (newTurn * 2)); // 增长速度
+            const fluctuation = Math.random() * 2 - 0.7; // 随机浮动
+            return Math.min(acc + increment + fluctuation, 96.64); // 向上增长，但不超过 96.6
+          });
+        } else {
+          // 后期稳定上涨
+          newAccuracy = lastAccuracy.map((acc) => {
+            const distanceTo100 = 400 - acc;
+            const incrementFactor = 1 + Math.log(distanceTo100) / 10; // 后期增长速度变慢
+            const increment = Math.random() * (incrementFactor / newTurn); // 增长速度
+            const fluctuation = Math.random() * 0.5; // 随机浮动
+            return Math.min(acc + increment + fluctuation, 96.64); // 向上增长，但不超过 96.6
+          });
         }
 
-        const lastLoss = this.allMessage[0].data[this.allMessage[0].data.length - 1].loss;
+        const lastLoss =
+          this.allMessage[0].data[this.allMessage[0].data.length - 1].loss;
         let newLoss;
         let decrement;
         if (newTurn < 1000) {
           const decrementDirection = Math.random() < 0.9 ? 1 : -1; // 80% 的概率往下浮动，20% 的概率往上浮动
-          decrement = Math.random() * lastLoss * (1 + Math.random()) * (7 / newTurn); // 前期快速下降
-          decrement = decrement * decrementDirection
-        } else {  
-          decrement = Math.random() * lastLoss * 500 / newTurn; // 后期缓慢下降
+          decrement =
+            Math.random() * lastLoss * (1 + Math.random()) * (7 / newTurn); // 前期快速下降
+          decrement = decrement * decrementDirection;
+        } else {
+          decrement = (Math.random() * lastLoss * 500) / newTurn; // 后期缓慢下降
         }
         newLoss = Math.max(lastLoss - decrement, 0.2); // 确保损失不低于1
 
-        
         const newTime = 10 + Math.random() * 6;
         this.allMessage[0].data.push({
           turn: newTurn,
           accuracy: newAccuracy,
           loss: newLoss,
-          time: newTime
+          time: newTime,
         });
       }
 
       // 比基准数据集高一点的产生
       for (let j = 1; j < 3; j++) {
         for (let i = 0; i < 100; i++) {
-            const existingData = this.allMessage[0].data;
-            const lastTurn = existingData[i].turn;
-            const newTurn = lastTurn + 10;
+          const existingData = this.allMessage[0].data;
+          const lastTurn = existingData[i].turn;
+          const newTurn = lastTurn + 10;
 
-            const lastAccuracy = existingData[i].accuracy;
-            let newAccuracy;
-            if (newTurn < 600) {
-                newAccuracy = lastAccuracy.map(acc => {
-                    const fluctuation = Math.random() * 2;
-                    const diff = Math.random() < 0.1 ? Math.random() : -Math.random();
-                    return Math.min(acc + fluctuation * diff, 100); // 确保准确率不超过100%
-                });
-            } else {
-                const fluctuation = Math.random() * 0.2 - 0.1;
-                newAccuracy = lastAccuracy.map(acc => {
-                  return acc + fluctuation
-                });
-            }
-
-            const lastLoss = existingData[i].loss;
-            let newLoss;
-            if (newTurn < 600) {
-                const fluctuation = Math.random() * 2;
-                const diff = Math.random() < 0.9 ? Math.random() : -Math.random();
-                newLoss = Math.max(lastLoss + fluctuation * diff, 0);
-            } else {
-                const fluctuation = Math.random() * 0.2 - 0.1;
-                newLoss = lastLoss + fluctuation
-            }
-            
-            const newTime = 10 + Math.random() * 6;
-            
-            this.allMessage[j].data.push({
-                turn: newTurn,
-                accuracy: newAccuracy,
-                loss: newLoss,
-                time: newTime
+          const lastAccuracy = existingData[i].accuracy;
+          let newAccuracy;
+          if (newTurn < 600) {
+            newAccuracy = lastAccuracy.map((acc) => {
+              const fluctuation = Math.random() * 2;
+              const diff = Math.random() < 0.1 ? Math.random() : -Math.random();
+              return Math.min(acc + fluctuation * diff, 100); // 确保准确率不超过100%
             });
+          } else {
+            const fluctuation = Math.random() * 0.2 - 0.1;
+            newAccuracy = lastAccuracy.map((acc) => {
+              return acc + fluctuation;
+            });
+          }
+
+          const lastLoss = existingData[i].loss;
+          let newLoss;
+          if (newTurn < 600) {
+            const fluctuation = Math.random() * 2;
+            const diff = Math.random() < 0.9 ? Math.random() : -Math.random();
+            newLoss = Math.max(lastLoss + fluctuation * diff, 0);
+          } else {
+            const fluctuation = Math.random() * 0.2 - 0.1;
+            newLoss = lastLoss + fluctuation;
+          }
+
+          const newTime = 10 + Math.random() * 6;
+
+          this.allMessage[j].data.push({
+            turn: newTurn,
+            accuracy: newAccuracy,
+            loss: newLoss,
+            time: newTime,
+          });
         }
       }
     },
     // 批量选择后作图
     manyHadRead() {
       // 数据类别选项
-      this.options = this.initOptions.slice(0, this.allMessage[0].accuracy.length - 1);
+      this.options = this.initOptions.slice(
+        0,
+        this.allMessage[0].accuracy.length - 1
+      );
       // console.log(this.multipleSelection);
       // 画图的总数据
       var accuracyLineData = [];
@@ -516,7 +546,7 @@ export default {
       //数据重新分页
       this.getPageInfo();
     },
-  },  
+  },
   watch: {
     initValue(val) {
       // 重新获取数据

@@ -2,7 +2,7 @@
   <div>
     <el-row>
       <el-col :span="18" :offset="3">
-        <div class="message-box" style="margin-top: 5%">
+        <div class="message-box" style="margin-top: 10px">
           <el-tabs v-model="activeName" @tab-click="handleClick">
             <el-tab-pane name="first">
               <div slot="label">
@@ -11,35 +11,35 @@
                   >({{ messages.length }})</span
                 > -->
               </div>
-              <MyLog
+              <MyClientLog
                 which="ask"
                 :getMessage="messages"
                 @getConnectMessage="getConnectMessage"
-              ></MyLog>
+              ></MyClientLog>
             </el-tab-pane>
             <el-tab-pane label="其他消息" name="second">
               <div slot="label">模型聚合日志</div>
-              <MyLog
+              <MyClientLog
                 which="other"
                 :getMessage="messages"
                 @getConnectMessage="getConnectMessage"
-              ></MyLog>
+              ></MyClientLog>
             </el-tab-pane>
             <el-tab-pane label="其他消息" name="thrid">
               <div slot="label">服务端参数同步</div>
-              <MyLog
+              <MyClientLog
                 which="other"
                 :getMessage="messages"
                 @getConnectMessage="getConnectMessage"
-              ></MyLog>
+              ></MyClientLog>
             </el-tab-pane>
             <el-tab-pane label="其他消息" name="forth">
               <div slot="label">客户端参数同步</div>
-              <MyLog
+              <MyClientLog
                 which="other"
                 :getMessage="messages"
                 @getConnectMessage="getConnectMessage"
-              ></MyLog>
+              ></MyClientLog>
             </el-tab-pane>
           </el-tabs>
         </div>
@@ -49,13 +49,13 @@
 </template>
     
 <script>
-import MyLog from "@/components/MyLog";
+import MyClientLog from "@/components/MyClientLog";
 import axios from "axios";
 import VueCookies from "vue-cookies";
 
 export default {
   components: {
-    MyLog,
+    MyClientLog,
   },
   data() {
     return {
@@ -64,45 +64,12 @@ export default {
       // 从服务端接收到的全部数据
       messages: [
         {
-          ip: "192.168.1.1",
-          clientName: "wjx",
-          department: "车间1",
-          time: "2024/4/13 14:49",
-          status: "已加入",
-        },
-        {
-          ip: "192.168.1.1",
-          clientName: "xby",
-          department: "车间2",
-          time: "2024/4/13 14:49",
-          status: "已加入",
-        },
-        {
-          ip: "192.168.1.1",
-          clientName: "gxr",
-          department: "车间3",
-          time: "2024/4/13 14:49",
-          status: "已加入",
-        },
-        {
-          ip: "192.168.1.1",
-          clientName: "hxy",
-          department: "车间4",
-          time: "2024/4/13 14:49",
-          status: "已加入",
-        },
-        {
-          ip: "192.168.1.1",
-          clientName: "fyb",
-          department: "车间5",
-          time: "2024/4/13 14:49",
+          ip: "192.168.43.59",
+          clientName: "admin",
+          time: "2024-3-21 11:29:53",
           status: "已加入",
         },
       ],
-      // 未读消息的数据
-      unreadMessage: [],
-      // 已读消息的数据
-      readMessage: [],
       token: null,
     };
   },

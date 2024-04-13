@@ -2,7 +2,7 @@
   <div>
     <el-row>
       <el-col :span="18" :offset="3">
-        <div class="message-box" style="margin-top: 5%">
+        <div class="message-box" style="margin-top: 10px">
           <el-tabs v-model="activeName" @tab-click="handleClick">
             <el-tab-pane name="first">
               <div slot="label">

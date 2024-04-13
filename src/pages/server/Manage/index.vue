@@ -88,7 +88,7 @@ export default {
           client: "wjx",
           manager: "王小虎",
           area: "车间1",
-          ip: "192.168.1.1",
+          ip: "192.168.43.74",
           gpu: "NVIDIA GeForce GTX 3060",
           cpu: "AMD Ryzen 7 5700U",
           memory: "16GB",
@@ -98,7 +98,7 @@ export default {
           client: "wby",
           manager: "王小虎",
           area: "车间2",
-          ip: "192.168.1.1",
+          ip: "192.168.43.59",
           gpu: "NVIDIA GeForce GTX 4060",
           cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
           memory: "32GB",
@@ -108,7 +108,7 @@ export default {
           client: "gxr",
           manager: "王小虎",
           area: "车间3",
-          ip: "192.168.1.1",
+          ip: "192.168.43.238",
           gpu: "NVIDIA GeForce GTX 3060",
           cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
           memory: "16GB",
@@ -118,7 +118,7 @@ export default {
           client: "hxy",
           manager: "王小虎",
           area: "车间4",
-          ip: "192.168.1.1",
+          ip: "192.168.43.125",
           gpu: "NVIDIA GeForce GTX 4060",
           cpu: "Intel(R) Core(TM) i9-7700HQ CPU @ 2.80GHz",
           memory: "32GB",
@@ -128,7 +128,7 @@ export default {
           client: "fyb",
           manager: "王小虎",
           area: "车间5",
-          ip: "192.168.1.1",
+          ip: "192.168.43.163",
           gpu: "NVIDIA GeForce GTX 3060",
           cpu: "Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz",
           memory: "16GB",
@@ -247,5 +247,14 @@ label {
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+  min-height: 550.28px;;
+}
+
+.block {
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  bottom: 10px;
 }
 </style>

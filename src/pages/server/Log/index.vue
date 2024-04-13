@@ -2,7 +2,7 @@
   <div>
     <el-row>
       <el-col :span="18" :offset="3">
-        <div class="message-box" style="margin-top: 5%">
+        <div class="message-box" style="margin-top: 10px">
           <el-tabs v-model="activeName" @tab-click="handleClick">
             <el-tab-pane name="first">
               <div slot="label">
@@ -64,38 +64,38 @@ export default {
       // 从服务端接收到的全部数据
       messages: [
         {
-          ip: "192.168.1.1",
+          ip: "192.168.43.74",
           clientName: "wjx",
           department: "车间1",
-          time: "2024/4/13 14:49",
+          time: "2024-3-21 11:26:13",
           status: "已加入",
         },
         {
-          ip: "192.168.1.1",
+          ip: "192.168.43.59",
           clientName: "xby",
           department: "车间2",
-          time: "2024/4/13 14:49",
+          time: "2024-3-21 11:29:53",
           status: "已加入",
         },
         {
-          ip: "192.168.1.1",
+          ip: "192.168.43.238",
           clientName: "gxr",
           department: "车间3",
-          time: "2024/4/13 14:49",
+          time: "2024-3-21 11:30:19",
           status: "已加入",
         },
         {
-          ip: "192.168.1.1",
+          ip: "192.168.43.125",
           clientName: "hxy",
           department: "车间4",
-          time: "2024/4/13 14:49",
+          time: "2024-3-21 11:31:25",
           status: "已加入",
         },
         {
-          ip: "192.168.1.1",
+          ip: "192.168.43.163",
           clientName: "fyb",
           department: "车间5",
-          time: "2024/4/13 14:49",
+          time: "2024-3-21 11:33:43",
           status: "已加入",
         },
       ],

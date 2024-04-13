@@ -13,11 +13,10 @@
       tooltip-effect="dark"
       style="width: 100%"
     >
-      <el-table-column prop="ip" label="客户端IP" show-overflow-tooltip align="center">
+      <el-table-column prop="ip" label="服务端IP" show-overflow-tooltip align="center">
       </el-table-column>
-      <el-table-column prop="clientName" label="客户端名称" align="center">
+      <el-table-column prop="clientName" label="服务端管理员" align="center">
       </el-table-column>
-      <el-table-column prop="department" label="部门" align="center">
       </el-table-column>
       <el-table-column prop="time" label="请求时间" align="center">
         <!-- <template slot-scope="scope">{{ scope.row.gmtCreate | formatDateTime }}</template> -->

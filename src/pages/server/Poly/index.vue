@@ -187,7 +187,7 @@ export default {
   data() {
     return {
       // Tag
-      dynamicTags: ["192.168.43.74", "192.168.43.59", "192.168.43.238"],
+      dynamicTags: ["192.168.43.74", "192.168.43.59", "192.168.43.238", "192.168.43.125", "192.168.43.163"],
       dialogTableVisible: false,
       // Card
       methCard: [

@@ -40,7 +40,7 @@
       <span style="font-size: 20px">客户端</span>
     </el-col>
 
-    <el-col :span="17" style="padding-left: 100px">
+    <el-col :span="17" style="padding-left: 200px">
       <div class="menu">
         <el-menu
           :default-active="activeIndex"
@@ -68,7 +68,7 @@
           <!-- <el-menu-item index="/client/Apply">
             <span slot="title">模型应用</span>
           </el-menu-item> -->
-          <el-menu-item index="">
+          <el-menu-item index="/client/Log">
             <span slot="title">日志</span>
           </el-menu-item>
           <el-menu-item index="/login" v-if="!hasToken()"

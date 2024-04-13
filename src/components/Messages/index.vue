@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main">
     <div style="margin-bottom: 10px;text-align: left;">
       <span style="margin-right: 10px; margin-left: 10px;"
         >已选中{{ checkedNum }}项</span
@@ -22,7 +22,7 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" width="40"> </el-table-column>
-      <el-table-column prop="ip" label="客户端ip" show-overflow-tooltip align="center">
+      <el-table-column prop="ip" label="客户端IP" show-overflow-tooltip align="center">
       </el-table-column>
       <el-table-column prop="clientName" label="客户端名称" width="120" align="center">
       </el-table-column>
@@ -272,5 +272,17 @@ export default {
 <style lang='less' scoped>
 label {
   margin-bottom: 0px !important;
+}
+
+.main {
+  position: relative;
+  min-height: 550.28px;;
+}
+
+.block {
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  bottom: 0px;
 }
 </style>

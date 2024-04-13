@@ -160,6 +160,9 @@ export default {
 
 <style lang="less" scoped>
 @import "assets/bootstrap.min.css";
+* {
+  text-align: left;
+}
 //
 .chat {
   font-size: 1rem;

@@ -7,38 +7,39 @@
             <el-tab-pane name="first">
               <div slot="label">
                 客户端连接日志
-                <span :style="{ color: messages.length > 10 ? 'red' : '' }"
+                <!-- <span :style="{ color: messages.length > 10 ? 'red' : '' }"
                   >({{ messages.length }})</span
-                >
+                > -->
               </div>
-              <Messages which="ask" :getMessage="messages" @getConnectMessage="getConnectMessage"></Messages>
+              <MyLog
+                which="ask"
+                :getMessage="messages"
+                @getConnectMessage="getConnectMessage"
+              ></MyLog>
             </el-tab-pane>
             <el-tab-pane label="其他消息" name="second">
-              <div slot="label">
-                模型聚合日志
-                <span :style="{ color: messages.length > 10 ? 'red' : '' }"
-                  >({{ messages.length }})</span
-                >
-              </div>
-              <Messages which="other" :getMessage="messages" @getConnectMessage="getConnectMessage"></Messages>
+              <div slot="label">模型聚合日志</div>
+              <MyLog
+                which="other"
+                :getMessage="messages"
+                @getConnectMessage="getConnectMessage"
+              ></MyLog>
             </el-tab-pane>
             <el-tab-pane label="其他消息" name="thrid">
-              <div slot="label">
-                服务端参数同步
-                <span :style="{ color: messages.length > 10 ? 'red' : '' }"
-                  >({{ messages.length }})</span
-                >
-              </div>
-              <Messages which="other" :getMessage="messages" @getConnectMessage="getConnectMessage"></Messages>
+              <div slot="label">服务端参数同步</div>
+              <MyLog
+                which="other"
+                :getMessage="messages"
+                @getConnectMessage="getConnectMessage"
+              ></MyLog>
             </el-tab-pane>
             <el-tab-pane label="其他消息" name="forth">
-              <div slot="label">
-                客户端参数同步
-                <span :style="{ color: messages.length > 10 ? 'red' : '' }"
-                  >({{ messages.length }})</span
-                >
-              </div>
-              <Messages which="other" :getMessage="messages" @getConnectMessage="getConnectMessage"></Messages>
+              <div slot="label">客户端参数同步</div>
+              <MyLog
+                which="other"
+                :getMessage="messages"
+                @getConnectMessage="getConnectMessage"
+              ></MyLog>
             </el-tab-pane>
           </el-tabs>
         </div>
@@ -48,13 +49,13 @@
 </template>
     
 <script>
-import Messages from "@/components/Messages";
+import MyLog from "@/components/MyLog";
 import axios from "axios";
 import VueCookies from "vue-cookies";
 
 export default {
   components: {
-    Messages,
+    MyLog,
   },
   data() {
     return {
@@ -63,37 +64,68 @@ export default {
       // 从服务端接收到的全部数据
       messages: [
         {
-          date: "1",
-          name: "王小虎",
-          content: "上海市普陀区金沙江路 1518 弄",
-          type: 1,
-        }
+          ip: "192.168.1.1",
+          clientName: "wjx",
+          department: "车间1",
+          time: "2024/4/13 14:49",
+          status: "已加入",
+        },
+        {
+          ip: "192.168.1.1",
+          clientName: "xby",
+          department: "车间2",
+          time: "2024/4/13 14:49",
+          status: "已加入",
+        },
+        {
+          ip: "192.168.1.1",
+          clientName: "gxr",
+          department: "车间3",
+          time: "2024/4/13 14:49",
+          status: "已加入",
+        },
+        {
+          ip: "192.168.1.1",
+          clientName: "hxy",
+          department: "车间4",
+          time: "2024/4/13 14:49",
+          status: "已加入",
+        },
+        {
+          ip: "192.168.1.1",
+          clientName: "fyb",
+          department: "车间5",
+          time: "2024/4/13 14:49",
+          status: "已加入",
+        },
       ],
       // 未读消息的数据
       unreadMessage: [],
       // 已读消息的数据
       readMessage: [],
-      token: null
+      token: null,
     };
   },
   activated() {},
   created() {
-    this.getConnectMessage()
+    this.getConnectMessage();
   },
   methods: {
-    getConnectMessage(){
+    getConnectMessage() {
       this.token = VueCookies.get("token");
-      console.log(this.token)
+      console.log(this.token);
       axios({
         method: "get",
         url: "http://192.168.43.34:7000/connect/getConnectionMessage",
-        headers:{ token: this.token, }
-      }).then((res) => {
-        console.log(res)
-        this.messages = res.data.message
-      }).catch((action) => {
-        return
+        headers: { token: this.token },
       })
+        .then((res) => {
+          console.log(res);
+          this.messages = res.data.message;
+        })
+        .catch((action) => {
+          return;
+        });
     },
     getUserId() {
       // 从cookie中获取id
@@ -142,7 +174,7 @@ export default {
     //       console.log(err);
     //     });
     // },
-  }
+  },
 };
 </script>
 

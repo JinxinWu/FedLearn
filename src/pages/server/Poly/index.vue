@@ -212,7 +212,7 @@ export default {
       // 目前轮次
       nowRound: 1,
       // 准确率
-      rightRate: [85.8, 92.5, 87.6, 96.4, 95.2, 97.8, 95.4, 92.4, 98.4, 96.4, 96.3],
+      rightRate: [85.8, 92.5, 87.6, 96.4, 95.2],
       // 选择客户端的数据
       allClient: [
         {
@@ -258,10 +258,22 @@ export default {
         duration: "1.2h",
         start_time: "2021-06-01 12:00:00",
         end_time: "2021-06-01 12:00:00",
+        label: [
+          "类别1",
+          "类别2",
+          "类别3",
+          "类别4",
+          "类别5",
+          "类别6",
+          "类别7",
+          "类别8",
+          "类别9",
+          "类别10",
+        ],
         data: [
           {
             turn: 1,
-            accuracy: [81.9, 82.5, 78.4, 75.6, 84.2, 83.1, 87.2, 83.2, 84.1, 81.4],
+            accuracy: [81.9, 82.5, 78.4, 75.6, 84.2],
             loss: 12.4,
             time: 13,
           },
@@ -287,33 +299,37 @@ export default {
   },
   activated() {},
   created() {
-    this.init()
+    this.init();
   },
   methods: {
     init() {
-      this.addData()
+      this.addData();
       this.timer();
     },
     addData() {
       for (let i = 0; i < 1000; i++) {
-        const lastTurn = this.tempMessage.data[this.tempMessage.data.length - 1].turn;
+        const lastTurn =
+          this.tempMessage.data[this.tempMessage.data.length - 1].turn;
         const newTurn = lastTurn + 1;
-        const lastAccuracy = this.tempMessage.data[this.tempMessage.data.length - 1].accuracy;
-        const newAccuracy = lastAccuracy.map(acc => {
+        const lastAccuracy =
+          this.tempMessage.data[this.tempMessage.data.length - 1].accuracy;
+        const newAccuracy = lastAccuracy.map((acc) => {
           const distanceTo100 = 100 - acc;
           const incrementFactor = 1 + Math.log(distanceTo100); // 距离 100 越远，增长速度越快
           const increment = Math.random() * (incrementFactor / newTurn); // 增长速度
           const fluctuation = Math.random() * 2 - 1; // 随机浮动
           return Math.min(acc + increment + fluctuation, 100); // 确保准确率不超过100%
         });
-        
-        const lastLoss = this.tempMessage.data[this.tempMessage.data.length - 1].loss;
+
+        const lastLoss =
+          this.tempMessage.data[this.tempMessage.data.length - 1].loss;
         let newLoss;
         if (lastLoss > 1) {
           const distanceTo0 = lastLoss;
           let decrement;
           if (newTurn < 50) {
-            decrement = Math.random() * (distanceTo0 / newTurn) * (1 + Math.random()); // 前期快速不稳定下降
+            decrement =
+              Math.random() * (distanceTo0 / newTurn) * (1 + Math.random()); // 前期快速不稳定下降
           } else {
             decrement = Math.random() * (distanceTo0 / newTurn / 10); // 后期缓慢稳定下降
           }
@@ -328,7 +344,7 @@ export default {
           turn: newTurn,
           accuracy: newAccuracy,
           loss: newLoss,
-          time: newTime
+          time: newTime,
         });
       }
     },
@@ -383,7 +399,7 @@ export default {
       }
 
       for (let i = 0; i < transposedArray.length; ++i) {
-        var type = "类别" + (i + 1).toString();
+        var type = this.tempMessage.label[i];
         var accuracyDatajson = {
           name: type,
           mydata: transposedArray[i],

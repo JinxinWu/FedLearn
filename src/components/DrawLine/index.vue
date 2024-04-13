@@ -43,10 +43,10 @@ export default {
       var textContent = this.textContent;
       // 获取第一个对象的准确率数组长度
       const mydataLength = lineChartData[0].mydata.length;
-      // 生成从1开始，长度与mydata相同的数组
+      // 生成从1开始，每次增加5, 长度与mydata相同的数组 [0,5,10,15,...]
       const xdata = Array.from(
         { length: mydataLength },
-        (_, index) => index + 1
+        (_, index) => index + 5
       );
 
       // 使用 map 方法转换数据格式
@@ -116,8 +116,8 @@ export default {
         },
         yAxis: {
           type: "value",
-          min: this.dataMin,
-          max: this.dataMax,
+          min: this.dataMin.toFixed(0),
+          max: this.dataMax.toFixed(0),
           axisLabel: {
             formatter: function (value) {
               return value + yAxisAdd;

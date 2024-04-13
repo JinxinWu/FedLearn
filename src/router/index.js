@@ -10,6 +10,7 @@ import ModelTrain from "@/pages/client/ModelTrain"; // 隐私保护
 import Preprocess from "@/pages/client/Preprocess"; // 数据预处理
 import ClientCp from "@/pages/client/ClientCp"; // 客户端对比
 import Chat from "@/pages/client/Chat" // 智慧聊天
+import ClientLog from "@/pages/client/Log" // 客户端日志
 import Test from "@/pages/client/Test";
 
 // 服务端界面
@@ -18,7 +19,7 @@ import Manage from "@/pages/server/Manage"; // 管理客户端
 import Syn from "@/pages/server/Syn"; // 同步算法
 import Poly from "@/pages/server/Poly"; // 模型聚合
 import ServerCp from "@/pages/server/ServerCp"; // 服务端对比
-import Log from "@/pages/server/Log"; // 日志
+import ServerLog from "@/pages/server/Log"; // 服务端日志
 
 const router = new VueRouter({
   routes: [
@@ -74,6 +75,15 @@ const router = new VueRouter({
       meta: {
         requireAuth: true,
         title: '智慧聊天',
+      },
+    },
+    {
+      path: '/client/Log',
+      name: 'ClientLog',
+      component: ClientLog,
+      meta: {
+        requireAuth: true,
+        title: '日志',
       },
     },
     {
@@ -148,8 +158,8 @@ const router = new VueRouter({
     },
     {
       path: '/server/Log',
-      name: 'Log',
-      component: Log,
+      name: 'ServerLog',
+      component: ServerLog,
       meta: {
         requireAuth: true,
         title: '日志',

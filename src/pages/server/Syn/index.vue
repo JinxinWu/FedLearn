@@ -165,11 +165,11 @@
           </div>
         </el-col>
       </el-row>
-      <el-row style="margin-top: 10px; font-size: 14px">
+      <!-- <el-row style="margin-top: 10px; font-size: 14px">
         <el-col :span="18" :offset="3">
           <p>说明:</p>
         </el-col>
-      </el-row>
+      </el-row> -->
       <el-row style="margin-top: 20px">
         <span style="font-size: 14px; margin-right: 10px">聚合轮次</span>
         <el-input

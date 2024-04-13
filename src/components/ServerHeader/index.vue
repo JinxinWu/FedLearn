@@ -2,7 +2,7 @@
   <el-row style="box-shadow: 0px 4px 9px 0px rgba(0, 0, 0, 0.1); height: 60px">
     <el-col :span="5">
       <img
-        style="width: 50%; margin-left: 140px; margin-top: 8px"
+        style="width: 50%; margin-left: 140px;"
         src="@/assets/logo.png"
         alt=""
       />

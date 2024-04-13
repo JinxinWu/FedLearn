@@ -21,8 +21,7 @@
               :data="options"
             >
               <span slot-scope="{ option }"
-                >{{ option.clientName }} - {{ option.department }} -
-                {{ option.label }}</span
+                >{{ option.clientName }} - {{ option.department }}</span
               >
             </el-transfer>
           </div>

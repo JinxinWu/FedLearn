@@ -4,7 +4,7 @@
       <span style="margin-right: 10px; margin-left: 10px;"
         >已选中{{ checkedNum }}项</span
       >
-      <el-button v-if="which == 'ask'" size="small" @click="manyHadRead()">批量标为已读</el-button>
+      <el-button v-if="which == 'ask'" size="small" @click="manyHadRead()">批量同意</el-button>
       <el-button size="small" @click="toggleSelection()">取消选择</el-button>
     </div>
     <el-table

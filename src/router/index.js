@@ -9,7 +9,7 @@ import Apply from "@/pages/client/Apply"; // 模型应用
 import ModelTrain from "@/pages/client/ModelTrain"; // 隐私保护
 import Preprocess from "@/pages/client/Preprocess"; // 数据预处理
 import ClientCp from "@/pages/client/ClientCp"; // 客户端对比
-import Chat from "@/pages/client/Chat" // 智慧聊天
+import Chat from "@/pages/client/Chat" // 建模智聊
 import ClientLog from "@/pages/client/Log" // 客户端日志
 import Test from "@/pages/client/Test";
 
@@ -74,7 +74,7 @@ const router = new VueRouter({
       component: Chat,
       meta: {
         requireAuth: true,
-        title: '智慧聊天',
+        title: '建模智聊',
       },
     },
     {

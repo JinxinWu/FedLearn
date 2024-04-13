@@ -63,7 +63,7 @@
             <span slot="title">数据对比</span>
           </el-menu-item> -->
           <el-menu-item index="/client/Chat">
-            <span slot="title">智慧聊天</span>
+            <span slot="title">建模智聊</span>
           </el-menu-item>
           <!-- <el-menu-item index="/client/Apply">
             <span slot="title">模型应用</span>

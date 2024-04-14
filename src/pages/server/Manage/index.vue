@@ -85,7 +85,7 @@ export default {
       // 全部消息的数据
       allMessage: [
         {
-          client: "wjx",
+          client: "xby",
           manager: "王小虎",
           area: "车间1",
           ip: "192.168.43.74",
@@ -95,7 +95,7 @@ export default {
           alive: "是",
         },
         {
-          client: "wby",
+          client: "wjx",
           manager: "王小虎",
           area: "车间2",
           ip: "192.168.43.59",
@@ -115,7 +115,7 @@ export default {
           alive: "是",
         },
         {
-          client: "hxy",
+          client: "fyb",
           manager: "王小虎",
           area: "车间4",
           ip: "192.168.43.125",
@@ -125,7 +125,7 @@ export default {
           alive: "是",
         },
         {
-          client: "fyb",
+          client: "hxy",
           manager: "王小虎",
           area: "车间5",
           ip: "192.168.43.163",

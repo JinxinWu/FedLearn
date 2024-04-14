@@ -115,7 +115,7 @@
         </el-col>
       </el-row>
       <el-row class="menu">
-        <el-col :span="8" :offset="8">
+        <el-col :span="18" :offset="3">
           <div id="reply" ref="reply" style="text-align: center;"></div>
         </el-col>
       </el-row>
@@ -1518,7 +1518,6 @@ export default {
               this.pieAfter();
               this.classPieAfter();
               this.NightingaleAfter();
-              this.$refs.reply.innerHTML = res.data.reply;
             })
             .catch((err) => {
               this.message = "";
